@@ -61,10 +61,8 @@ fabric.properties
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/phpstorm
+/.idea
 .gitignore
-App/
-Errors/
-ProduitManager.php
-Web/
-lib/
 test.php
+ProduitManager.php
+
