@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <routes>
     <route url="/" module="Produit" action="index"/>
+    <route url="/produit-([A-Z]?[a-z]*)\.html" module="Produit" action="show" vars="id"/>
+    <route url="/maturite-([0-9]+)-([0-9]+)-([A-Z]?[a-z]*)-([A-Z]?[a-z]*)\.html" module="Maturite" action="show"
+           vars="id,niveau,produit,variete"/>
 </routes>

@@ -22,6 +22,10 @@ class Produit extends Entity
     protected $idEtat;
     protected $idPresentation;
 
+    protected $listeMaturite;
+    protected $maturiteIdeale;
+    protected $listeEtat;
+
     /*public function __construct($nom, $variete, $niveauMaturite, $idMaturite, $niveauEtat, $idEtat, $idPresentation)
     {
         $this->setNomProduit($nom);
@@ -226,6 +230,55 @@ class Produit extends Entity
         }
         $this->idPresentation = $idPresentation;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getListeMaturite()
+    {
+        return $this->listeMaturite;
+    }
+
+    /**
+     * @param mixed $listeMaturite
+     */
+    public function setListeMaturite($listeMaturite)
+    {
+        $this->listeMaturite = $listeMaturite;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaturiteIdeale()
+    {
+        return $this->maturiteIdeale;
+    }
+
+    /**
+     * @param mixed $maturiteIdeale
+     */
+    public function setMaturiteIdeale($maturiteIdeale)
+    {
+        $this->maturiteIdeale = $maturiteIdeale;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeEtat()
+    {
+        return $this->listeEtat;
+    }
+
+    /**
+     * @param mixed $listeEtat
+     */
+    public function setListeEtat($listeEtat)
+    {
+        $this->listeEtat = $listeEtat;
+    }
+
 
 
 }

@@ -27,9 +27,23 @@ class ProduitController extends BackController
 
         /*foreach ($listeProduits as $produit)
         {
-            $debut = substr($produit->getNomProduit()." ".$produit->getVarieteProduit(), 0 , 200);
+            echo $produit->getNomProduit();
+            //$debut = substr($produit->getNomProduit()." ".$produit->getVarieteProduit(), 0 , 200);
+            $produit->setVarieteProduit("test");
         }*/
         // On ajoute la variable $listeNews à la vue.
-        $this->page->addVar('listeProduits', $listeProduits);
+        $this->page->addVar('listeProduit', $listeProduits);
+    }
+
+    public function executeShow(HTTPRequest $request)
+    {
+        $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('id'));
+
+        if (empty($produit)) {
+            $this->app->httpResponse()->redirect404();
+        }
+
+        $this->page->addVar('title', $produit->getNomProduit());
+        $this->page->addVar('produit', $produit);
     }
 }
