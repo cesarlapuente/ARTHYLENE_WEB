@@ -6,7 +6,7 @@
  * Time: 10:47
  */
 
-namespace vendors\Model;
+namespace Model;
 
 
 class ProduitManagerPDO extends ProduitManager
@@ -17,7 +17,7 @@ class ProduitManagerPDO extends ProduitManager
      */
     public function getList()
     {
-        $sql = 'SELECT idProduit, nomProduit, varieteProduit, niveauMaturite, idMaturite, niveauEtat, idEtat, idPresentation FROM produit ORDER BY id DESC';
+        $sql = 'SELECT idProduit, nomProduit, varieteProduit, niveauMaturite, idMaturite, niveauEtat, idEtat, idPresentation FROM produit ORDER BY idProduit DESC';
 
         $requete = $this->dao->query($sql);
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');

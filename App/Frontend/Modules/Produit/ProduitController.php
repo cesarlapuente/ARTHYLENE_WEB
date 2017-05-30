@@ -7,6 +7,8 @@
  * Time: 10:12
  */
 
+namespace App\Frontend\Modules\Produit;
+
 use ArthyleneFramework\BackController;
 use ArthyleneFramework\HTTPRequest;
 
@@ -14,9 +16,6 @@ class ProduitController extends BackController
 {
     public function executeIndex(HTTPRequest $request)
     {
-        $nombreNews = $this->app->config()->get('nombre_news');
-        $nombreCaracteres = $this->app->config()->get('nombre_caracteres');
-
         // On ajoute une définition pour le titre.
         $this->page->addVar('title', 'Liste des Produit');
 
@@ -31,6 +30,6 @@ class ProduitController extends BackController
             $debut = substr($produit->getNomProduit()." ".$produit->getVarieteProduit(), 0 , 200);
         }*/
         // On ajoute la variable $listeNews à la vue.
-        $this->page->addVar('listeNews', $listeProduits);
+        $this->page->addVar('listeProduits', $listeProduits);
     }
 }

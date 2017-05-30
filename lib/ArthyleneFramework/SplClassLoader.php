@@ -138,7 +138,6 @@ class SplClassLoader
      */
     public function register()
     {
-        echo "register<br>";
         spl_autoload_register(array($this, 'loadClass'));
     }
 
@@ -147,7 +146,6 @@ class SplClassLoader
      */
     public function unregister()
     {
-        echo "unregister<br>";
         spl_autoload_unregister(array($this, 'loadClass'));
     }
 
@@ -159,28 +157,16 @@ class SplClassLoader
      */
     public function loadClass($className)
     {
-        echo " --->loadClasse " . $className . "<br>";
-        echo $this->_namespace . " " . $this->_namespace . $this->_namespaceSeparator . "<br>";
         if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator))) {
-            echo "1<br>";
             $fileName = '';
             $namespace = '';
-            echo "2<br>";
             if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
-                echo "3<br>";
                 $namespace = substr($className, 0, $lastNsPos);
-                echo "4<br>";
                 $className = substr($className, $lastNsPos + 1);
-                echo "5<br>";
                 $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-                echo "6<br>";
             }
-            echo "7<br>";
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
-            echo "8<br>";
-            echo "**** " . ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName . "<br>";
             require ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }
-        echo "9<br>";
     }
 }

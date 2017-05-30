@@ -35,7 +35,6 @@ abstract class Application
         $xml->load(__DIR__ . '/../../App/' . $this->name . '/Config/routes.xml');
 
         $routes = $xml->getElementsByTagName('route');
-
         // On parcourt les routes du fichier XML.
         foreach ($routes as $route) {
             $vars = [];
