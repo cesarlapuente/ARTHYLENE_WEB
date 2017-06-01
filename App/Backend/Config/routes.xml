@@ -2,6 +2,6 @@
 <routes>
     <route url="/admin/" module="Produit" action="index"/>
     <route url="/admin/produit-insert\.html" module="Produit" action="insert"/>
-    <route url="/admin/produit-update-([A-Z]?[a-z]*[A-Z]*[a-z]*)\.html" module="Produit" action="update" vars="id"/>
-    <route url="/admin/produit-delete-([A-Z]?[a-z]*[A-Z]*[a-z]*)\.html" module="Produit" action="delete" vars="id"/>
+    <route url="/admin/produit-update-([A-Za-z]+(_[A-Za-z]*)*)\.html" module="Produit" action="update" vars="id"/>
+    <route url="/admin/produit-delete-([A-Za-z]+(_[A-Za-z]*)*)\.html" module="Produit" action="delete" vars="id"/>
 </routes>

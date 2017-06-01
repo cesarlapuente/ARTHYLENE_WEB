@@ -44,6 +44,8 @@ class ProduitController extends BackController
         // L'identifiant de la news est transmis si on veut la modifier.
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
+            $produit->setIdProduit(1);
+            echo "exist";
         }
 
         if ($produit->isValid()) {
@@ -57,12 +59,22 @@ class ProduitController extends BackController
         $this->page->addVar('produit', $produit);
     }
 
+    public function executeDelete(HTTPRequest $request)
+    {
+        $this->managers->getManagerOf('Produit')->delete(preg_replace('#[_]+#', ' ', $request->getData('id')));
+        $this->app->getUser()->setFlash('La produit a bien été supprimée !');
+
+        $this->app->httpResponse()->redirect('.');
+    }
+
     public function executeUpdate(HTTPRequest $request)
     {
         if ($request->postExists('nom')) {
             $this->processForm($request);
         } else {
-            $this->page->addVar('produit', $this->managers->getManagerOf('Produit')->getUnique($request->getData('id')));
+            $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('id'));
+            $produit->setIdProduit(1);
+            $this->page->addVar('produit', $produit);
         }
 
         $this->page->addVar('title', 'Modification d\'un produit');

@@ -88,14 +88,32 @@ class ProduitManagerPDO extends ProduitManager
         return $this->dao->query('SELECT COUNT(DISTINCT varieteProduit) FROM produit')->fetchColumn();
     }
 
+    /**
+     * Méthode permettant de supprimer un produit.
+     * @param $id int L'identifiant du produit à supprimer
+     * @return void
+     */
+    public function delete($id)
+    {
+        $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
+    }
+
     protected function add(Produit $produit)
     {
         $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :variete');
 
-        $requete->bindValue(':nom', $produit->getNomProduit());
-        $requete->bindValue(':variete', $produit->getVarieteProduit());
+        /*$requete->bindValue(':nom', $produit->getNomProduit());
+        $requete->bindValue(':variete', $produit->getVarieteProduit());*/
 
-        $requete->execute();
+        $requete->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'variete' => $produit->getVarieteProduit()
+        ));
+
+        //$requete->execute();
     }
 
     /**

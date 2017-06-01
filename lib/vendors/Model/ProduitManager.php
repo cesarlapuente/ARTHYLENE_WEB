@@ -62,4 +62,11 @@ abstract class ProduitManager extends Manager
      * @return void
      */
     abstract protected function modify(Produit $produit);
+
+    /**
+     * Méthode permettant de supprimer un produit.
+     * @param $id int L'identifiant du produit à supprimer
+     * @return void
+     */
+    abstract public function delete($id);
 }

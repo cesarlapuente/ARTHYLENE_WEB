@@ -31,7 +31,28 @@ class Produit extends Entity
 
     public function isNew()
     {
-        return empty($this->getVarieteProduit());
+        echo "isNew " . $this->getIdProduit();
+        return empty($this->getIdProduit());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdProduit()
+    {
+        return $this->idProduit;
+    }
+
+    /**
+     * @param mixed $idProduit
+     */
+    public function setIdProduit($idProduit)
+    {
+        if (!is_int($idProduit)) {
+            trigger_error('l\'id doit être un nombre entier', E_USER_WARNING);
+            return;
+        }
+        $this->idProduit = $idProduit;
     }
 
     /**
@@ -56,26 +77,6 @@ class Produit extends Entity
     public function isValid()
     {
         return !(empty($this->nomProduit) || empty($this->varieteProduit));
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdProduit()
-    {
-        return $this->idProduit;
-    }
-
-    /**
-     * @param mixed $idProduit
-     */
-    public function setIdProduit($idProduit)
-    {
-        if (!is_int($idProduit)) {
-            trigger_error('l\'id doit être un nombre entier', E_USER_WARNING);
-            return;
-        }
-        $this->idProduit = $idProduit;
     }
 
     /**
