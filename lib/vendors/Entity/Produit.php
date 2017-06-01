@@ -13,6 +13,8 @@ use ArthyleneFramework\Entity;
 
 class Produit extends Entity
 {
+    const NOM_PRODUIT_INVALIDE = 1;
+    const VARIETE_PRODUT_INVALIDE = 2;
     protected $idProduit;
     protected $nomProduit;
     protected $varieteProduit;
@@ -21,52 +23,40 @@ class Produit extends Entity
     protected $niveauEtat;
     protected $idEtat;
     protected $idPresentation;
-
     protected $listeMaturite;
     protected $maturiteIdeale;
     protected $listeEtat;
     protected $presentation;
+    protected $modif;
 
-    /*public function __construct($nom, $variete, $niveauMaturite, $idMaturite, $niveauEtat, $idEtat, $idPresentation)
+    public function isNew()
     {
-        $this->setNomProduit($nom);
-        $this->setVarieteProduit($variete);
-        $this->setNiveauMaturite($niveauMaturite);
-        $this->setIdMaturite($idMaturite);
-        $this->setNiveauEtat($niveauEtat);
-        $this->setIdEtat($idEtat);
-        $this->setIdPresentation($idPresentation);
-    }*/
+        return empty($this->getVarieteProduit());
+    }
 
-    /*public function __construct(array $donnees)
-
+    /**
+     * @return mixed
+     */
+    public function getVarieteProduit()
     {
+        return $this->varieteProduit;
+    }
 
-        foreach ($donnees as $key => $value)
-
-        {
-
-            // On récupère le nom du setter correspondant à l'attribut.
-
-            $method = 'set'.ucfirst($key);
-
-
-
-            // Si le setter correspondant existe.
-
-            if (method_exists($this, $method))
-
-            {
-
-                // On appelle le setter.
-
-                $this->$method($value);
-
-            }
-
+    /**
+     * @param mixed $varieteProduit
+     */
+    public function setVarieteProduit($varieteProduit)
+    {
+        if (!is_string($varieteProduit)) {
+            trigger_error('du texte est requis uniquement', E_USER_WARNING);
         }
+        $this->varieteProduit = $varieteProduit;
+    }
 
-    }*/
+    public function isValid()
+    {
+        return !(empty($this->nomProduit) || empty($this->varieteProduit));
+    }
 
     /**
      * @return mixed
@@ -105,25 +95,6 @@ class Produit extends Entity
             trigger_error('du texte est requis uniquement', E_USER_WARNING);
         }
         $this->nomProduit = $nomProduit;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVarieteProduit()
-    {
-        return $this->varieteProduit;
-    }
-
-    /**
-     * @param mixed $varieteProduit
-     */
-    public function setVarieteProduit($varieteProduit)
-    {
-        if (!is_string($varieteProduit)) {
-            trigger_error('du texte est requis uniquement', E_USER_WARNING);
-        }
-        $this->varieteProduit = $varieteProduit;
     }
 
     /**
@@ -294,6 +265,22 @@ class Produit extends Entity
     public function setPresentation($presentation)
     {
         $this->presentation = $presentation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModif()
+    {
+        return $this->modif;
+    }
+
+    /**
+     * @param mixed $modif
+     */
+    public function setModif($modif)
+    {
+        $this->modif = $modif;
     }
 
 }

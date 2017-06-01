@@ -18,6 +18,7 @@ class Config extends ApplicationComponent
         if (!$this->vars) {
             $xml = new \DOMDocument;
             $xml->load(__DIR__ . '/../../App/' . $this->app->name() . '/Config/app.xml');
+            echo __DIR__ . '/../../App/' . $this->app->name() . '/Config/app.xml';
 
             $elements = $xml->getElementsByTagName('define');
 

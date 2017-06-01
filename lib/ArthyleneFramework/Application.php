@@ -24,7 +24,9 @@ abstract class Application
 
         $this->name = '';
 
-        //$this->user = new User();
+        $this->user = new User($this);
+
+        $this->config = new Config($this);
     }
 
     public function getController()
@@ -81,4 +83,38 @@ abstract class Application
     {
         return $this->name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param mixed $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+
+
 }

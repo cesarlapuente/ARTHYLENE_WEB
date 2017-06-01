@@ -1,9 +1,3 @@
-/**
-* Created by PhpStorm.
-* User: Thibault
-* Date: 28/05/2017
-* Time: 01:40
-*/
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,13 +19,16 @@
     <nav>
         <ul>
             <li><a href="/">Accueil</a></li>
-
+            <?php if ($user->isAuthenticated()) { ?>
+                <li><a href="/admin/">Admin</a></li>
+                <li><a href="/admin/produit-insert.html">Ajouter un produit</a></li>
+            <?php } ?>
         </ul>
     </nav>
 
     <div id="content-wrap">
         <section id="main">
-
+            <?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>
 
             <?= $content ?>
         </section>

@@ -78,4 +78,40 @@ class ProduitManagerPDO extends ProduitManager
 
         return null;
     }
+
+    /**
+     * Méthode renvoyant le nombre de produit total.
+     * @return int
+     */
+    public function count()
+    {
+        return $this->dao->query('SELECT COUNT(DISTINCT varieteProduit) FROM produit')->fetchColumn();
+    }
+
+    protected function add(Produit $produit)
+    {
+        $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :variete');
+
+        $requete->bindValue(':nom', $produit->getNomProduit());
+        $requete->bindValue(':variete', $produit->getVarieteProduit());
+
+        $requete->execute();
+    }
+
+    /**
+     * Méthode permettant de modifier un produit.
+     * @param $produit Produit le produit à modifier
+     * @return void
+     */
+    protected function modify(Produit $produit)
+    {
+        $requete = $this->dao->prepare('UPDATE produit SET nomProduit = :nom, varieteProduit = :variete WHERE varieteProduit = :modif');
+
+        $requete->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'variete' => $produit->getVarieteProduit(),
+            'modif' => $produit->getModif()
+        ));
+
+    }
 }
