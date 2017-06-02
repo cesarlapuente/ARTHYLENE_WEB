@@ -103,8 +103,6 @@ class MaturiteManagerPDO extends MaturiteManager
             'id' => $maturite->getIdMaturite()
         ));
 
-        echo "+++++" . $maturite->getIdProduit();
-
         $requete = $this->dao->prepare('UPDATE produit SET niveauMaturite = :niveau WHERE idProduit = :id');
         $requete->execute(array(
             'niveau' => $produit->getNiveauMaturite(),
