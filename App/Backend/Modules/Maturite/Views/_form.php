@@ -1,8 +1,6 @@
 <form action="" method="post">
     <p>
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_INVALIDE, $erreurs) ? 'Le nom du produit est invalide.<br />' : '' ?>
-        <input type="hidden" name="variete" value="<?= isset($var) ? $var : '' ?>"/>
-        <input type="hidden" name="nomP" value="<?= isset($nom) ? $nom : '' ?>"/>
         <label>
             Niveau de maturite <br/>
             <input type="number" name="niveauM" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
@@ -34,11 +32,14 @@
             //$produit->setIdProduit(1);
             ?>
 
-            <input type="hidden" name="id" value="<?= isset($maturite) ? $maturite->get : '' ?>"/>
+            <input type="hidden" name="id" value="<?= isset($maturite) ? $maturite->getIdMaturite() : '' ?>"/>
+            <input type="hidden" name="idProduit" value="<?= isset($maturite) ? $maturite->getIdProduit() : '' ?>"/>
             <input type="submit" value="Modifier" name="modifier"/>
             <?php
         } else {
             ?>
+            <input type="hidden" name="variete" value="<?= isset($variete) ? $variete : '' ?>"/>
+            <input type="hidden" name="nomProduit" value="<?= isset($nom) ? $nom : '' ?>"/>
             <input type="submit" value="Ajouter"/>
             <?php
         }

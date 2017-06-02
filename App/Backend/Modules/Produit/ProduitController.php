@@ -65,6 +65,8 @@ class ProduitController extends BackController
         }
 
         $this->page->addVar('produit', $produit);
+
+        $this->app->httpResponse()->redirect('.');
     }
 
     public function executeDelete(HTTPRequest $request)

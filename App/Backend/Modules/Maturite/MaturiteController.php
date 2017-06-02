@@ -21,62 +21,87 @@ class MaturiteController extends BackController
     protected $nomProduit;
     protected $varieteProduit;
 
+    /**
+     * Insert
+     *
+     * @param HTTPRequest $request
+     */
+
     public function executeInsert(HTTPRequest $request)
     {
         if ($request->postExists('contenu')) {
             $this->processForm($request);
         }
         $this->page->addVar('title', 'Ajout d\'une fiche de maturité');
-        $this->page->addVar('var', $request->getData('variete'));
+        $this->page->addVar('variete', $request->getData('variete'));
         $this->page->addVar('nom', $request->getData('produit'));
-
 
         $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
     }
 
+    /**
+     * Form
+     *
+     * @param HTTPRequest $request
+     */
+
     public function processForm(HTTPRequest $request)
     {
-        //echo "process ".$request->postData('variete')." ".$request->postData('nomP')."--";;
-        $maturite = new Maturite([
-            'idProduit' => intval($request->postData('idP')),
-            'contenu' => $request->postData('contenu'),
-            'textePopup' => $request->postData('popup'),
-            'idPhoto' => 1,
-            'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
-        ]);
-
         if ($request->postExists('id')) {
-            $maturite->setIdMaturite($request->postData('id'));
-        }
+            $maturite = new Maturite([
+                'idMaturite' => intval($request->postData('id')),
+                'idProduit' => intval($request->postData('idProduit')),
+                'contenu' => $request->postData('contenu'),
+                'textePopup' => $request->postData('popup'),
+                'idPhoto' => 1,
+                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
+            ]);
 
-        $produit = new Produit([
-            'idMaturite' => intval($request->postData('id'), 10),
-            'nomProduit' => $request->postData('nomP'),
-            'varieteProduit' => $request->postData('variete'),
-            'niveauMaturite' => intval($request->postData('niveauM'), 10)
-        ]);
+            $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
+            $produit->setNiveauMaturite(intval($request->postData('niveauM'), 10));
 
-        echo "----" . $produit->getIdProduit() . "---";
-        $photo = new Photo([
-            'photo' => ''
-        ]);
-        // L'identifiant de la news est transmis si on veut la modifier.
-        if ($request->postExists('id')) {
+            $photo = new Photo([
+                'photo' => ''
+            ]);
+        } else {
+            echo "ajout";
+            $maturite = new Maturite([
+                'contenu' => $request->postData('contenu'),
+                'textePopup' => $request->postData('popup'),
+                'idPhoto' => 1,
+                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
+            ]);
+
+            $produit = new Produit([
+                'nomProduit' => $request->postData('nomProduit'),
+                'varieteProduit' => $request->postData('variete'),
+                'niveauMaturite' => intval($request->postData('niveauM'), 10),
+                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
+            ]);
+
+            $photo = new Photo([
+                'photo' => ''
+            ]);
 
         }
 
         if ($maturite->isValid()) {
-            $this->managers->getManagerOf('Maturite')->save($maturite, $produit, $photo, $request->postData('variete'));
+            $this->managers->getManagerOf('Maturite')->save($maturite, $produit, $photo);
 
             $this->app->getUser()->setFlash($maturite->isNew() ? 'La fiche a bien été ajoutée !' : 'La fiche a bien été modifiée !');
         } else {
             $this->page->addVar('erreurs', $maturite->erreurs());
         }
 
-        $this->page->addVar('produit', $maturite);
-
         $this->app->httpResponse()->redirect('produit-update-' . $produit->getVarieteProduit() . ".html");
+
     }
+
+    /**
+     * Update
+     *
+     * @param HTTPRequest $request
+     */
 
     public function executeUpdate(HTTPRequest $request)
     {
@@ -95,6 +120,12 @@ class MaturiteController extends BackController
 
         $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
     }
+
+    /**
+     * Delete
+     *
+     * @param HTTPRequest $request
+     */
 
     public function executeDelete(HTTPRequest $request)
     {
