@@ -19,6 +19,8 @@ class Etat extends Entity
     protected $idPhoto;
     protected $textePopup;
 
+    protected $niveau;
+
     /**
      * @return mixed
      */
@@ -97,6 +99,22 @@ class Etat extends Entity
     public function setTextePopup($textePopup)
     {
         $this->textePopup = $textePopup;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * @param mixed $niveau
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
     }
 
 }

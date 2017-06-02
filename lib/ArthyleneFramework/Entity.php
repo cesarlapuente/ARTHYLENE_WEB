@@ -32,10 +32,10 @@ abstract class Entity implements \ArrayAccess
         }
     }
 
-    /*public function isNew()
+    public function isNew()
     {
         return empty($this->id);
-    }*/
+    }
 
     public function erreurs()
     {

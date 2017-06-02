@@ -9,6 +9,8 @@
 namespace Model;
 
 use ArthyleneFramework\Manager;
+use Entity\Photo;
+use Entity\Presentation;
 use Entity\Produit;
 
 
@@ -27,6 +29,9 @@ abstract class ProduitManager extends Manager
      */
     abstract public function getUnique($id);
 
+
+    abstract public function getUniqueId($id);
+
     /**
      * Méthode renvoyant le nombre de produit total.
      * @return int
@@ -40,10 +45,10 @@ abstract class ProduitManager extends Manager
      * @see self::modify()
      * @return void
      */
-    public function save(Produit $produit)
+    public function save(Produit $produit, Presentation $presentation, Photo $photo)
     {
-        if ($produit->isValid()) {
-            $produit->isNew() ? $this->add($produit) : $this->modify($produit);
+        if ($produit->isValid() && $presentation->isValid()) {
+            $produit->isNew() ? $this->add($produit, $presentation, $photo) : $this->modify($produit, $presentation, $photo);
         } else {
             throw new \RuntimeException('La news doit être validée pour être enregistrée');
         }
@@ -54,14 +59,14 @@ abstract class ProduitManager extends Manager
      * @param $news News La news à ajouter
      * @return void
      */
-    abstract protected function add(Produit $produit);
+    abstract protected function add(Produit $produit, Presentation $presentation, Photo $photo);
 
     /**
      * Méthode permettant de modifier un produit.
      * @param $produit Produit le produit à modifier
      * @return void
      */
-    abstract protected function modify(Produit $produit);
+    abstract protected function modify(Produit $produit, Presentation $presentation, Photo $photo);
 
     /**
      * Méthode permettant de supprimer un produit.
@@ -69,4 +74,6 @@ abstract class ProduitManager extends Manager
      * @return void
      */
     abstract public function delete($id);
+
+    abstract public function deleteUnique($id);
 }

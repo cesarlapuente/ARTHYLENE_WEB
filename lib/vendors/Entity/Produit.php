@@ -31,7 +31,6 @@ class Produit extends Entity
 
     public function isNew()
     {
-        echo "isNew " . $this->getIdProduit();
         return empty($this->getIdProduit());
     }
 

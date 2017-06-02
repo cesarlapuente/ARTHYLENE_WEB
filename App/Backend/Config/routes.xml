@@ -4,4 +4,8 @@
     <route url="/admin/produit-insert\.html" module="Produit" action="insert"/>
     <route url="/admin/produit-update-([A-Za-z]+(_[A-Za-z]*)*)\.html" module="Produit" action="update" vars="id"/>
     <route url="/admin/produit-delete-([A-Za-z]+(_[A-Za-z]*)*)\.html" module="Produit" action="delete" vars="id"/>
+    <route url="/admin/maturite-insert-([A-Za-z]+_*[A-Za-z]*)-([A-Za-z]+(_[A-Za-z]*)*)\.html"
+           module="Maturite" action="insert" vars="produit,variete"/>
+    <route url="/admin/maturite-update-([0-9]+)\.html" module="Maturite" action="update" vars="id"/>
+    <route url="/admin/maturite-delete-([0-9]+)\.html" module="Maturite" action="delete" vars="id"/>
 </routes>

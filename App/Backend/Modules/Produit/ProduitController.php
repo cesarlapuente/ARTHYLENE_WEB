@@ -11,6 +11,8 @@ namespace App\Backend\Modules\Produit;
 
 use ArthyleneFramework\BackController;
 use ArthyleneFramework\HTTPRequest;
+use Entity\Photo;
+use Entity\Presentation;
 use Entity\Produit;
 
 class ProduitController extends BackController
@@ -41,15 +43,21 @@ class ProduitController extends BackController
             'nomProduit' => $request->postData('nom'),
             'varieteProduit' => $request->postData('variete')
         ]);
+        $presentation = new Presentation([
+            'contenu' => $request->postData('presentation'),
+            'idPhoto' => ''
+        ]);
+        $photo = new Photo([
+            'photo' => ''
+        ]);
         // L'identifiant de la news est transmis si on veut la modifier.
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
             $produit->setIdProduit(1);
-            echo "exist";
         }
 
         if ($produit->isValid()) {
-            $this->managers->getManagerOf('Produit')->save($produit);
+            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
         } else {
@@ -74,7 +82,9 @@ class ProduitController extends BackController
         } else {
             $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('id'));
             $produit->setIdProduit(1);
+            $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
             $this->page->addVar('produit', $produit);
+            $this->page->addVar('presentation', $presentation);
         }
 
         $this->page->addVar('title', 'Modification d\'un produit');

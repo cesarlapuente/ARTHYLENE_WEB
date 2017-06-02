@@ -3,7 +3,7 @@
 foreach ($listeProduit as $produit) {
     ?>
     <h2>
-        <a href="produit-<?= $produit->getVarieteProduit(); ?>.html"><?= $produit->getNomProduit() . " " . $produit->getVarieteProduit(); ?></a>
+        <?= $produit->getNomProduit() . " " . $produit->getVarieteProduit(); ?>
     </h2>
     <p>
         <a href="produit<?= $produit->getVarieteProduit(); ?>.html">Afficher </a>

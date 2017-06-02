@@ -10,6 +10,8 @@ namespace Model;
 
 
 use Entity\Maturite;
+use Entity\Photo;
+use Entity\Produit;
 
 class MaturiteManagerPDO extends MaturiteManager
 {
@@ -21,8 +23,7 @@ class MaturiteManagerPDO extends MaturiteManager
      */
     public function getUnique($id)
     {
-        $requete = $this->dao->prepare('SELECT idMaturite, contenu, idPhoto, maturiteIdeale, textePopup 
-        FROM maturite WHERE idMaturite = :id');
+        $requete = $this->dao->prepare('SELECT * FROM maturite WHERE idMaturite = :id');
         $requete->bindValue(':id', $id);
         $requete->execute();
 
@@ -36,5 +37,79 @@ class MaturiteManagerPDO extends MaturiteManager
             }
             return $maturite;
         }
+    }
+
+    /**
+     * Méthode permettant de supprimer un produit.
+     * @param $id int L'identifiant du produit à supprimer
+     * @return void
+     */
+    public function delete($id)
+    {
+        $requete = $this->dao->prepare('DELETE FROM maturite WHERE idMaturite = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
+    }
+
+    /**
+     * Méthode permettant d'ajouter une maturite.
+     * @param $maturite Produit La maturite à ajouter
+     * @return void
+     */
+    protected function add(Maturite $maturite, Produit $produit, Photo $photo)
+    {
+
+        $requete = $this->dao->prepare('INSERT INTO maturite SET contenu = :contenu, idPhoto = :photo, maturiteIdeale = :ideale, textePopup = :popup');
+        $requete->execute(array(
+            'contenu' => $maturite->getContenu(),
+            'photo' => $maturite->getIdPhoto(),
+            'ideale' => $maturite->getMaturiteIdeale(),
+            'popup' => $maturite->getTextePopup()
+        ));
+
+        $idMaturite = $this->dao->lastInsertId();
+
+        $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :var, niveauMaturite = :niveau, idMaturite = :id');
+        $requete->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'var' => $produit->getVarieteProduit(),
+            'niveau' => $produit->getNiveauMaturite(),
+            'id' => $idMaturite
+        ));
+
+        $requete = $this->dao->prepare('UPDATE maturite SET idProduit = :id WHERE idMaturite = :idMaturite');
+        $requete->execute(array(
+            'id' => $this->dao->lastInsertId(),
+            'idMaturite' => $idMaturite
+        ));
+
+    }
+
+    /**
+     * Méthode permettant de modifier un produit.
+     * @param $maturite Maturite le produit à modifier
+     * @return void
+     */
+    protected function modify(Maturite $maturite, Produit $produit, Photo $photo)
+    {
+        $requete = $this->dao->prepare('UPDATE maturite SET contenu = :contenu, idPhoto = :photo,
+                                          maturiteIdeale = :ideale, textePopup = :popup WHERE idMaturite = :id');
+        $requete->execute(array(
+            'contenu' => $maturite->getContenu(),
+            'photo' => $photo->getIdPhoto(),
+            'ideale' => $maturite->getMaturiteIdeale(),
+            'popup' => $maturite->getTextePopup(),
+            'id' => $maturite->getIdMaturite()
+        ));
+
+        echo "+++++" . $maturite->getIdProduit();
+
+        $requete = $this->dao->prepare('UPDATE produit SET niveauMaturite = :niveau WHERE idProduit = :id');
+        $requete->execute(array(
+            'niveau' => $produit->getNiveauMaturite(),
+            'id' => $maturite->getIdProduit()
+        ));
+
     }
 }

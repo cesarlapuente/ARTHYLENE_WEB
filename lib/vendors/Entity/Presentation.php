@@ -18,6 +18,11 @@ class Presentation extends Entity
     protected $contenu;
     protected $idPhoto;
 
+    public function isValid()
+    {
+        return !(empty($this->contenu));
+    }
+
     /**
      * @return mixed
      */

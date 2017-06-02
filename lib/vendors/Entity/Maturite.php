@@ -21,21 +21,16 @@ class Maturite extends Entity
     protected $textePopup;
 
     protected $photo;
+    protected $niveau;
 
-    /**
-     * @return mixed
-     */
-    public function getPhoto()
+    public function isValid()
     {
-        return $this->photo;
+        return !(empty($this->contenu) || empty($this->textePopup));
     }
 
-    /**
-     * @param mixed $photo
-     */
-    public function setPhoto($photo)
+    public function isNew()
     {
-        $this->photo = $photo;
+        return empty($this->getIdMaturite());
     }
 
     /**
@@ -52,6 +47,22 @@ class Maturite extends Entity
     public function setIdMaturite($idMaturite)
     {
         $this->idMaturite = $idMaturite;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
     }
 
     /**
@@ -132,6 +143,22 @@ class Maturite extends Entity
     public function setTextePopup($textePopup)
     {
         $this->textePopup = $textePopup;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * @param mixed $niveau
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
     }
 
 
