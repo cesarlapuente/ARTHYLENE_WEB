@@ -3,12 +3,12 @@
 foreach ($listeProduit as $produit) {
     ?>
     <h2>
-        <?= $produit->getNomProduit() . " " . $produit->getVarieteProduit(); ?>
+        <?= preg_replace('#[_]+#', ' ', $produit->getNomProduit() . " " . $produit->getVarieteProduit()); ?>
     </h2>
     <p>
         <a href="produit<?= $produit->getVarieteProduit(); ?>.html">Afficher </a>
-        <a href="produit-update-<?= $produit->getVarieteProduit(); ?>.html">Modifier </a>
-        <a href="produit-delete-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html">Supprimer </a>
+        <a href="produit-update-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Modifier </a>
+        <a href="produit-delete-<?= $produit->getNomProduit(); ?>-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html">Supprimer </a>
     </p>
     <?php
 }

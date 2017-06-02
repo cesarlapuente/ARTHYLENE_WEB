@@ -4,13 +4,13 @@
 
         <label>Nom du produit<br/>
             <input type="text" name="nom" style="text-transform: capitalize"
-                   value="<?= isset($produit) ? $produit->getNomProduit() : '' ?>"/>
+                   value="<?= isset($produit) ? preg_replace('#[_]+#', ' ', $produit->getNomProduit()) : '' ?>"/>
         </label><br/>
 
         <?= isset($erreurs) && in_array(\Entity\Produit::VARIETE_PRODUT_INVALIDE, $erreurs) ? 'La variété du produit est invalide.<br />' : '' ?>
         <label>Variété du produit<br/>
             <input type="text" name="variete" style="text-transform: capitalize"
-                   value="<?= isset($produit) ? $produit->getVarieteProduit() : '' ?>"/><br/>
+                   value="<?= isset($produit) ? preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()) : '' ?>"/><br/>
         </label><br/>
 
         <label>
@@ -56,7 +56,7 @@
                         echo "oui";
                     } ?></td>
                 <td NOWRAP>
-                    <a href="maturite-.html">Afficher</a>
+                    <a href="maturite-show-<?= $prod->getIdMaturite() ?>.html">Afficher</a>
                     <a href="maturite-update-<?= $prod->getIdMaturite() ?>.html">Modifier</a>
                     <a href="maturite-delete-<?= $prod->getIdMaturite() ?>.html">Supprimer</a>
                 </td>

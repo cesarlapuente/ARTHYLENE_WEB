@@ -27,7 +27,7 @@ abstract class ProduitManager extends Manager
      * @param $id int L'identifiant de la news à récupérer
      * @return Produit La news demandée
      */
-    abstract public function getUnique($id);
+    abstract public function getUnique($nom, $variete);
 
 
     abstract public function getUniqueId($id);
@@ -73,7 +73,9 @@ abstract class ProduitManager extends Manager
      * @param $id int L'identifiant du produit à supprimer
      * @return void
      */
-    abstract public function delete($id);
+    abstract public function delete($nom, $variete);
 
     abstract public function deleteUnique($id);
+
+    abstract public function alreadyIn($produit);
 }

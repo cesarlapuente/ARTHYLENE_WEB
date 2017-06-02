@@ -38,10 +38,11 @@ class ProduitManagerPDO extends ProduitManager
      * @param $id int L'identifiant de la news à récupérer
      * @return Produit Le produit demandée
      */
-    public function getUnique($id)
+    public function getUnique($nom, $variete)
     {
-        $requete = $this->dao->prepare('SELECT * FROM produit WHERE varieteProduit = :id');
-        $requete->bindValue(':id', $id);
+        $requete = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete');
+        $requete->bindValue(':nom', $nom);
+        $requete->bindValue(':variete', $variete);
         $requete->execute();
 
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');
@@ -131,11 +132,12 @@ class ProduitManagerPDO extends ProduitManager
      * @param $id int L'identifiant du produit à supprimer
      * @return void
      */
-    public function delete($id)
+    public function delete($nom, $variete)
     {
-        $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id');
+        $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id AND nomProduit = :nom');
         $requete->execute(array(
-            'id' => $id
+            'nom' => $nom,
+            'id' => $variete
         ));
     }
 
@@ -159,6 +161,21 @@ class ProduitManagerPDO extends ProduitManager
         $requete->execute(array(
             'id' => $id
         ));
+    }
+
+    public function alreadyIn($produit)
+    {
+        $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete');
+        $requette->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'variete' => $produit->getVarieteProduit()
+        ));
+
+        if ($requette->fetch()) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function add(Produit $produit, Presentation $presentation, Photo $photo)

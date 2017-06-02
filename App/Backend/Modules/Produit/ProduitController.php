@@ -17,6 +17,19 @@ use Entity\Produit;
 
 class ProduitController extends BackController
 {
+
+    public function executeShow(HTTPRequest $request)
+    {
+        $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('nom'), $request->getData('variete'));
+
+        if (empty($produit)) {
+            $this->app->httpResponse()->redirect404();
+        }
+
+        $this->page->addVar('title', $produit->getNomProduit());
+        $this->page->addVar('produit', $produit);
+    }
+
     public function executeIndex(HTTPRequest $request)
 
     {
@@ -40,8 +53,8 @@ class ProduitController extends BackController
     public function processForm(HTTPRequest $request)
     {
         $produit = new Produit([
-            'nomProduit' => $request->postData('nom'),
-            'varieteProduit' => $request->postData('variete')
+            'nomProduit' => preg_replace('#[ ]+#', '_', $request->postData('nom')),
+            'varieteProduit' => preg_replace('#[ ]+#', '_', $request->postData('variete'))
         ]);
         $presentation = new Presentation([
             'contenu' => $request->postData('presentation'),
@@ -56,22 +69,25 @@ class ProduitController extends BackController
             $produit->setIdProduit(1);
         }
 
-        if ($produit->isValid()) {
+        $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
+
+        if ($produit->isValid() && !$alreadyIn) {
             $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
+            $this->app->httpResponse()->redirect('.');
         } else {
             $this->page->addVar('erreurs', $produit->erreurs());
         }
 
         $this->page->addVar('produit', $produit);
 
-        $this->app->httpResponse()->redirect('.');
+
     }
 
     public function executeDelete(HTTPRequest $request)
     {
-        $this->managers->getManagerOf('Produit')->delete(preg_replace('#[_]+#', ' ', $request->getData('id')));
+        $this->managers->getManagerOf('Produit')->delete($request->getData('nom'), $request->getData('variete'));
         $this->app->getUser()->setFlash('La produit a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('.');
@@ -82,7 +98,7 @@ class ProduitController extends BackController
         if ($request->postExists('nom')) {
             $this->processForm($request);
         } else {
-            $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('id'));
+            $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('nom'), $request->getData('variete'));
             $produit->setIdProduit(1);
             $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
             $this->page->addVar('produit', $produit);
