@@ -100,15 +100,18 @@
                     <td><?= $produit->getNomProduit(); ?></td>
                     <td><?= $produit->getVarieteProduit(); ?></td>
                     <td><?= $prod->getNiveau(); ?></td>
-                    <td>
-                        <a href="etat-.html">Afficher</a>
+                    <td NOWRAP>
+                        <a href="etat-show-<?= $prod->getIdEtat() ?>.html">Afficher</a>
+                        <a href="etat-update-<?= $prod->getIdEtat() ?>.html">Modifier</a>
+                        <a href="etat-delete-<?= $prod->getIdEtat() ?>.html">Supprimer</a>
                     </td>
                 </tr>
                 <?php
             } ?>
             <!-- <tr><td colspan=3></td></tr>-->
         </table>
-        <a href="">Ajouter une fiche</a>
+        <a href="etat-insert-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Ajouter une
+            fiche</a>
         <?php
     } ?>
 

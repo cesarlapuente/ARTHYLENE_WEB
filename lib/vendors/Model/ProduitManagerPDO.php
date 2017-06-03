@@ -196,7 +196,18 @@ class ProduitManagerPDO extends ProduitManager
 
     public function EtatAlreadyIn(Produit $produit)
     {
-        // TODO: Implement EtatAlreadyIn() method.
+        $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete AND niveauEtat = :niveau');
+        $requette->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'variete' => $produit->getVarieteProduit(),
+            'niveau' => $produit->getNiveauEtat()
+        ));
+
+        if ($requette->fetch()) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function add(Produit $produit, Presentation $presentation, Photo $photo)

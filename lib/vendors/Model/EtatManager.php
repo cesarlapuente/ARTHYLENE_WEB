@@ -10,6 +10,8 @@ namespace Model;
 
 use ArthyleneFramework\Manager;
 use Entity\Etat;
+use Entity\Photo;
+use Entity\Produit;
 
 abstract class EtatManager extends Manager
 {
@@ -19,4 +21,41 @@ abstract class EtatManager extends Manager
      * @return Etat La fiche etat demandée
      */
     abstract public function getUnique($id);
+
+    /**
+     * Méthode permettant d'enregistrer une news.
+     * @param $news Produit la news à enregistrer
+     * @see self::add()
+     * @see self::modify()
+     * @return void
+     */
+    public function save(Etat $etat, Produit $produit, Photo $photo)
+    {
+        if ($etat->isValid()) {
+            $etat->isNew() ? $this->add($etat, $produit, $photo) : $this->modify($etat, $produit, $photo);
+        } else {
+            throw new \RuntimeException('La news doit être validée pour être enregistrée');
+        }
+    }
+
+    /**
+     * Méthode permettant d'ajouter une news.
+     * @param $etat Produit La maturite à ajouter
+     * @return void
+     */
+    abstract protected function add(Etat $etat, Produit $produit, Photo $photo);
+
+    /**
+     * Méthode permettant de modifier un produit.
+     * @param $etat Etat le produit à modifier
+     * @return void
+     */
+    abstract protected function modify(Etat $etat, Produit $produit, Photo $photo);
+
+    /**
+     * Méthode permettant de supprimer un produit.
+     * @param $id int L'identifiant du produit à supprimer
+     * @return void
+     */
+    abstract public function delete($id);
 }

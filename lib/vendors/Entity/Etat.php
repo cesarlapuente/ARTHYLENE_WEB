@@ -24,6 +24,17 @@ class Etat extends Entity
     protected $textePopup;
 
     protected $niveau;
+    protected $photo;
+
+    public function isValid()
+    {
+        return !(empty($this->contenu) || empty($this->textePopup) && empty($this->erreurs()));
+    }
+
+    public function isNew()
+    {
+        return empty($this->getIdEtat());
+    }
 
     /**
      * @return mixed
@@ -125,6 +136,22 @@ class Etat extends Entity
     public function setNiveau($niveau)
     {
         $this->niveau = $niveau;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
     }
 
 }

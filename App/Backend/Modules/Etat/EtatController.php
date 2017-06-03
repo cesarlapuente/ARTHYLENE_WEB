@@ -7,16 +7,16 @@
  * Time: 17:43
  */
 
-namespace App\Backend\Modules\Maturite;
+namespace App\Backend\Modules\Etat;
 
 
 use ArthyleneFramework\BackController;
 use ArthyleneFramework\HTTPRequest;
-use Entity\Maturite;
+use Entity\Etat;
 use Entity\Photo;
 use Entity\Produit;
 
-class MaturiteController extends BackController
+class EtatController extends BackController
 {
     protected $nomProduit;
     protected $varieteProduit;
@@ -32,14 +32,14 @@ class MaturiteController extends BackController
         if ($request->postExists('contenu')) {
             $this->processForm($request);
         }
-        $this->page->addVar('title', 'Ajout d\'une fiche de maturité');
+        $this->page->addVar('title', 'Ajout d\'une fiche d\'etat');
         $this->page->addVar('variete', $request->getData('variete'));
         $this->page->addVar('nom', $request->getData('produit'));
 
         $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('produit'), $request->getData('variete'));
         $this->page->addVar('prod', $produit);
 
-        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
+        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche d\'etat');
     }
 
     /**
@@ -51,34 +51,31 @@ class MaturiteController extends BackController
     public function processForm(HTTPRequest $request)
     {
         if ($request->postExists('id')) {
-            $maturite = new Maturite([
-                'idMaturite' => intval($request->postData('id')),
+            $etat = new Etat([
+                'idEtat' => intval($request->postData('id')),
                 'idProduit' => intval($request->postData('idProduit')),
                 'contenu' => $request->postData('contenu'),
                 'textePopup' => $request->postData('popup'),
-                'idPhoto' => 1,
-                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
+                'idPhoto' => 1
             ]);
 
-            $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
-            $produit->setNiveauMaturite(intval($request->postData('niveauM'), 10));
+            $produit = $this->managers->getManagerOf('Produit')->getUniqueId($etat->getIdProduit());
+            $produit->setNiveauEtat(intval($request->postData('niveauE'), 10));
 
             $photo = new Photo([
                 'photo' => ''
             ]);
         } else {
-            $maturite = new Maturite([
+            $etat = new Etat([
                 'contenu' => $request->postData('contenu'),
                 'textePopup' => $request->postData('popup'),
                 'idPhoto' => 1,
-                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
             ]);
 
             $produit = new Produit([
                 'nomProduit' => $request->postData('nomProduit'),
                 'varieteProduit' => $request->postData('variete'),
-                'niveauMaturite' => intval($request->postData('niveauM'), 10),
-                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0,
+                'niveauEtat' => intval($request->postData('niveauE'), 10),
                 'idPresentation' => intval($request->postData('idPresentation'), 10)
             ]);
 
@@ -96,15 +93,14 @@ class MaturiteController extends BackController
 
         if ($alreadyIn) {
             $this->app->getUser()->setFlash('Cette fiche existe déja !');
-        } else if ($maturite->isValid() && $produit->isValid()) {
-            $this->managers->getManagerOf('Maturite')->save($maturite, $produit, $photo);
-
-            $this->app->getUser()->setFlash($maturite->isNew() ? 'La fiche a bien été ajoutée !' : 'La fiche a bien été modifiée !');
+        } else if ($etat->isValid() && $produit->isValid()) {
+            $this->managers->getManagerOf('Etat')->save($etat, $produit, $photo);
+            $this->app->getUser()->setFlash($etat->isNew() ? 'La fiche a bien été ajoutée !' : 'La fiche a bien été modifiée !');
             $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");
         }
-        $this->page->addVar('erreursMaturite', $maturite->erreurs());
+        $this->page->addVar('erreursEtat', $etat->erreurs());
         $this->page->addVar('erreurs', $produit->erreurs());
-        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('etat', $etat);
         $this->page->addVar('produit', $produit);
 
 
@@ -121,15 +117,15 @@ class MaturiteController extends BackController
         if ($request->postExists('contenu')) {
             $this->processForm($request);
         }
-        $maturite = $this->managers->getManagerOf('Maturite')->getUnique($request->getData('id'));
-        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
+        $etat = $this->managers->getManagerOf('Etat')->getUnique($request->getData('id'));
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($etat->getIdProduit());
 
         $this->page->addVar('title', 'Mise à jour d\'une fiche de maturité');
-        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('etat', $etat);
         $this->page->addVar('produit', $produit);
 
 
-        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
+        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche d\'etat');
     }
 
     /**
@@ -140,10 +136,10 @@ class MaturiteController extends BackController
 
     public function executeDelete(HTTPRequest $request)
     {
-        $maturite = $this->managers->getManagerOf('Maturite')->getUnique($request->getData('id'));
-        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
+        $etat = $this->managers->getManagerOf('Etat')->getUnique($request->getData('id'));
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($etat->getIdProduit());
 
-        $this->managers->getManagerOf('Maturite')->delete($request->getData('id'));
+        $this->managers->getManagerOf('Etat')->delete($request->getData('id'));
         $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
