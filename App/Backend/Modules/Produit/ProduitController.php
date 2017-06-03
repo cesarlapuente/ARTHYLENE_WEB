@@ -67,30 +67,28 @@ class ProduitController extends BackController
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
             $produit->setIdProduit(1);
+            $produit->setIdPresentation(intval($request->postData('idPres'), 10));
+            $presentation->setIdPresentation(intval($request->postData('idPres')));
         }
 
         $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
 
-        if ($produit->isValid() && !$alreadyIn) {
+        if ($alreadyIn) {
+            $this->app->getUser()->setFlash('Ce produit existe déja !');
+        } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
             $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
             $this->app->httpResponse()->redirect('.');
         } else {
             $this->page->addVar('erreurs', $produit->erreurs());
+            $this->page->addVar('erreursPresentation', $presentation->erreurs());
         }
 
         $this->page->addVar('produit', $produit);
+        $this->page->addVar('presentation', $presentation);
 
 
-    }
-
-    public function executeDelete(HTTPRequest $request)
-    {
-        $this->managers->getManagerOf('Produit')->delete($request->getData('nom'), $request->getData('variete'));
-        $this->app->getUser()->setFlash('La produit a bien été supprimée !');
-
-        $this->app->httpResponse()->redirect('.');
     }
 
     public function executeUpdate(HTTPRequest $request)
@@ -106,5 +104,13 @@ class ProduitController extends BackController
         }
 
         $this->page->addVar('title', 'Modification d\'un produit');
+    }
+
+    public function executeDelete(HTTPRequest $request)
+    {
+        $this->managers->getManagerOf('Produit')->delete($request->getData('nom'), $request->getData('variete'));
+        $this->app->getUser()->setFlash('La produit a bien été supprimée !');
+
+        $this->app->httpResponse()->redirect('.');
     }
 }

@@ -13,6 +13,7 @@ use ArthyleneFramework\Entity;
 
 class Presentation extends Entity
 {
+    const CONTENU_EMPTY = 1;
     protected $idPresentation;
     protected $idProduit;
     protected $contenu;
@@ -68,6 +69,9 @@ class Presentation extends Entity
      */
     public function setContenu($contenu)
     {
+        if (empty($contenu)) {
+            $this->erreurs[] = self::CONTENU_EMPTY;
+        }
         $this->contenu = $contenu;
     }
 

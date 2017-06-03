@@ -36,6 +36,9 @@ class MaturiteController extends BackController
         $this->page->addVar('variete', $request->getData('variete'));
         $this->page->addVar('nom', $request->getData('produit'));
 
+        $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('produit'), $request->getData('variete'));
+        $this->page->addVar('prod', $produit);
+
         $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
     }
 
@@ -64,7 +67,6 @@ class MaturiteController extends BackController
                 'photo' => ''
             ]);
         } else {
-            echo "ajout";
             $maturite = new Maturite([
                 'contenu' => $request->postData('contenu'),
                 'textePopup' => $request->postData('popup'),
@@ -76,7 +78,8 @@ class MaturiteController extends BackController
                 'nomProduit' => $request->postData('nomProduit'),
                 'varieteProduit' => $request->postData('variete'),
                 'niveauMaturite' => intval($request->postData('niveauM'), 10),
-                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0
+                'maturiteIdeale' => ($request->postData('ideale')) ? 1 : 0,
+                'idPresentation' => intval($request->postData('idPresentation'), 10)
             ]);
 
             $photo = new Photo([
@@ -85,15 +88,19 @@ class MaturiteController extends BackController
 
         }
 
-        if ($maturite->isValid()) {
+        if ($this->managers->getManagerOf('Produit')->MaturiteAlreadyIn($produit)) {
+            $this->app->getUser()->setFlash('Ce produit existe déja !');
+        } else if ($maturite->isValid() && $produit->isValid()) {
             $this->managers->getManagerOf('Maturite')->save($maturite, $produit, $photo);
 
             $this->app->getUser()->setFlash($maturite->isNew() ? 'La fiche a bien été ajoutée !' : 'La fiche a bien été modifiée !');
-        } else {
-            $this->page->addVar('erreurs', $maturite->erreurs());
+            $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");
         }
+        $this->page->addVar('erreursMaturite', $maturite->erreurs());
+        $this->page->addVar('erreurs', $produit->erreurs());
+        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('produit', $produit);
 
-        $this->app->httpResponse()->redirect('produit-update-' . $produit->getVarieteProduit() . ".html");
 
     }
 
@@ -136,6 +143,6 @@ class MaturiteController extends BackController
         $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
-        $this->app->httpResponse()->redirect('produit-update-' . $produit->getVarieteProduit() . ".html");
+        $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");
     }
 }

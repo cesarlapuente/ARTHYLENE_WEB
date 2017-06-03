@@ -13,8 +13,16 @@ use ArthyleneFramework\Entity;
 
 class Produit extends Entity
 {
+    const MATURITE_MIN = 0;
+    const MATURITE_MAX = 7;
+
     const NOM_PRODUIT_INVALIDE = 1;
-    const VARIETE_PRODUT_INVALIDE = 2;
+    const NOM_PRODUIT_EMPTY = 2;
+    const VARIETE_PRODUT_INVALIDE = 3;
+    const VARIETE_PRODUIT_EMPTY = 4;
+    const MATURITE_INVALIDE = 5;
+    const MATURITE_EMPTY = 6;
+
     protected $idProduit;
     protected $nomProduit;
     protected $varieteProduit;
@@ -67,15 +75,18 @@ class Produit extends Entity
      */
     public function setVarieteProduit($varieteProduit)
     {
+        if (empty($varieteProduit)) {
+            $this->erreurs[] = self::VARIETE_PRODUIT_EMPTY;
+        }
         if (!is_string($varieteProduit)) {
-            trigger_error('du texte est requis uniquement', E_USER_WARNING);
+            $this->erreurs[] = self::VARIETE_PRODUT_INVALIDE;
         }
         $this->varieteProduit = $varieteProduit;
     }
 
     public function isValid()
     {
-        return !(empty($this->nomProduit) || empty($this->varieteProduit));
+        return (!(empty($this->nomProduit) || empty($this->varieteProduit)) && empty($this->erreurs()));
     }
 
     /**
@@ -91,8 +102,11 @@ class Produit extends Entity
      */
     public function setNomProduit($nomProduit)
     {
+        if (empty($nomProduit)) {
+            $this->erreurs[] = self::NOM_PRODUIT_EMPTY;
+        }
         if (!is_string($nomProduit)) {
-            trigger_error('du texte est requis uniquement', E_USER_WARNING);
+            $this->erreurs[] = self::NOM_PRODUIT_INVALIDE;
         }
         $this->nomProduit = $nomProduit;
     }
@@ -110,12 +124,11 @@ class Produit extends Entity
      */
     public function setNiveauMaturite($niveauMaturite)
     {
-        if (!is_int($niveauMaturite) && !is_null($niveauMaturite)) {
-            trigger_error('l\'id doit être un nombre entier', E_USER_WARNING);
-            return;
+        if (empty($niveauMaturite)) {
+            $this->erreurs[] = self::MATURITE_EMPTY;
         }
-        if (($niveauMaturite < -1 || $niveauMaturite > 7) && !is_null($niveauMaturite)) {
-            trigger_error('le niveau doit être compris entre -1 et 7', E_USER_WARNING);
+        if (($niveauMaturite < self::MATURITE_MIN || $niveauMaturite > self::MATURITE_MAX) && !is_null($niveauMaturite)) {
+            $this->erreurs[] = self::MATURITE_INVALIDE;
         }
         $this->niveauMaturite = $niveauMaturite;
     }

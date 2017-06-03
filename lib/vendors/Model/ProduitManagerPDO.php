@@ -163,7 +163,7 @@ class ProduitManagerPDO extends ProduitManager
         ));
     }
 
-    public function alreadyIn($produit)
+    public function alreadyIn(Produit $produit)
     {
         $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete');
         $requette->execute(array(
@@ -176,6 +176,27 @@ class ProduitManagerPDO extends ProduitManager
         }
 
         return false;
+    }
+
+    public function MaturiteAlreadyIn(Produit $produit)
+    {
+        $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete AND niveauMaturite = :niveau');
+        $requette->execute(array(
+            'nom' => $produit->getNomProduit(),
+            'variete' => $produit->getVarieteProduit(),
+            'niveau' => $produit->getNiveauMaturite()
+        ));
+
+        if ($requette->fetch()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function EtatAlreadyIn(Produit $produit)
+    {
+        // TODO: Implement EtatAlreadyIn() method.
     }
 
     protected function add(Produit $produit, Presentation $presentation, Photo $photo)

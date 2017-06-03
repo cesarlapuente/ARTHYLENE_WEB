@@ -77,5 +77,10 @@ abstract class ProduitManager extends Manager
 
     abstract public function deleteUnique($id);
 
-    abstract public function alreadyIn($produit);
+    abstract public function alreadyIn(Produit $produit);
+
+    abstract public function MaturiteAlreadyIn(Produit $produit);
+
+    abstract public function EtatAlreadyIn(Produit $produit);
+
 }

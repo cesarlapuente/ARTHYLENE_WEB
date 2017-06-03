@@ -13,6 +13,10 @@ use ArthyleneFramework\Entity;
 
 class Etat extends Entity
 {
+
+    const POPUP_INVALIDE = 2;
+    const CONTENU_INVALIDE = 3;
+
     protected $idEtat;
     protected $idProduit;
     protected $contenu;
@@ -66,6 +70,9 @@ class Etat extends Entity
      */
     public function setContenu($contenu)
     {
+        if (empty($contenu)) {
+            $this->erreurs[] = self::CONTENU_INVALIDE;
+        }
         $this->contenu = $contenu;
     }
 
@@ -98,6 +105,9 @@ class Etat extends Entity
      */
     public function setTextePopup($textePopup)
     {
+        if (empty($textePopup)) {
+            $this->erreurs[] = self::POPUP_INVALIDE;
+        }
         $this->textePopup = $textePopup;
     }
 

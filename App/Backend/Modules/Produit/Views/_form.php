@@ -1,6 +1,7 @@
 <form action="" method="post">
     <p>
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_INVALIDE, $erreurs) ? 'Le nom du produit est invalide.<br />' : '' ?>
+        <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
 
         <label>Nom du produit<br/>
             <input type="text" name="nom" style="text-transform: capitalize"
@@ -8,11 +9,13 @@
         </label><br/>
 
         <?= isset($erreurs) && in_array(\Entity\Produit::VARIETE_PRODUT_INVALIDE, $erreurs) ? 'La variété du produit est invalide.<br />' : '' ?>
+        <?= isset($erreurs) && in_array(\Entity\Produit::VARIETE_PRODUIT_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
         <label>Variété du produit<br/>
             <input type="text" name="variete" style="text-transform: capitalize"
                    value="<?= isset($produit) ? preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()) : '' ?>"/><br/>
         </label><br/>
 
+        <?= isset($erreursPresentation) && in_array(\Entity\Presentation::CONTENU_EMPTY, $erreursPresentation) ? 'Veuillez remplir ce champ.<br />' : '' ?>
         <label>
             Présentation du produit<br/>
             <textarea name="presentation" cols="75"
@@ -113,10 +116,11 @@
 
         <?php
         if (isset($produit) && !$produit->isNew()) {
-            //$produit->setIdProduit(1);
             ?>
             <input type="hidden" name="modif"
-                   value="<?= isset($produit) ? $produit->getVarieteProduit() : '' ?>"/></input>
+                   value="<?= isset($produit) ? $produit->getVarieteProduit() : '' ?>"/>
+            <input type="hidden" name="idPres"
+                   value="<?= isset($produit) ? $produit->getIdPresentation() : '' ?>"/>
             <label>
                 <input type="submit" value="Modifier" name="modifier"/>
             </label>

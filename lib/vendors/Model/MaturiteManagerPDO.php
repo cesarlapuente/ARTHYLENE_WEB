@@ -52,6 +52,11 @@ class MaturiteManagerPDO extends MaturiteManager
         ));
     }
 
+    public function changeMaturiteIdeale(Produit $produit)
+    {
+
+    }
+
     /**
      * Méthode permettant d'ajouter une maturite.
      * @param $maturite Produit La maturite à ajouter
@@ -59,7 +64,6 @@ class MaturiteManagerPDO extends MaturiteManager
      */
     protected function add(Maturite $maturite, Produit $produit, Photo $photo)
     {
-
         $requete = $this->dao->prepare('INSERT INTO maturite SET contenu = :contenu, idPhoto = :photo, maturiteIdeale = :ideale, textePopup = :popup');
         $requete->execute(array(
             'contenu' => $maturite->getContenu(),
@@ -70,12 +74,13 @@ class MaturiteManagerPDO extends MaturiteManager
 
         $idMaturite = $this->dao->lastInsertId();
 
-        $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :var, niveauMaturite = :niveau, idMaturite = :id');
+        $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :var, niveauMaturite = :niveau, idMaturite = :id, idPresentation = :presentation');
         $requete->execute(array(
             'nom' => $produit->getNomProduit(),
             'var' => $produit->getVarieteProduit(),
             'niveau' => $produit->getNiveauMaturite(),
-            'id' => $idMaturite
+            'id' => $idMaturite,
+            'presentation' => $produit->getIdPresentation()
         ));
 
         $requete = $this->dao->prepare('UPDATE maturite SET idProduit = :id WHERE idMaturite = :idMaturite');

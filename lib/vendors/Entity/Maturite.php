@@ -13,6 +13,11 @@ use ArthyleneFramework\Entity;
 
 class Maturite extends Entity
 {
+
+    const MATURITE_INVALIDE = 1;
+    const POPUP_INVALIDE = 2;
+    const CONTENU_INVALIDE = 3;
+
     protected $idMaturite;
     protected $idProduit;
     protected $contenu;
@@ -25,7 +30,7 @@ class Maturite extends Entity
 
     public function isValid()
     {
-        return !(empty($this->contenu) || empty($this->textePopup));
+        return !(empty($this->contenu) || empty($this->textePopup) && empty($this->erreurs()));
     }
 
     public function isNew()
@@ -94,6 +99,9 @@ class Maturite extends Entity
      */
     public function setContenu($contenu)
     {
+        if (empty($contenu)) {
+            $this->erreurs[] = self::CONTENU_INVALIDE;
+        }
         $this->contenu = $contenu;
     }
 
@@ -142,6 +150,9 @@ class Maturite extends Entity
      */
     public function setTextePopup($textePopup)
     {
+        if (empty($textePopup)) {
+            $this->erreurs[] = self::POPUP_INVALIDE;
+        }
         $this->textePopup = $textePopup;
     }
 
