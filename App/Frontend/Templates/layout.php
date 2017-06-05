@@ -18,10 +18,13 @@
 
     <nav>
         <ul>
-            <li><a href="/">Accueil</a></li>
             <?php if ($user->isAuthenticated()) { ?>
-                <li><a href="/admin/">Admin</a></li>
+                <li><a href="/admin/">Accueil</a></li>
                 <li><a href="/admin/produit-insert.html">Ajouter un produit</a></li>
+                <li><a href="/admin/signOut.html">Deconnexion</a></li>
+            <?php } else { ?>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/admin/">Connexion</a></li>
             <?php } ?>
         </ul>
     </nav>

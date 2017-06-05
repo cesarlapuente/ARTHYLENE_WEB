@@ -13,4 +13,5 @@
     <route url="/admin/etat-update-([0-9]+)\.html" module="Etat" action="update" vars="id"/>
     <route url="/admin/etat-delete-([0-9]+)\.html" module="Etat" action="delete" vars="id"/>
     <route url="/admin/etat-show-([0-9]+)\.html" module="Etat" action="show" vars="id"/>
+    <route url="/admin/signOut.html" module="Deconnexion" action="index"/>
 </routes>

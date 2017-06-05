@@ -22,7 +22,7 @@ class ConnexionController extends BackController
             $login = $request->postData('login');
             $password = $request->postData('password');
 
-            if ($login == $this->app->getConfig()->get("login") && $password == $this->app->getConfig()->get("pass")) {
+            if ($login == $this->app->getConfig()->get("login") && sha1($password) == $this->app->getConfig()->get("pass")) {
                 $this->app->getUser()->setAuthenticated(true);
                 $this->app->httpResponse()->redirect('.');
             } else {
