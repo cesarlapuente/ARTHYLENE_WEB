@@ -18,7 +18,7 @@ class EtatManagerPDO extends EtatManager
 
     /**
      * Méthode retournant une fiche etat précis.
-     * @param $id int L'identifiant de la news à récupérer
+     * @param $id int L'identifiant de la fiche à récupérer
      * @return Etat La fiche etat demandée
      */
     public function getUnique($id)
@@ -40,8 +40,8 @@ class EtatManagerPDO extends EtatManager
     }
 
     /**
-     * Méthode permettant de supprimer un produit.
-     * @param $id int L'identifiant du produit à supprimer
+     * Méthode permettant de supprimer une fiche.
+     * @param $id int L'identifiant de la fiche à supprimer
      * @return void
      */
     public function delete($id)
@@ -53,8 +53,7 @@ class EtatManagerPDO extends EtatManager
     }
 
     /**
-     * Méthode permettant d'ajouter une news.
-     * @param $etat Produit La maturite à ajouter
+     * Méthode permettant d'ajouter une fiche.
      * @return void
      */
     protected function add(Etat $etat, Produit $produit, Photo $photo)

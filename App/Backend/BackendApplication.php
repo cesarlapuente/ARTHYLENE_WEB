@@ -17,7 +17,6 @@ class BackendApplication extends Application
     public function __construct()
     {
         parent::__construct();
-
         $this->name = 'Backend';
     }
 
@@ -28,7 +27,6 @@ class BackendApplication extends Application
         } else {
             $controller = new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
         }
-
         $controller->execute();
 
         $this->httpResponse->setPage($controller->page());

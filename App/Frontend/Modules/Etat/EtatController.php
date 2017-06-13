@@ -17,14 +17,12 @@ class EtatController extends BackController
     public function executeShow(HTTPRequest $request)
     {
         $etat = $this->managers->getManagerOf('Etat')->getUnique($request->getData('id'));
-
         if (empty($etat)) {
             $this->app->httpResponse()->redirect404();
         }
-        //$this->page->addVar('produit', $maturite);
-        $this->page->addVar('produit', $request->getData('produit'));
-        $this->page->addVar('variete', $request->getData('variete'));
-        $this->page->addVar('niveau', $request->getData('niveau'));
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($etat->getIdProduit());
+
         $this->page->addVar('etat', $etat);
+        $this->page->addVar('produit', $produit);
     }
 }

@@ -7,7 +7,7 @@
  */
 foreach ($listeProduit as $produit) {
     ?>
-    <h2><a href="produit-<?= $produit->getVarieteProduit(); ?>.html"><?= $produit->getNomProduit(); ?></a></h2>
-    <p><?= nl2br($produit->getVarieteProduit()); ?></p>
+    <h2><a href="produit-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">
+            <?= $produit->getNomProduit() . " " . $produit->getVarieteProduit(); ?></a></h2></br>
     <?php
 }

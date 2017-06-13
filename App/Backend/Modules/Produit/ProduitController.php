@@ -25,13 +25,14 @@ class ProduitController extends BackController
         if (empty($produit)) {
             $this->app->httpResponse()->redirect404();
         }
+        $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
         $this->page->addVar('title', $produit->getNomProduit());
         $this->page->addVar('produit', $produit);
+        $this->page->addVar('presentation', $presentation);
     }
 
     public function executeIndex(HTTPRequest $request)
-
     {
         $this->page->addVar('title', 'Gestion des Produit');
 
@@ -46,7 +47,6 @@ class ProduitController extends BackController
         if ($request->postExists('nom')) {
             $this->processForm($request);
         }
-
         $this->page->addVar('title', 'Ajout d\'un produit');
     }
 
@@ -63,7 +63,7 @@ class ProduitController extends BackController
         $photo = new Photo([
             'photo' => ''
         ]);
-        // L'identifiant de la news est transmis si on veut la modifier.
+
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
             $produit->setIdProduit(1);
@@ -87,8 +87,6 @@ class ProduitController extends BackController
 
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
-
-
     }
 
     public function executeUpdate(HTTPRequest $request)

@@ -39,7 +39,7 @@ a:hover {
 }
 
 /* headers */
-h1, h2, h3 {
+h1, h2, h3, h4 {
     font-family: 'Trebuchet MS', Tahoma, Sans-serif;
 }
 
@@ -56,6 +56,11 @@ h2 {
 }
 
 h3 {
+    font-size: 120%;
+    color: #666666;
+}
+
+h4 {
     font-size: 120%;
     color: #666666;
 }

@@ -18,14 +18,14 @@ abstract class ProduitManager extends Manager
 {
     /**
      * Méthode retournant une liste de produit demandée.
-     * @return array La liste des news. Chaque entrée est une instance de News.
+     * @return array La liste des produits. Chaque entrée est une instance de Produit.
      */
     abstract public function getList();
 
     /**
      * Méthode retournant un produit précise.
-     * @param $id int L'identifiant de la news à récupérer
-     * @return Produit La news demandée
+     * @param $id int L'identifiant du produit à récupérer
+     * @return Produit Le produit demandée
      */
     abstract public function getUnique($nom, $variete);
 
@@ -39,10 +39,7 @@ abstract class ProduitManager extends Manager
     abstract public function count();
 
     /**
-     * Méthode permettant d'enregistrer une news.
-     * @param $news Produit la news à enregistrer
-     * @see self::add()
-     * @see self::modify()
+     * Méthode permettant d'enregistrer un produit.
      * @return void
      */
     public function save(Produit $produit, Presentation $presentation, Photo $photo)
@@ -55,8 +52,8 @@ abstract class ProduitManager extends Manager
     }
 
     /**
-     * Méthode permettant d'ajouter une news.
-     * @param $news News La news à ajouter
+     * Méthode permettant d'ajouter un produit.
+     * @param
      * @return void
      */
     abstract protected function add(Produit $produit, Presentation $presentation, Photo $photo);

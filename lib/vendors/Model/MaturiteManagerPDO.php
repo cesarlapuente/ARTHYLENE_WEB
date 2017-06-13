@@ -18,7 +18,7 @@ class MaturiteManagerPDO extends MaturiteManager
 
     /**
      * Méthode retournant une fiche Maturite précise.
-     * @param $id int L'identifiant de la news à récupérer
+     * @param $id int L'identifiant de la fiche à récupérer
      * @return Maturite La fiche maturite demandée
      */
     public function getUnique($id)

@@ -22,11 +22,29 @@ class MaturiteController extends BackController
     protected $varieteProduit;
 
     /**
+     * Show
+     *
+     * @param HTTPRequest $request
+     */
+    public function executeShow(HTTPRequest $request)
+    {
+        $maturite = $this->managers->getManagerOf('Maturite')->getUnique($request->getData('id'));
+
+        if (empty($maturite)) {
+            $this->app->httpResponse()->redirect404();
+        }
+
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
+
+        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('produit', $produit);
+    }
+
+    /**
      * Insert
      *
      * @param HTTPRequest $request
      */
-
     public function executeInsert(HTTPRequest $request)
     {
         if ($request->postExists('contenu')) {
@@ -106,8 +124,6 @@ class MaturiteController extends BackController
         $this->page->addVar('erreurs', $produit->erreurs());
         $this->page->addVar('maturite', $maturite);
         $this->page->addVar('produit', $produit);
-
-
     }
 
     /**
@@ -115,7 +131,6 @@ class MaturiteController extends BackController
      *
      * @param HTTPRequest $request
      */
-
     public function executeUpdate(HTTPRequest $request)
     {
         if ($request->postExists('contenu')) {
@@ -128,7 +143,6 @@ class MaturiteController extends BackController
         $this->page->addVar('maturite', $maturite);
         $this->page->addVar('produit', $produit);
 
-
         $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
     }
 
@@ -137,7 +151,6 @@ class MaturiteController extends BackController
      *
      * @param HTTPRequest $request
      */
-
     public function executeDelete(HTTPRequest $request)
     {
         $maturite = $this->managers->getManagerOf('Maturite')->getUnique($request->getData('id'));

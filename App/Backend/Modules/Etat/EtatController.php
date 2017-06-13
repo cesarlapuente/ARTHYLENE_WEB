@@ -21,12 +21,29 @@ class EtatController extends BackController
     protected $nomProduit;
     protected $varieteProduit;
 
+
+    /**
+     * Show
+     *
+     * @param HTTPRequest $request
+     */
+    public function executeShow(HTTPRequest $request)
+    {
+        $etat = $this->managers->getManagerOf('Etat')->getUnique($request->getData('id'));
+        if (empty($etat)) {
+            $this->app->httpResponse()->redirect404();
+        }
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($etat->getIdProduit());
+
+        $this->page->addVar('etat', $etat);
+        $this->page->addVar('produit', $produit);
+    }
+
     /**
      * Insert
      *
      * @param HTTPRequest $request
      */
-
     public function executeInsert(HTTPRequest $request)
     {
         if ($request->postExists('contenu')) {
@@ -47,7 +64,6 @@ class EtatController extends BackController
      *
      * @param HTTPRequest $request
      */
-
     public function processForm(HTTPRequest $request)
     {
         if ($request->postExists('id')) {
@@ -82,7 +98,6 @@ class EtatController extends BackController
             $photo = new Photo([
                 'photo' => ''
             ]);
-
         }
 
         if ($request->postData('ancienNiveau') == $produit->getNiveauMaturite()) {
@@ -102,8 +117,6 @@ class EtatController extends BackController
         $this->page->addVar('erreurs', $produit->erreurs());
         $this->page->addVar('etat', $etat);
         $this->page->addVar('produit', $produit);
-
-
     }
 
     /**
@@ -111,7 +124,6 @@ class EtatController extends BackController
      *
      * @param HTTPRequest $request
      */
-
     public function executeUpdate(HTTPRequest $request)
     {
         if ($request->postExists('contenu')) {
@@ -124,7 +136,6 @@ class EtatController extends BackController
         $this->page->addVar('etat', $etat);
         $this->page->addVar('produit', $produit);
 
-
         $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche d\'etat');
     }
 
@@ -133,7 +144,6 @@ class EtatController extends BackController
      *
      * @param HTTPRequest $request
      */
-
     public function executeDelete(HTTPRequest $request)
     {
         $etat = $this->managers->getManagerOf('Etat')->getUnique($request->getData('id'));

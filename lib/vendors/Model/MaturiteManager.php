@@ -17,16 +17,14 @@ abstract class MaturiteManager extends Manager
 {
     /**
      * Méthode retournant une fiche Maturite précise.
-     * @param $id int L'identifiant de la news à récupérer
+     * @param $id int L'identifiant de la fiche à récupérer
      * @return Maturite La fiche maturite demandée
      */
     abstract public function getUnique($id);
 
     /**
-     * Méthode permettant d'enregistrer une news.
-     * @param $news Produit la news à enregistrer
-     * @see self::add()
-     * @see self::modify()
+     * Méthode permettant d'enregistrer une fiche.
+     * @param $news Produit la fiche à enregistrer
      * @return void
      */
     public function save(Maturite $maturite, Produit $produit, Photo $photo)
@@ -39,7 +37,7 @@ abstract class MaturiteManager extends Manager
     }
 
     /**
-     * Méthode permettant d'ajouter une news.
+     * Méthode permettant d'ajouter une fiche.
      * @param $maturite Produit La maturite à ajouter
      * @return void
      */

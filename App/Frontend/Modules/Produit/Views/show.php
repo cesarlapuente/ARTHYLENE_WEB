@@ -8,7 +8,9 @@
 ?><h2><?= $title . " " . $produit->getVArieteProduit(); ?></h2>
 <p>
 <h3>Présentation</h3>
-<?= $produit->getPresentation()->getContenu(); ?>
+<div style="border:solid 1px darkgrey;height:120px;">
+    <?= $presentation->getContenu(); ?>
+</div>
 </p>
 <p><h3>Fiches des maturités du produit</h3>
 <?php
@@ -30,12 +32,12 @@ if (empty($produit->getListeEtat())){
         <tr>
             <td><?= $produit->getNomProduit(); ?></td>
             <td><?= $produit->getVarieteProduit(); ?></td>
-            <td><?= $prod->getNiveauMaturite(); ?></td>
-            <td><?php if ($prod->getIdMaturite() == $produit->getMaturiteIdeale()->getIdMaturite()) {
+            <td><?= $prod->getNiveau(); ?></td>
+            <td><?php if ($prod->getMaturiteIdeale()) {
                     echo "oui";
                 } ?></td>
             <td>
-                <a href="maturite-<?= $prod->getIdMaturite() ?>-<?= $prod->getNiveauMaturite() ?>-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit() ?>.html">Afficher</a>
+                <a href="maturite-<?= $prod->getIdMaturite() ?>.html">Afficher</a>
             </td>
         </tr>
         <?php
@@ -60,9 +62,9 @@ if (empty($produit->getListeEtat())){
         <tr>
             <td><?= $produit->getNomProduit(); ?></td>
             <td><?= $produit->getVarieteProduit(); ?></td>
-            <td><?= $prod->getNiveauEtat(); ?></td>
+            <td><?= $prod->getNiveau(); ?></td>
             <td>
-                <a href="etat-<?= $prod->getIdEtat() ?>-<?= $prod->getNiveauEtat() ?>-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit() ?>.html">Afficher</a>
+                <a href="etat-show-<?= $prod->getIdEtat() ?>.html">Afficher</a>
             </td>
         </tr>
         <?php

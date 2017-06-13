@@ -17,7 +17,7 @@ class ProduitManagerPDO extends ProduitManager
 {
     /**
      * Méthode retournant une liste de produits demandée.
-     * @return array La liste des news. Chaque entrée est une instance de Produit.
+     * @return array La liste des produits. Chaque entrée est une instance de Produit.
      */
     public function getList()
     {
@@ -35,7 +35,7 @@ class ProduitManagerPDO extends ProduitManager
 
     /**
      * Méthode retournant la page du produit
-     * @param $id int L'identifiant de la news à récupérer
+     * @param $id int L'identifiant du produit à récupérer
      * @return Produit Le produit demandée
      */
     public function getUnique($nom, $variete)
@@ -81,41 +81,7 @@ class ProduitManagerPDO extends ProduitManager
         $produit->setListeMaturite($listeMaturite);
         $produit->setListeEtat($listeEtat);
 
-        /*$reqMaturite = $this->dao->prepare('SELECT niveauMaturite, idMaturite FROM produit WHERE varieteProduit = :id AND niveauMaturite!= \'\' ORDER BY niveauMaturite');
-        $reqMaturite->bindValue(':id', $id);
-        $reqMaturite->execute();
-
-        $reqMaturite->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');
-
-        $reqMatIdeale = $this->dao->prepare('SELECT idMaturite, maturiteIdeale FROM maturite WHERE maturiteIdeale = 1');
-        $reqMatIdeale->execute();
-
-        $reqMatIdeale->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Maturite');
-
-        $reqEtat = $this->dao->prepare('SELECT niveauEtat, idEtat FROM produit WHERE varieteProduit = :id AND niveauEtat!= \'\' ORDER BY niveauEtat');
-        $reqEtat->bindValue(':id', $id);
-        $reqEtat->execute();
-        $reqEtat->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');*/
-
         return $produit;
-
-
-        /*if ($produit = $requete->fetch()) {
-
-            $reqPresentation = $this->dao->prepare('SELECT idPresentation, idProduit, contenu, idPhoto FROM presentation WHERE idPresentation = :id ');
-            $reqPresentation->bindValue(':id', $produit->getIdPresentation());
-            $reqPresentation->execute();
-            $reqPresentation->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Presentation');
-
-            $produit->setPresentation($reqPresentation->fetch());
-
-            $produit->setListeMaturite($reqMaturite->fetchAll());
-            $produit->setListeEtat($reqEtat->fetchAll());
-            $produit->setMaturiteIdeale($reqMatIdeale->fetch());
-            return $produit;
-        }*/
-
-        return null;
     }
 
     /**

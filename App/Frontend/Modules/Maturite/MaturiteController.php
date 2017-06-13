@@ -21,10 +21,9 @@ class MaturiteController extends BackController
         if (empty($maturite)) {
             $this->app->httpResponse()->redirect404();
         }
-        //$this->page->addVar('produit', $maturite);
-        $this->page->addVar('produit', $request->getData('produit'));
-        $this->page->addVar('variete', $request->getData('variete'));
-        $this->page->addVar('niveau', $request->getData('niveau'));
+        $produit = $this->managers->getManagerOf('Produit')->getUniqueId($maturite->getIdProduit());
+
         $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('produit', $produit);
     }
 }

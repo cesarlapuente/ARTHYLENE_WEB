@@ -17,16 +17,14 @@ abstract class EtatManager extends Manager
 {
     /**
      * Méthode retournant une fiche etat précis.
-     * @param $id int L'identifiant de la news à récupérer
+     * @param $id int L'identifiant de la fiche à récupérer
      * @return Etat La fiche etat demandée
      */
     abstract public function getUnique($id);
 
     /**
-     * Méthode permettant d'enregistrer une news.
-     * @param $news Produit la news à enregistrer
-     * @see self::add()
-     * @see self::modify()
+     * Méthode permettant d'enregistrer une fiche.
+     * @param
      * @return void
      */
     public function save(Etat $etat, Produit $produit, Photo $photo)
@@ -39,8 +37,7 @@ abstract class EtatManager extends Manager
     }
 
     /**
-     * Méthode permettant d'ajouter une news.
-     * @param $etat Produit La maturite à ajouter
+     * Méthode permettant d'ajouter une fiche.
      * @return void
      */
     abstract protected function add(Etat $etat, Produit $produit, Photo $photo);
