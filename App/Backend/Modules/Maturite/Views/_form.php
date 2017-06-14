@@ -1,19 +1,25 @@
 <form action="" method="post">
     <p>
+        <span style="color: red">
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_EMPTY, $erreurs) ? 'Veuillez remplir le champ.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_INVALIDE, $erreurs) ? 'Valeur incorrecte.<br />' : '' ?>
+        </span>
         <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
         <label>
             Niveau de maturite <br/>
             <input type="number" name="niveauM" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
         </label>
 
+        <span style="color: red">
         <?= isset($erreursMaturite) && in_array(\Entity\Maturite::POPUP_INVALIDE, $erreursMaturite) ? 'Veuillez remplir le champ.<br />' : '' ?>
+        </span>
         <label>Message du popup<br/>
             <input type="text" name="popup" value="<?= isset($maturite) ? $maturite->getTextePopup() : '' ?>"/>
         </label><br/>
 
+        <span style="color: red">
         <?= isset($erreursMaturite) && in_array(\Entity\Maturite::CONTENU_INVALIDE, $erreursMaturite) ? 'Veuillez remplir le champ.<br />' : '' ?>
+        </span>
         <label>
             Contenu de la fiche<br/>
             <textarea name="contenu" cols="75"
