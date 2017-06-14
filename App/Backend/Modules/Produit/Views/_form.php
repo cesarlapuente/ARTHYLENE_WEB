@@ -1,21 +1,27 @@
 <form action="" method="post">
     <p>
+        <span style="color: red">
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_INVALIDE, $erreurs) ? 'Le nom du produit est invalide.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        </span>
 
         <label>Nom du produit<br/>
             <input type="text" name="nom" style="text-transform: capitalize"
                    value="<?= isset($produit) ? preg_replace('#[_]+#', ' ', $produit->getNomProduit()) : '' ?>"/>
         </label><br/>
 
+        <span style="color: red">
         <?= isset($erreurs) && in_array(\Entity\Produit::VARIETE_PRODUT_INVALIDE, $erreurs) ? 'La variété du produit est invalide.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::VARIETE_PRODUIT_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        </span>
         <label>Variété du produit<br/>
             <input type="text" name="variete" style="text-transform: capitalize"
                    value="<?= isset($produit) ? preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()) : '' ?>"/><br/>
         </label><br/>
 
+        <span style="color: red">
         <?= isset($erreursPresentation) && in_array(\Entity\Presentation::CONTENU_EMPTY, $erreursPresentation) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        </span>
         <label>
             Présentation du produit<br/>
             <textarea name="presentation" cols="75"
