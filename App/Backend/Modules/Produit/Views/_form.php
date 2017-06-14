@@ -1,7 +1,9 @@
 <form action="" method="post">
     <p>
+        <span style="color: red">
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_INVALIDE, $erreurs) ? 'Le nom du produit est invalide.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        </span>
 
         <label>Nom du produit<br/>
             <input type="text" name="nom" style="text-transform: capitalize"
