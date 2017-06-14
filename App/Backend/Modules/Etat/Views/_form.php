@@ -1,10 +1,10 @@
 <form action="" method="post">
     <p>
-        <span style="color: red">
+        <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_EMPTY, $erreurs) ? 'Veuillez remplir le champ.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_INVALIDE, $erreurs) ? 'Valeur incorrecte.<br />' : '' ?>
-        </span>
-        <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauEtat() : '' ?>"/>
+            </strong></span>
+        <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauEtat() : '-1' ?>"/>
         <label>
             Niveau d'état <br/>
             <input type="number" name="niveauE" value="<?= isset($produit) ? $produit->getNiveauEtat() : '' ?>"/>

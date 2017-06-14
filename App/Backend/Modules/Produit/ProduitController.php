@@ -72,10 +72,21 @@ class ProduitController extends BackController
             $presentation->setIdPresentation(intval($request->postData('idPres')));
         }
 
-        $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
+        if ($request->postExists('modif')
+            && $produit->getNomProduit() == $request->postData('modifName')
+            && $produit->getVarieteProduit() == $request->postData('modif')
+        ) {
+            $alreadyIn = false;
+            echo "test";
+        } else {
+            echo
+            $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
+        }
 
         if ($alreadyIn) {
             $this->app->getUser()->setFlash('Ce produit existe déja !');
+            $produit->setNomProduit($request->getData('nom'));
+            $produit->setVarieteProduit($request->getData('variete'));
         } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
             $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
 

@@ -217,5 +217,12 @@ class ProduitManagerPDO extends ProduitManager
             'modif' => $produit->getModif()
         ));
 
+        $requete = $this->dao->prepare('UPDATE presentation SET contenu = :contenu, idPhoto = :idPhoto WHERE idPresentation = :idPresentation');
+        $requete->execute(array(
+            'contenu' => $presentation->getContenu(),
+            'idPhoto' => 1,
+            'idPresentation' => $presentation->getIdPresentation()
+        ));
+
     }
 }

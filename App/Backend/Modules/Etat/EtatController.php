@@ -100,10 +100,10 @@ class EtatController extends BackController
             ]);
         }
 
-        if ($request->postData('ancienNiveau') == $produit->getNiveauMaturite()) {
+        if ($request->postData('ancienNiveau') == $produit->getNiveauEtat()) {
             $alreadyIn = false;
         } else {
-            $alreadyIn = $this->managers->getManagerOf('Produit')->MaturiteAlreadyIn($produit);
+            $alreadyIn = $this->managers->getManagerOf('Produit')->EtatAlreadyIn($produit);
         }
 
         if ($alreadyIn) {

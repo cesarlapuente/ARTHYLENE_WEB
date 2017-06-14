@@ -106,7 +106,7 @@ class MaturiteController extends BackController
 
         }
 
-        if ($request->postData('ancienNiveau') == $produit->getNiveauMaturite()) {
+        if (($request->postData('ancienNiveau') == $produit->getNiveauMaturite()) && $request->postExists('idProduit')) {
             $alreadyIn = false;
         } else {
             $alreadyIn = $this->managers->getManagerOf('Produit')->MaturiteAlreadyIn($produit);

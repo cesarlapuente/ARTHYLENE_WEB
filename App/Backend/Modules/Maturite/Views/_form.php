@@ -1,10 +1,10 @@
-<form action="" method="post">
+<form action="" method="post" xmlns="http://www.w3.org/1999/html">
     <p>
-        <span style="color: red">
+        <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_EMPTY, $erreurs) ? 'Veuillez remplir le champ.<br />' : '' ?>
         <?= isset($erreurs) && in_array(\Entity\Produit::MATURITE_INVALIDE, $erreurs) ? 'Valeur incorrecte.<br />' : '' ?>
-        </span>
-        <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
+            </strong></span>
+        <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '-1' ?>"/>
         <label>
             Niveau de maturite <br/>
             <input type="number" name="niveauM" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
