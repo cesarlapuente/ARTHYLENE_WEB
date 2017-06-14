@@ -77,9 +77,7 @@ class ProduitController extends BackController
             && $produit->getVarieteProduit() == $request->postData('modif')
         ) {
             $alreadyIn = false;
-            echo "test";
         } else {
-            echo
             $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
         }
 
