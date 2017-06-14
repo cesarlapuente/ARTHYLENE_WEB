@@ -48,6 +48,7 @@ class ProduitController extends BackController
             $this->processForm($request);
         }
         $this->page->addVar('title', 'Ajout d\'un produit');
+        $this->page->addVar('insert', 1);
     }
 
     public function processForm(HTTPRequest $request)

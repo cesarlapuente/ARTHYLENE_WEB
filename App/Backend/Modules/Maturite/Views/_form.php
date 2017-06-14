@@ -22,7 +22,7 @@
         </span>
         <label>
             Contenu de la fiche<br/>
-            <textarea name="contenu" cols="75"
+            <textarea name="contenu" cols="56"
                       style="resize: none"><?= isset($maturite) ? $maturite->getContenu() : '' ?></textarea>
         </label><br/>
 

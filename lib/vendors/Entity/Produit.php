@@ -13,7 +13,7 @@ use ArthyleneFramework\Entity;
 
 class Produit extends Entity
 {
-    const MATURITE_MIN = 0;
+    const NIVEAU_MIN = 0;
     const MATURITE_MAX = 7;
 
     const NOM_PRODUIT_INVALIDE = 1;
@@ -22,6 +22,8 @@ class Produit extends Entity
     const VARIETE_PRODUIT_EMPTY = 4;
     const MATURITE_INVALIDE = 5;
     const MATURITE_EMPTY = 6;
+    const ETAT_INVALIDE = 5;
+    const ETAT_EMPTY = 6;
 
     protected $idProduit;
     protected $nomProduit;
@@ -127,7 +129,7 @@ class Produit extends Entity
         if (empty($niveauMaturite)) {
             $this->erreurs[] = self::MATURITE_EMPTY;
         }
-        if (($niveauMaturite < self::MATURITE_MIN || $niveauMaturite > self::MATURITE_MAX) && !is_null($niveauMaturite)) {
+        if (($niveauMaturite < self::NIVEAU_MIN || $niveauMaturite > self::MATURITE_MAX) && !is_null($niveauMaturite)) {
             $this->erreurs[] = self::MATURITE_INVALIDE;
         }
         $this->niveauMaturite = $niveauMaturite;
@@ -166,12 +168,11 @@ class Produit extends Entity
      */
     public function setNiveauEtat($niveauEtat)
     {
-        if (!is_int($niveauEtat) && !is_null($niveauEtat)) {
-            trigger_error('l\'id doit être un nombre entier', E_USER_WARNING);
-            return;
+        if (empty($niveauEtat)) {
+            $this->erreurs[] = self::ETAT_EMPTY;
         }
-        if (($niveauEtat < -1 || $niveauEtat > 7) && !is_null($niveauEtat)) {
-            trigger_error('le niveau doit être compris entre -1 et 7', E_USER_WARNING);
+        if ($niveauEtat < self::NIVEAU_MIN) {
+            $this->erreurs[] = self::ETAT_INVALIDE;
         }
         $this->niveauEtat = $niveauEtat;
     }

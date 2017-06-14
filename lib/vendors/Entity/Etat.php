@@ -28,7 +28,7 @@ class Etat extends Entity
 
     public function isValid()
     {
-        return !(empty($this->contenu) || empty($this->textePopup) && empty($this->erreurs()));
+        return empty($this->erreurs());
     }
 
     public function isNew()
@@ -81,9 +81,9 @@ class Etat extends Entity
      */
     public function setContenu($contenu)
     {
-        if (empty($contenu)) {
+        /*if (empty($contenu)) {
             $this->erreurs[] = self::CONTENU_INVALIDE;
-        }
+        }*/
         $this->contenu = $contenu;
     }
 
@@ -116,9 +116,9 @@ class Etat extends Entity
      */
     public function setTextePopup($textePopup)
     {
-        if (empty($textePopup)) {
+        /*if (empty($textePopup)) {
             $this->erreurs[] = self::POPUP_INVALIDE;
-        }
+        }*/
         $this->textePopup = $textePopup;
     }
 

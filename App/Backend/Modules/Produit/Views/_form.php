@@ -24,7 +24,7 @@
         </span>
         <label>
             Présentation du produit<br/>
-            <textarea name="presentation" cols="75"
+            <textarea name="presentation" cols="56"
                       style="resize: none"><?= isset($presentation) ? $presentation->getContenu() : '' ?></textarea>
         </label><br/>
 
@@ -33,6 +33,9 @@
             <input type="file" name="photo"/>
         </label><br/>
 
+        <?php
+        if (!isset($insert)){
+        ?>
         <label>
             Fiche de Maturite
         </label>
@@ -119,6 +122,7 @@
         <a href="etat-insert-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Ajouter une
             fiche</a>
         <?php
+    }
     } ?>
 
 
