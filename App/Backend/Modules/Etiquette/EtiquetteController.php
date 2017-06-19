@@ -65,7 +65,7 @@ class EtiquetteController extends BackController
         }
 
         if ($alreadyIn) {
-            $this->app->getUser()->setFlash('Cette etiquette existe déja !');
+            $this->app->getUser()->setFlash('<span style="color: red"><strong>Cette etiquette existe déja !</strong></span>');
         } else if ($etiquette->isValid() && !$alreadyIn) {
             $this->managers->getManagerOf('Etiquette')->save($etiquette, $photo);
             $this->app->getUser()->setFlash($etiquette->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');

@@ -40,7 +40,7 @@ class ProduitManagerPDO extends ProduitManager
      */
     public function getUnique($nom, $variete)
     {
-        $requete = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete');
+        $requete = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete ORDER BY niveauMaturite, niveauEtat ');
         $requete->bindValue(':nom', $nom);
         $requete->bindValue(':variete', $variete);
         $requete->execute();
@@ -77,6 +77,7 @@ class ProduitManagerPDO extends ProduitManager
                 array_push($listeEtat, $etat);
             }
         }
+
 
         $produit->setListeMaturite($listeMaturite);
         $produit->setListeEtat($listeEtat);

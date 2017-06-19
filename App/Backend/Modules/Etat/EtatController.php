@@ -107,7 +107,7 @@ class EtatController extends BackController
         }
 
         if ($alreadyIn) {
-            $this->app->getUser()->setFlash('Cette fiche existe déja !');
+            $this->app->getUser()->setFlash('<span style="color: red"><strong>Cette fiche existe déja !</strong></span>');
         } else if ($etat->isValid() && $produit->isValid()) {
             $this->managers->getManagerOf('Etat')->save($etat, $produit, $photo);
             $this->app->getUser()->setFlash($etat->isNew() ? 'La fiche a bien été ajoutée !' : 'La fiche a bien été modifiée !');

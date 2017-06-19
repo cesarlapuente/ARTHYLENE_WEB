@@ -57,7 +57,7 @@ class MaturiteController extends BackController
         $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('produit'), $request->getData('variete'));
         $this->page->addVar('prod', $produit);
 
-        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
+        $this->page->addVar('sousTitre', preg_replace('#[_]+#', ' ', $request->getData('produit')) . " " . preg_replace('#[_]+#', ' ', $request->getData('variete')) . ' : Ajout d\'une fiche de maturité');
     }
 
     /**
@@ -113,7 +113,7 @@ class MaturiteController extends BackController
         }
 
         if ($alreadyIn) {
-            $this->app->getUser()->setFlash('Cette fiche existe déja !');
+            $this->app->getUser()->setFlash('<span style="color: red"><strong>Cette fiche existe déja !</strong></span>');
         } else if ($maturite->isValid() && $produit->isValid()) {
             $this->managers->getManagerOf('Maturite')->save($maturite, $produit, $photo);
 
@@ -143,7 +143,7 @@ class MaturiteController extends BackController
         $this->page->addVar('maturite', $maturite);
         $this->page->addVar('produit', $produit);
 
-        $this->page->addVar('sousTitre', $request->getData('produit') . " " . $request->getData('variete') . ' : Ajout d\'une fiche de maturité');
+        $this->page->addVar('sousTitre', preg_replace('#[_]+#', ' ', $request->getData('produit')) . " " . preg_replace('#[_]+#', ' ', $request->getData('variete')) . ' : Ajout d\'une fiche de maturité');
     }
 
     /**

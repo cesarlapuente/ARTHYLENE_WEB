@@ -7,7 +7,8 @@
         <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauEtat() : '-1' ?>"/>
         <label>
             Niveau d'état <br/>
-            <input type="number" name="niveauE" value="<?= isset($produit) ? $produit->getNiveauEtat() : '' ?>"/>
+            <input type="number" name="niveauE" min="<?= \Entity\Produit::NIVEAU_MIN ?>"
+                   value="<?= isset($produit) ? $produit->getNiveauEtat() : '' ?>"/>
         </label>
 
         <span style="color: red">

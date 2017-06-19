@@ -5,7 +5,7 @@
  * Date: 30/05/2017
  * Time: 11:58
  */
-?><h2><?= $title . " " . $produit->getVArieteProduit(); ?></h2>
+?><h2><?= $title . " " . preg_replace('#[_]+#', ' ', $produit->getVArieteProduit()); ?></h2>
 <p>
 <h3>Présentation</h3>
 <div style="border:solid 1px darkgrey;height:120px;">

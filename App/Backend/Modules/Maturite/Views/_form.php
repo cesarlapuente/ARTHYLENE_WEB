@@ -7,7 +7,8 @@
         <input type="hidden" name="ancienNiveau" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '-1' ?>"/>
         <label>
             Niveau de maturite <br/>
-            <input type="number" name="niveauM" value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
+            <input type="number" name="niveauM" min="<?= \Entity\Produit::NIVEAU_MIN ?>"
+                   value="<?= isset($produit) ? $produit->getNiveauMaturite() : '' ?>"/>
         </label>
 
         <span style="color: red">

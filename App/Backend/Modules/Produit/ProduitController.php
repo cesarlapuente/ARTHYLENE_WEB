@@ -27,7 +27,7 @@ class ProduitController extends BackController
         }
         $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
-        $this->page->addVar('title', $produit->getNomProduit());
+        $this->page->addVar('title', preg_replace('#[_]+#', ' ', $produit->getNomProduit()));
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
     }
@@ -82,7 +82,7 @@ class ProduitController extends BackController
         }
 
         if ($alreadyIn) {
-            $this->app->getUser()->setFlash('Ce produit existe déja !');
+            $this->app->getUser()->setFlash('<span style="color: red"><strong>Ce produit existe déja !</strong></span>');
             $produit->setNomProduit($request->getData('nom'));
             $produit->setVarieteProduit($request->getData('variete'));
         } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {

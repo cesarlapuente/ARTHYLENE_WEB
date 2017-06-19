@@ -44,7 +44,7 @@
             ?><label>Aucune fiche</label><?php
             if (isset($produit)) {
                 ?><a
-                href="maturite-insert-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">
+                href="maturite-insert-<?= preg_replace('#[ ]+#', '_', $produit->getNomProduit()); ?>-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html">
                     Ajouter une fiche</a><?php
             }
         }else{
@@ -61,8 +61,8 @@
         foreach ($produit->getListeMaturite() as $prod) {
             ?>
             <tr>
-                <td><?= $produit->getNomProduit(); ?></td>
-                <td><?= $produit->getVarieteProduit(); ?></td>
+                <td><?= preg_replace('#[_]+#', ' ', $produit->getNomProduit()); ?></td>
+                <td><?= preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()); ?></td>
                 <td><?= $prod->getNiveau(); ?></td>
                 <td><?php if ($prod->getMaturiteIdeale()) {
                         echo "oui";
@@ -106,8 +106,8 @@
             foreach ($produit->getListeEtat() as $prod) {
                 ?>
                 <tr>
-                    <td><?= $produit->getNomProduit(); ?></td>
-                    <td><?= $produit->getVarieteProduit(); ?></td>
+                    <td><?= preg_replace('#[_]+#', ' ', $produit->getNomProduit()); ?></td>
+                    <td><?= preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()); ?></td>
                     <td><?= $prod->getNiveau(); ?></td>
                     <td NOWRAP>
                         <a href="etat-show-<?= $prod->getIdEtat() ?>.html">Afficher</a>
