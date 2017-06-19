@@ -91,10 +91,6 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     protected function add(Etiquette $etiquette, Photo $photo)
     {
-        echo $etiquette->getCode() . " " . $etiquette->getNomProduit() . " " . $etiquette->getVarieteProduit() . " " . $etiquette->getOrdreEte() . " " . $etiquette->getOrdreAutomne()
-            . " " . $etiquette->getOrdreHiver() . " " . $etiquette->getOrdrePrintemps() . " " . $etiquette->getNombreDeCouche() . " " . $etiquette->getMaturiteMin()
-            . " " . $etiquette->getMaturiteMax() . " " . $etiquette->getEmplacementChariot();
-
         $requete = $this->dao->prepare('INSERT INTO etiquette SET code = :code, nomProduit = :nom,
         varieteProduit = :variete, ordreEte = :ete, ordreAutomne = :automne, ordreHiver = :hiver, ordrePrintemps = :printemps,
         nombreDeCouche = :couche, maturiteMin = :matmin, maturiteMax = :matmax, emplacementChariot = :chariot');
