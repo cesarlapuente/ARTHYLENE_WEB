@@ -13,6 +13,13 @@ use ArthyleneFramework\Entity;
 
 class Etiquette extends Entity
 {
+    const MIN = 0;
+    const NOM_PRODUIT_EMPTY = 6;
+    const VARIETE_PRODUIT_EMPTY = 1;
+    const CODE_EMPTY = 2;
+    const MATURITE_MAX_EMPTY = 3;
+    const MATURITE_MIN_EMPTY = 4;
+    const EMPLACEMENT_EMPTY = 5;
 
     protected $idEtiquette;
     protected $code;
@@ -69,6 +76,9 @@ class Etiquette extends Entity
      */
     public function setCode($code)
     {
+        if (empty($code)) {
+            $this->erreurs[] = self::CODE_EMPTY;
+        }
         $this->code = $code;
     }
 
@@ -117,6 +127,9 @@ class Etiquette extends Entity
      */
     public function setNomProduit($nomProduit)
     {
+        if (empty($nomProduit)) {
+            $this->erreurs[] = self::NOM_PRODUIT_EMPTY;
+        }
         $this->nomProduit = $nomProduit;
     }
 
@@ -133,6 +146,9 @@ class Etiquette extends Entity
      */
     public function setVarieteProduit($varieteProduit)
     {
+        if (empty($varieteProduit)) {
+            $this->erreurs[] = self::VARIETE_PRODUIT_EMPTY;
+        }
         $this->varieteProduit = $varieteProduit;
     }
 
@@ -229,6 +245,9 @@ class Etiquette extends Entity
      */
     public function setMaturiteMin($maturiteMin)
     {
+        if (empty($maturiteMin)) {
+            $this->erreurs[] = self::MATURITE_MIN_EMPTY;
+        }
         $this->maturiteMin = $maturiteMin;
     }
 
@@ -245,6 +264,9 @@ class Etiquette extends Entity
      */
     public function setMaturiteMax($maturiteMax)
     {
+        if (empty($maturiteMax)) {
+            $this->erreurs[] = self::MATURITE_MAX_EMPTY;
+        }
         $this->maturiteMax = $maturiteMax;
     }
 
@@ -261,6 +283,9 @@ class Etiquette extends Entity
      */
     public function setEmplacementChariot($emplacementChariot)
     {
+        if (empty($emplacementChariot)) {
+            $this->erreurs[] = self::EMPLACEMENT_EMPTY;
+        }
         $this->emplacementChariot = $emplacementChariot;
     }
 

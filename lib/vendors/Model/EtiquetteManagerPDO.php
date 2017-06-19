@@ -71,6 +71,20 @@ class EtiquetteManagerPDO extends EtiquetteManager
         return $this->dao->query('SELECT COUNT(idEtiquette) FROM etiquette')->fetchColumn();
     }
 
+    public function alreadyIn(Etiquette $etiquette)
+    {
+        $requette = $this->dao->prepare('SELECT * FROM etiquette WHERE code = :code ');
+        $requette->execute(array(
+            'code' => $etiquette->getCode()
+        ));
+
+        if ($requette->fetch()) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Méthode permettant d'ajouter une etiquette.
      * @return void

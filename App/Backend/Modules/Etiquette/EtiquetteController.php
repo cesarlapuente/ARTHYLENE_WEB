@@ -55,40 +55,23 @@ class EtiquetteController extends BackController
             'photo' => ''
         ]);
 
+        $alreadyIn = $this->managers->getManagerOf('Etiquette')->alreadyIn($etiquette);
+
         if ($request->postExists('id')) {
             $etiquette->setIdEtiquette($request->postData('id'));
-        }
-
-
-        /*if ($request->postExists('modif')
-            && $produit->getNomProduit() == $request->postData('modifName')
-            && $produit->getVarieteProduit() == $request->postData('modif')
-        ) {
-            $alreadyIn = false;
-        } else {
-            $alreadyIn = $this->managers->getManagerOf('Produit')->alreadyIn($produit);
+            if ($etiquette->getCode() == $request->postData('lastCode')) {
+                $alreadyIn = false;
+            }
         }
 
         if ($alreadyIn) {
-            $this->app->getUser()->setFlash('Ce produit existe déja !');
-            $produit->setNomProduit($request->getData('nom'));
-            $produit->setVarieteProduit($request->getData('variete'));
-        } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
-            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
-
-            $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
-            $this->app->httpResponse()->redirect('.');
-        } else {
-            $this->page->addVar('erreurs', $produit->erreurs());
-            $this->page->addVar('erreursPresentation', $presentation->erreurs());
-        }*/
-
-        if ($etiquette->isValid()) {
+            $this->app->getUser()->setFlash('Cette etiquette existe déja !');
+        } else if ($etiquette->isValid() && !$alreadyIn) {
             $this->managers->getManagerOf('Etiquette')->save($etiquette, $photo);
             $this->app->getUser()->setFlash($etiquette->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
             $this->app->httpResponse()->redirect('/admin/label.html');
         }
-
+        $this->page->addVar('erreurs', $etiquette->erreurs());
         $this->page->addVar('etiquette', $etiquette);
     }
 

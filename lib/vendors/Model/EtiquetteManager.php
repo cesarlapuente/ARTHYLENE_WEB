@@ -68,4 +68,6 @@ abstract class EtiquetteManager extends Manager
      * @return void
      */
     abstract public function delete($id);
+
+    abstract public function alreadyIn(Etiquette $etiquette);
 }
