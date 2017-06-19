@@ -21,6 +21,7 @@
             <?php if ($user->isAuthenticated()) { ?>
                 <li><a href="/admin/">Accueil</a></li>
                 <li><a href="/admin/produit-insert.html">Ajouter un produit</a></li>
+                <li><a href="/admin/label-insert.html">Ajouter une etiquette</a></li>
                 <li><a href="/admin/signOut.html">Deconnexion</a></li>
             <?php } else { ?>
                 <li><a href="/">Accueil</a></li>
