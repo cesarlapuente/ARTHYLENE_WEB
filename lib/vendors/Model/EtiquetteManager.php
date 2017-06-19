@@ -15,6 +15,19 @@ use Entity\Photo;
 
 abstract class EtiquetteManager extends Manager
 {
+
+    /**
+     * Méthode retournant une liste d'etiquette demandée.
+     * @return array La liste des etiquettes. Chaque entrée est une instance de Etiquette.
+     */
+    abstract public function getList();
+
+    /**
+     * Méthode renvoyant le nombre d'etiquettes total.
+     * @return int
+     */
+    abstract public function count();
+
     /**
      * Méthode retournant une etiquette précise.
      * @param $id int L'identifiant de l'etiquette à récupérer

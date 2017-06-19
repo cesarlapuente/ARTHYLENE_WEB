@@ -38,6 +38,21 @@
         </section>
     </div>
 
+    <div id="sidebar">
+        <h3>Accueil</h3>
+        <ul><a href="/admin/produit.html">Liste des produits</a></ul>
+        <ul><a href="/admin/label.html">Liste des etiquettes</a></ul>
+        <?php if ($user->isAuthenticated()) { ?>
+            <h3>Administration</h3>
+            <ul><a href="/admin/produit-insert.html">Ajouter un produit</a></ul>
+            <ul><a href="/admin/label-insert.html">Ajouter une etiquette</a></ul>
+            <br>
+        <?php } else { ?>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/admin/">Connexion</a></li>
+        <?php } ?>
+    </div>
+
     <footer></footer>
 </div>
 </body>

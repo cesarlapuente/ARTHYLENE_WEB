@@ -89,7 +89,7 @@ class ProduitController extends BackController
             $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
-            $this->app->httpResponse()->redirect('.');
+            $this->app->httpResponse()->redirect('/admin/produit.html');
         } else {
             $this->page->addVar('erreurs', $produit->erreurs());
             $this->page->addVar('erreursPresentation', $presentation->erreurs());
@@ -119,6 +119,6 @@ class ProduitController extends BackController
         $this->managers->getManagerOf('Produit')->delete($request->getData('nom'), $request->getData('variete'));
         $this->app->getUser()->setFlash('La produit a bien été supprimée !');
 
-        $this->app->httpResponse()->redirect('.');
+        $this->app->httpResponse()->redirect('/admin/produit.html');
     }
 }

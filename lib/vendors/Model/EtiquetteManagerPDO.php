@@ -22,7 +22,13 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     public function getUnique($id)
     {
-        // TODO: Implement getUnique() method.
+
+        $requete = $this->dao->prepare('SELECT * FROM etiquette WHERE idEtiquette = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Etiquette');
+        return $requete->fetch();
     }
 
     /**
@@ -32,7 +38,37 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $requete = $this->dao->prepare('DELETE FROM etiquette WHERE idEtiquette = :id ');
+        $requete->execute(array(
+            'id' => $id
+        ));
+    }
+
+    /**
+     * Méthode retournant une liste d'etiquette demandée.
+     * @return array La liste des etiquettes. Chaque entrée est une instance de Etiquette.
+     */
+    public function getList()
+    {
+        $sql = 'SELECT * FROM etiquette';
+
+        $requete = $this->dao->query($sql);
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\etiquette');
+
+        $listeEtiquette = $requete->fetchAll();
+
+        $requete->closeCursor();
+
+        return $listeEtiquette;
+    }
+
+    /**
+     * Méthode renvoyant le nombre d'etiquettes total.
+     * @return int
+     */
+    public function count()
+    {
+        return $this->dao->query('SELECT COUNT(idEtiquette) FROM etiquette')->fetchColumn();
     }
 
     /**
@@ -70,6 +106,23 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     protected function modify(Etiquette $etiquette, Photo $photo)
     {
-        // TODO: Implement modify() method.
+        $requete = $this->dao->prepare('UPDATE etiquette SET code = :code, nomProduit = :nom,
+        varieteProduit = :variete, ordreEte = :ete, ordreAutomne = :automne, ordreHiver = :hiver, ordrePrintemps = :printemps,
+        nombreDeCouche = :couche, maturiteMin = :matmin, maturiteMax = :matmax, emplacementChariot = :chariot WHERE 
+        idEtiquette = :id');
+        $requete->execute(array(
+            'code' => $etiquette->getCode(),
+            'nom' => $etiquette->getNomProduit(),
+            'variete' => $etiquette->getVarieteProduit(),
+            'ete' => $etiquette->getOrdreEte(),
+            'automne' => $etiquette->getOrdreAutomne(),
+            'hiver' => $etiquette->getOrdreHiver(),
+            'printemps' => $etiquette->getOrdrePrintemps(),
+            'couche' => $etiquette->getNombreDeCouche(),
+            'matmin' => $etiquette->getMaturiteMin(),
+            'matmax' => $etiquette->getMaturiteMax(),
+            'chariot' => $etiquette->getEmplacementChariot(),
+            'id' => $etiquette->getIdEtiquette()
+        ));
     }
 }

@@ -17,6 +17,16 @@ use Entity\Photo;
 class EtiquetteController extends BackController
 {
 
+    public function executeIndex(HTTPRequest $request)
+    {
+        $this->page->addVar('title', 'Gestion des etiquettes');
+
+        $manager = $this->managers->getManagerOf('Etiquette');
+
+        $this->page->addVar('listeEtiquette', $manager->getList());
+        $this->page->addVar('nombreEtiquette', $manager->count());
+    }
+
     public function executeInsert(HTTPRequest $request)
     {
         if ($request->postExists('nom')) {
@@ -45,6 +55,10 @@ class EtiquetteController extends BackController
             'photo' => ''
         ]);
 
+        if ($request->postExists('id')) {
+            $etiquette->setIdEtiquette($request->postData('id'));
+        }
+
 
         /*if ($request->postExists('modif')
             && $produit->getNomProduit() == $request->postData('modifName')
@@ -72,10 +86,39 @@ class EtiquetteController extends BackController
         if ($etiquette->isValid()) {
             $this->managers->getManagerOf('Etiquette')->save($etiquette, $photo);
             $this->app->getUser()->setFlash($etiquette->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
-            $this->app->httpResponse()->redirect('.');
+            $this->app->httpResponse()->redirect('/admin/label.html');
         }
 
         $this->page->addVar('etiquette', $etiquette);
+    }
+
+    public function executeShow(HTTPRequest $request)
+    {
+        $this->page->addVar('title', 'Gestion des etiquettes');
+        $etiquette = $this->managers->getManagerOf('Etiquette')->getUnique($request->getData('id'));
+        $this->page->addVar('etiquette', $etiquette);
+
+    }
+
+    public function executeDelete(HTTPRequest $request)
+    {
+        $this->managers->getManagerOf('Etiquette')->delete($request->getData('id'));
+        $this->app->getUser()->setFlash('L\'étiquette a bien été supprimée !');
+
+        $this->app->httpResponse()->redirect('/admin/label.html');
+    }
+
+    public function executeUpdate(HTTPRequest $request)
+    {
+
+        $this->page->addVar('title', 'Mise à jour d\'une etiquette');
+
+        if ($request->postExists('nom')) {
+            $this->processForm($request);
+        }
+        $etiquette = $this->managers->getManagerOf('Etiquette')->getUnique($request->getData('id'));
+        $this->page->addVar('etiquette', $etiquette);
+
     }
 
 }

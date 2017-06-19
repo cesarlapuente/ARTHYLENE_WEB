@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <routes>
-    <route url="/admin/" module="Produit" action="index"/>
+    <route url="/admin/" module="Accueil" action="index"/>
+    <route url="/admin/produit\.html" module="Produit" action="index"/>
     <route url="/admin/produit-insert\.html" module="Produit" action="insert"/>
     <route url="/admin/produit-update-(.+)-(.+)\.html" module="Produit" action="update" vars="nom,variete"/>
     <route url="/admin/produit-delete-(.+)-(.+)\.html" module="Produit" action="delete" vars="nom,variete"/>
@@ -14,5 +15,9 @@
     <route url="/admin/etat-delete-([0-9]+)\.html" module="Etat" action="delete" vars="id"/>
     <route url="/admin/etat-show-([0-9]+)\.html" module="Etat" action="show" vars="id"/>
     <route url="/admin/label-insert\.html" module="Etiquette" action="insert" vars="id"/>
+    <route url="/admin/label-show-([0-9]+)\.html" module="Etiquette" action="show" vars="id"/>
+    <route url="/admin/label-update-([0-9]+)\.html" module="Etiquette" action="update" vars="id"/>
+    <route url="/admin/label-delete-([0-9]+)\.html" module="Etiquette" action="delete" vars="id"/>
+    <route url="/admin/label\.html" module="Etiquette" action="index"/>
     <route url="/admin/signOut.html" module="Deconnexion" action="index"/>
 </routes>
