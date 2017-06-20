@@ -9,14 +9,14 @@
 <p>
 <h4>Nom du produit</h4>
 <div>
-    <?= $etiquette->getNomProduit(); ?>
+    <?= preg_replace('#[_]+#', ' ', $etiquette->getNomProduit()); ?>
 </div>
 </p>
 
 <p>
 <h4>Variete du produit</h4>
 <div>
-    <?= $etiquette->getVarieteProduit(); ?>
+    <?= preg_replace('#[_]+#', ' ', $etiquette->getVarieteProduit()); ?>
 </div>
 </p>
 <p>
