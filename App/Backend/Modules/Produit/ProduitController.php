@@ -54,8 +54,8 @@ class ProduitController extends BackController
     public function processForm(HTTPRequest $request)
     {
         $produit = new Produit([
-            'nomProduit' => preg_replace('#[ ]+#', '_', $request->postData('nom')),
-            'varieteProduit' => preg_replace('#[ ]+#', '_', $request->postData('variete'))
+            'nomProduit' => ucfirst(preg_replace('#[ ]+#', '_', $request->postData('nom'))),
+            'varieteProduit' => ucfirst(preg_replace('#[ ]+#', '_', $request->postData('variete')))
         ]);
         $presentation = new Presentation([
             'contenu' => $request->postData('presentation'),

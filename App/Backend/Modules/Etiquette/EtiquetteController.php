@@ -39,8 +39,8 @@ class EtiquetteController extends BackController
     public function processForm(HTTPRequest $request)
     {
         $etiquette = new Etiquette([
-            'nomProduit' => preg_replace('#[ ]+#', '_', $request->postData('nom')),
-            'varieteProduit' => preg_replace('#[ ]+#', '_', $request->postData('variete')),
+            'nomProduit' => ucfirst(preg_replace('#[ ]+#', '_', $request->postData('nom'))),
+            'varieteProduit' => ucfirst(preg_replace('#[ ]+#', '_', $request->postData('variete'))),
             'code' => $request->postData('code'),
             'ordreEte' => intval($request->postData('ete')),
             'ordreAutomne' => intval($request->postData('automne')),
