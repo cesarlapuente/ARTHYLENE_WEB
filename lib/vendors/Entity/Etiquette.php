@@ -14,12 +14,13 @@ use ArthyleneFramework\Entity;
 class Etiquette extends Entity
 {
     const MIN = 0;
-    const NOM_PRODUIT_EMPTY = 6;
     const VARIETE_PRODUIT_EMPTY = 1;
     const CODE_EMPTY = 2;
     const MATURITE_MAX_EMPTY = 3;
     const MATURITE_MIN_EMPTY = 4;
     const EMPLACEMENT_EMPTY = 5;
+    const NOM_PRODUIT_EMPTY = 6;
+    const MIN_MAX_INVALIDE = 7;
 
     protected $idEtiquette;
     protected $code;
@@ -39,7 +40,48 @@ class Etiquette extends Entity
 
     public function isValid()
     {
+        if ($this->getMaturiteMax() < $this->getMaturiteMin()) {
+            $this->erreurs[] = self::MIN_MAX_INVALIDE;
+        }
         return empty($this->erreurs());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaturiteMax()
+    {
+        return $this->maturiteMax;
+    }
+
+    /**
+     * @param mixed $maturiteMax
+     */
+    public function setMaturiteMax($maturiteMax)
+    {
+        if (empty($maturiteMax)) {
+            $this->erreurs[] = self::MATURITE_MAX_EMPTY;
+        }
+        $this->maturiteMax = $maturiteMax;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaturiteMin()
+    {
+        return $this->maturiteMin;
+    }
+
+    /**
+     * @param mixed $maturiteMin
+     */
+    public function setMaturiteMin($maturiteMin)
+    {
+        if (empty($maturiteMin)) {
+            $this->erreurs[] = self::MATURITE_MIN_EMPTY;
+        }
+        $this->maturiteMin = $maturiteMin;
     }
 
     public function isNew()
@@ -230,44 +272,6 @@ class Etiquette extends Entity
     public function setNombreDeCouche($nombreDeCouche)
     {
         $this->nombreDeCouche = $nombreDeCouche;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMaturiteMin()
-    {
-        return $this->maturiteMin;
-    }
-
-    /**
-     * @param mixed $maturiteMin
-     */
-    public function setMaturiteMin($maturiteMin)
-    {
-        if (empty($maturiteMin)) {
-            $this->erreurs[] = self::MATURITE_MIN_EMPTY;
-        }
-        $this->maturiteMin = $maturiteMin;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMaturiteMax()
-    {
-        return $this->maturiteMax;
-    }
-
-    /**
-     * @param mixed $maturiteMax
-     */
-    public function setMaturiteMax($maturiteMax)
-    {
-        if (empty($maturiteMax)) {
-            $this->erreurs[] = self::MATURITE_MAX_EMPTY;
-        }
-        $this->maturiteMax = $maturiteMax;
     }
 
     /**

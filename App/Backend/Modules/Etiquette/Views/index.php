@@ -8,7 +8,10 @@ foreach ($listeEtiquette as $etiquette) {
     <p>
         <a href="label-show-<?= $etiquette->getidEtiquette(); ?>.html">Afficher </a>
         <a href="label-update-<?= $etiquette->getidEtiquette(); ?>.html">Modifier </a>
-        <a href="label-delete-<?= $etiquette->getidEtiquette(); ?>.html">Supprimer </a>
+        <a href="label-delete-<?= $etiquette->getidEtiquette(); ?>.html"
+           onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer </a>
     </p>
     <?php
 }
+?>
+<button onclick="window.location.href='label-insert.html'">Ajouter une etiquette</button></br>

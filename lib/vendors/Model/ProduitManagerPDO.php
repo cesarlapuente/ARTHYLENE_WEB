@@ -34,6 +34,42 @@ class ProduitManagerPDO extends ProduitManager
     }
 
     /**
+     * Méthode renvoyant le nombre de produit total.
+     * @return int
+     */
+    public function count()
+    {
+        return $this->dao->query('SELECT COUNT(DISTINCT varieteProduit) FROM produit')->fetchColumn();
+    }
+
+    /**
+     * Méthode permettant de supprimer un produit.
+     * @param $id int L'identifiant du produit à supprimer
+     * @return void
+     */
+    public function delete($nom, $variete)
+    {
+        $produit = $this->getUnique($nom, $variete);
+        foreach ($produit->getListeMaturite() as $m) {
+            $requete = $this->dao->prepare('DELETE FROM maturite WHERE idMaturite = :id ');
+            $requete->execute(array(
+                'id' => $m->getIdMaturite()
+            ));
+        }
+        foreach ($produit->getListeEtat() as $e) {
+            $requete = $this->dao->prepare('DELETE FROM etat WHERE idEtat = :id ');
+            $requete->execute(array(
+                'id' => $e->getIdEtat()
+            ));
+        }
+        $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id AND nomProduit = :nom');
+        $requete->execute(array(
+            'nom' => $nom,
+            'id' => $variete
+        ));
+    }
+
+    /**
      * Méthode retournant la page du produit
      * @param $id int L'identifiant du produit à récupérer
      * @return Produit Le produit demandée
@@ -83,29 +119,6 @@ class ProduitManagerPDO extends ProduitManager
         $produit->setListeEtat($listeEtat);
 
         return $produit;
-    }
-
-    /**
-     * Méthode renvoyant le nombre de produit total.
-     * @return int
-     */
-    public function count()
-    {
-        return $this->dao->query('SELECT COUNT(DISTINCT varieteProduit) FROM produit')->fetchColumn();
-    }
-
-    /**
-     * Méthode permettant de supprimer un produit.
-     * @param $id int L'identifiant du produit à supprimer
-     * @return void
-     */
-    public function delete($nom, $variete)
-    {
-        $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id AND nomProduit = :nom');
-        $requete->execute(array(
-            'nom' => $nom,
-            'id' => $variete
-        ));
     }
 
     public function getUniqueId($id)

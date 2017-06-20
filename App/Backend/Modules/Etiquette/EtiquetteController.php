@@ -42,14 +42,14 @@ class EtiquetteController extends BackController
             'nomProduit' => preg_replace('#[ ]+#', '_', $request->postData('nom')),
             'varieteProduit' => preg_replace('#[ ]+#', '_', $request->postData('variete')),
             'code' => $request->postData('code'),
-            'ordreEte' => $request->postData('ete'),
-            'ordreAutomne' => $request->postData('automne'),
-            'ordreHiver' => $request->postData('hiver'),
-            'ordrePrintemps' => $request->postData('printemps'),
-            'nombreDeCouche' => $request->postData('couche'),
-            'maturiteMin' => $request->postData('matMin'),
-            'maturiteMax' => $request->postData('matMax'),
-            'emplacementChariot' => $request->postData('chariot')
+            'ordreEte' => intval($request->postData('ete')),
+            'ordreAutomne' => intval($request->postData('automne')),
+            'ordreHiver' => intval($request->postData('hiver')),
+            'ordrePrintemps' => intval($request->postData('printemps')),
+            'nombreDeCouche' => intval($request->postData('couche')),
+            'maturiteMin' => intval($request->postData('matMin')),
+            'maturiteMax' => intval($request->postData('matMax')),
+            'emplacementChariot' => intval($request->postData('chariot'))
         ]);
         $photo = new Photo([
             'photo' => ''
@@ -72,6 +72,9 @@ class EtiquetteController extends BackController
             $this->app->httpResponse()->redirect('/admin/label.html');
         }
         $this->page->addVar('erreurs', $etiquette->erreurs());
+        if (in_array(\Entity\Etiquette::MIN_MAX_INVALIDE, $etiquette->erreurs())) {
+            $this->app->getUser()->setFlash('<span style="color: red"><strong>La maturité max doit être supérieure ou égale à la minimale !</strong></span>');
+        }
         $this->page->addVar('etiquette', $etiquette);
     }
 

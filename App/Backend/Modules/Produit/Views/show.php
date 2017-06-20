@@ -14,7 +14,7 @@
 </p>
 <p><h3>Fiches des maturités du produit</h3>
 <?php
-if (empty($produit->getListeEtat())){
+if (empty($produit->getListeMaturite())){
     ?><h4>Aucune fiche</h4><?php
 }else{
 ?>
@@ -30,8 +30,8 @@ if (empty($produit->getListeEtat())){
     foreach ($produit->getListeMaturite() as $prod) {
         ?>
         <tr>
-            <td><?= $produit->getNomProduit(); ?></td>
-            <td><?= $produit->getVarieteProduit(); ?></td>
+            <td><?= preg_replace('#[_]+#', ' ', $produit->getNomProduit()); ?></td>
+            <td><?= preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()); ?></td>
             <td><?= $prod->getNiveau(); ?></td>
             <td><?php if ($prod->getMaturiteIdeale()) {
                     echo "oui";
@@ -60,8 +60,8 @@ if (empty($produit->getListeEtat())){
     foreach ($produit->getListeEtat() as $prod) {
         ?>
         <tr>
-            <td><?= $produit->getNomProduit(); ?></td>
-            <td><?= $produit->getVarieteProduit(); ?></td>
+            <td><?= preg_replace('#[_]+#', ' ', $produit->getNomProduit()); ?></td>
+            <td><?= preg_replace('#[_]+#', ' ', $produit->getVarieteProduit()); ?></td>
             <td><?= $prod->getNiveau(); ?></td>
             <td>
                 <a href="etat-show-<?= $prod->getIdEtat() ?>.html">Afficher</a>

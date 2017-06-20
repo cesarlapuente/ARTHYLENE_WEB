@@ -129,7 +129,7 @@ class Produit extends Entity
         if (empty($niveauMaturite)) {
             $this->erreurs[] = self::MATURITE_EMPTY;
         }
-        if (($niveauMaturite < self::NIVEAU_MIN || $niveauMaturite > self::MATURITE_MAX) && !is_null($niveauMaturite)) {
+        if (($niveauMaturite < self::NIVEAU_MIN) && !is_null($niveauMaturite)) {
             $this->erreurs[] = self::MATURITE_INVALIDE;
         }
         $this->niveauMaturite = $niveauMaturite;

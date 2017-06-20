@@ -34,6 +34,7 @@
     <p>
         <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Etiquette::MATURITE_MIN_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        <?= isset($erreurs) && in_array(\Entity\Etiquette::MIN_MAX_INVALIDE, $erreurs) ? 'Champ invalide.<br />' : '' ?>
         </strong></span>
         <label>Maturité minimale<br/>
             <input type="number" name="matMin" style="text-transform: capitalize" min="<?= \Entity\Etiquette::MIN ?>"
@@ -42,6 +43,7 @@
 
         <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Etiquette::MATURITE_MAX_EMPTY, $erreurs) ? 'Veuillez remplir ce champ.<br />' : '' ?>
+        <?= isset($erreurs) && in_array(\Entity\Etiquette::MIN_MAX_INVALIDE, $erreurs) ? 'Champ invalide.<br />' : '' ?>
         </strong></span>
         <label>Maturité maximale<br/>
             <input type="number" name="matMax" style="text-transform: capitalize" min="<?= \Entity\Etiquette::MIN ?>"

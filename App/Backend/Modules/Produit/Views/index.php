@@ -8,7 +8,9 @@ foreach ($listeProduit as $produit) {
     <p>
         <a href="produit-show-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Afficher </a>
         <a href="produit-update-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Modifier </a>
-        <a href="produit-delete-<?= $produit->getNomProduit(); ?>-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html">Supprimer </a>
+        <a href="produit-delete-<?= $produit->getNomProduit(); ?>-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html"
+           onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer </a>
     </p>
     <?php
-}
+} ?>
+<button onclick="window.location.href='produit-insert.html'">Ajouter un produit</button></br>
