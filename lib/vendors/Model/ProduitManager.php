@@ -80,4 +80,6 @@ abstract class ProduitManager extends Manager
 
     abstract public function EtatAlreadyIn(Produit $produit);
 
+    abstract public function GetAll();
+
 }

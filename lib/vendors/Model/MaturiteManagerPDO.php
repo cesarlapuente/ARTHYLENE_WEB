@@ -12,6 +12,7 @@ namespace Model;
 use Entity\Maturite;
 use Entity\Photo;
 use Entity\Produit;
+use PDO;
 
 class MaturiteManagerPDO extends MaturiteManager
 {
@@ -55,6 +56,16 @@ class MaturiteManagerPDO extends MaturiteManager
     public function changeMaturiteIdeale(Produit $produit)
     {
 
+    }
+
+    public function GetAll()
+    {
+        $requete = $this->dao->query('SELECT * FROM maturite');
+        if ($maturite = $requete->fetchAll(PDO::FETCH_ASSOC)) {
+            return $maturite;
+        }
+
+        return null;
     }
 
     /**

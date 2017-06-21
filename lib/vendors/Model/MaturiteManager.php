@@ -58,4 +58,6 @@ abstract class MaturiteManager extends Manager
     abstract public function delete($id);
 
     abstract public function changeMaturiteIdeale(Produit $produit);
+
+    abstract public function GetAll();
 }

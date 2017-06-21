@@ -11,6 +11,7 @@ namespace Model;
 
 use Entity\Etiquette;
 use Entity\Photo;
+use PDO;
 
 class EtiquetteManagerPDO extends EtiquetteManager
 {
@@ -83,6 +84,16 @@ class EtiquetteManagerPDO extends EtiquetteManager
         }
 
         return false;
+    }
+
+    public function GetAll()
+    {
+        $requete = $this->dao->query('SELECT * FROM etiquette');
+        if ($label = $requete->fetchAll(PDO::FETCH_ASSOC)) {
+            return $label;
+        }
+
+        return null;
     }
 
     /**

@@ -12,6 +12,7 @@ namespace Model;
 use Entity\Photo;
 use Entity\Presentation;
 use Entity\Produit;
+use PDO;
 
 class ProduitManagerPDO extends ProduitManager
 {
@@ -188,6 +189,16 @@ class ProduitManagerPDO extends ProduitManager
         }
 
         return false;
+    }
+
+    public function GetAll()
+    {
+        $requete = $this->dao->query('SELECT * FROM produit');
+        if ($produit = $requete->fetchAll(PDO::FETCH_ASSOC)) {
+            return $produit;
+        }
+
+        return null;
     }
 
     protected function add(Produit $produit, Presentation $presentation, Photo $photo)

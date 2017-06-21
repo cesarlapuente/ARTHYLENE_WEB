@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<routes>
+    <route url="/api/product" module="Post" action="product"/>
+    <route url="/api/presentation" module="Post" action="presentation"/>
+    <route url="/api/maturity" module="Post" action="maturity"/>
+    <route url="/api/state" module="Post" action="state"/>
+    <route url="/api/label" module="Post" action="label"/>
+</routes>

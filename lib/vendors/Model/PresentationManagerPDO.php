@@ -10,6 +10,7 @@ namespace Model;
 
 
 use Entity\Presentation;
+use PDO;
 
 class PresentationManagerPDO extends PresentationManager
 {
@@ -36,5 +37,15 @@ class PresentationManagerPDO extends PresentationManager
             }*/
             return $presentation;
         }
+    }
+
+    public function GetAll()
+    {
+        $requete = $this->dao->query('SELECT * FROM presentation');
+        if ($presentation = $requete->fetchAll(PDO::FETCH_ASSOC)) {
+            return $presentation;
+        }
+
+        return null;
     }
 }

@@ -12,6 +12,7 @@ namespace Model;
 use Entity\Etat;
 use Entity\Photo;
 use Entity\Produit;
+use PDO;
 
 class EtatManagerPDO extends EtatManager
 {
@@ -50,6 +51,16 @@ class EtatManagerPDO extends EtatManager
         $requete->execute(array(
             'id' => $id
         ));
+    }
+
+    public function GetAll()
+    {
+        $requete = $this->dao->query('SELECT * FROM etat');
+        if ($etat = $requete->fetchAll(PDO::FETCH_ASSOC)) {
+            return $etat;
+        }
+
+        return null;
     }
 
     /**

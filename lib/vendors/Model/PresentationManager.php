@@ -20,4 +20,6 @@ abstract class PresentationManager extends Manager
      * @return Presentation La fiche maturite demandée
      */
     abstract public function getUnique($id);
+
+    abstract public function GetAll();
 }
