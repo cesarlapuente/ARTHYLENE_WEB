@@ -39,7 +39,7 @@ class Produit extends Entity
     protected $presentation;
     protected $modif;
 
-    /* check id */
+    /* check id to test the product is new */
     public function isNew()
     {
         return empty($this->getIdProduit());
