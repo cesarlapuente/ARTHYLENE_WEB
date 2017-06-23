@@ -57,6 +57,7 @@ abstract class EtatManager extends Manager
     abstract public function delete($id);
 
     /**
+     * Methode for api
      * @return mixed
      */
     abstract public function GetAll();
