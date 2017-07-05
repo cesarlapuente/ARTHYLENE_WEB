@@ -23,7 +23,6 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     public function getUnique($id)
     {
-
         $requete = $this->dao->prepare('SELECT * FROM etiquette WHERE idEtiquette = :id');
         $requete->execute(array(
             'id' => $id
