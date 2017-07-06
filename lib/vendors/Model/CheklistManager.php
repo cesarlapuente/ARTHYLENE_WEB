@@ -17,6 +17,12 @@ abstract class CheklistManager extends Manager
 {
 
     /**
+     * Méthode renvoyant le nombre d'etiquettes total.
+     * @return int
+     */
+    abstract public function count();
+
+    /**
      * Méthode retournant une liste d'item demandée.
      * @return array La liste des items. Chaque entrée est une instance de Checklist.
      */

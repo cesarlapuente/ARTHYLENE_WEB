@@ -1,16 +1,16 @@
-<p style="text-align: center">Il y a actuellement <?= $nombreProduit ?> produit. En voici la liste :</p>
+<p style="text-align: center">Il y a actuellement <?= $nombreItem ?> item. En voici la liste :</p>
 <?php
-foreach ($listeProduit as $produit) {
+foreach ($checklist as $item) {
     ?>
     <h2>
-        <?= preg_replace('#[_]+#', ' ', $produit->getNomProduit() . " " . $produit->getVarieteProduit()); ?>
+        <?= $item->getTitre(); ?>
     </h2>
     <p>
-        <a href="produit-show-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Afficher </a>
-        <a href="produit-update-<?= $produit->getNomProduit(); ?>-<?= $produit->getVarieteProduit(); ?>.html">Modifier </a>
-        <a href="produit-delete-<?= $produit->getNomProduit(); ?>-<?= preg_replace('#[ ]+#', '_', $produit->getVarieteProduit()); ?>.html"
+        <a href="checklist-show-<?= $item->getid(); ?>.html">Afficher </a>
+        <a href="checklist-update-<?= $item->getid(); ?>.html">Modifier </a>
+        <a href="checklist-delete-<?= $item->getid(); ?>.html"
            onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer </a>
     </p>
     <?php
 } ?>
-<button onclick="window.location.href='produit-insert.html'">Ajouter un produit</button></br>
+<button onclick="window.location.href='checklist-insert.html'">Ajouter un item</button></br>

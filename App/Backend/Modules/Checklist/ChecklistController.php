@@ -15,6 +15,23 @@ use Entity\Photo;
  */
 class ChecklistController extends BackController
 {
+    public function executeIndex(HTTPRequest $request)
+    {
+        $this->page->addVar('title', 'Gestion des etiquettes');
+
+        $manager = $this->managers->getManagerOf('Checklist');
+
+        $this->page->addVar('checklist', $manager->getList());
+        $this->page->addVar('nombreItem', $manager->count());
+    }
+
+    public function executeShow(HTTPRequest $request)
+    {
+        $item = $this->managers->getManagerOf('Checklist')->getUnique($request->getData('id'));
+        $this->page->addVar('item', $item);
+
+    }
+
     public function executeInsert(HTTPRequest $request)
     {
         if ($request->postExists('titre')) {
@@ -47,7 +64,7 @@ class ChecklistController extends BackController
         } else if ($item->isValid() && !$alreadyIn) {
             $this->managers->getManagerOf('Checklist')->save($item, $photo);
             $this->app->getUser()->setFlash($item->isNew() ? 'L\'item a bien été ajouté !' : 'L\'item a bien été modifié !');
-            $this->app->httpResponse()->redirect('/admin/');
+            $this->app->httpResponse()->redirect('/admin/checklist.html');
         }
         $this->page->addVar('erreurs', $item->erreurs());
         $this->page->addVar('item', $item);
@@ -60,5 +77,13 @@ class ChecklistController extends BackController
         }
         $item = $this->managers->getManagerOf('Checklist')->getUnique($request->getData('id'));
         $this->page->addVar('item', $item);
+    }
+
+    public function executeDelete(HTTPRequest $request)
+    {
+        $this->managers->getManagerOf('Checklist')->delete($request->getData('id'));
+        $this->app->getUser()->setFlash('L\'item a bien été supprimée !');
+
+        $this->app->httpResponse()->redirect('/admin/checklist.html');
     }
 }

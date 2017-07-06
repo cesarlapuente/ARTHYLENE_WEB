@@ -20,6 +20,9 @@
     <route url="/admin/label-delete-([0-9]+)\.html" module="Etiquette" action="delete" vars="id"/>
     <route url="/admin/label\.html" module="Etiquette" action="index"/>
     <route url="/admin/signOut\.html" module="Deconnexion" action="index"/>
+    <route url="/admin/checklist\.html" module="Checklist" action="index"/>
     <route url="/admin/checklist-insert\.html" module="Checklist" action="insert"/>
     <route url="/admin/checklist-update-([0-9]+)\.html" module="Checklist" action="update" vars="id"/>
+    <route url="/admin/checklist-delete-([0-9]+)\.html" module="Checklist" action="delete" vars="id"/>
+    <route url="/admin/checklist-show-([0-9]+)\.html" module="Checklist" action="show" vars="id"/>
 </routes>

@@ -95,6 +95,15 @@ class ChecklistManagerPDO extends CheklistManager
     }
 
     /**
+     * Méthode renvoyant le nombre d'etiquettes total.
+     * @return int
+     */
+    public function count()
+    {
+        return $this->dao->query('SELECT COUNT(id) FROM checklist')->fetchColumn();
+    }
+
+    /**
      * Méthode permettant d'ajouter un item.
      * @return void
      */

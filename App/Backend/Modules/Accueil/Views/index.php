@@ -5,4 +5,7 @@
 <ul>
     <a href="/admin/label.html">Liste des etiquettes</a>
 </ul>
+<ul>
+    <a href="/admin/checklist.html">Checklist</a>
+</ul>
 </br>
