@@ -44,4 +44,10 @@ class PostController extends BackController
         $this->page()->addVar('json', json_encode($all));
     }
 
+    public function executeChecklist(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Checklist')->getAll();
+        $this->page()->addVar('json', json_encode($all));
+    }
+
 }

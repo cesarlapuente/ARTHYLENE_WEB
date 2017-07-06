@@ -11,6 +11,7 @@ namespace Model;
 
 use Entity\Checklist;
 use Entity\Photo;
+use PDO;
 
 class ChecklistManagerPDO extends CheklistManager
 {
