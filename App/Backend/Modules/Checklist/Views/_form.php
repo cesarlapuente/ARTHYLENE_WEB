@@ -10,16 +10,16 @@
         </label>
 
         <span style="color: red">
-        <?= isset($erreursMaturite) && in_array(\Entity\Checklist::CONTENT_INVALIDE, $erreursMaturite) ? 'Valeur incorrecte.<br />' : '' ?>
+        <?= isset($erreur) && in_array(\Entity\Checklist::CONTENT_INVALIDE, $erreur) ? 'Valeur incorrecte.<br />' : '' ?>
         </span>
         <label>Contenu<br/>
-            <input type="text" name="popup" value="<?= isset($item) ? $item->getContent() : '' ?>"/>
+            <input type="text" name="contenu" value="<?= isset($item) ? $item->getContent() : '' ?>"/>
         </label><br/>
 
         <label>
-            Etape Importante
-            <input type="checkbox" name="ideale"
-                   value="1" <?= (isset($maturite) && $maturite->getMaturiteIdeale()) ? 'checked' : ''; ?>/>
+            Etape Importante<br/>
+            <input type="checkbox" name="important"
+                   value="1" <?= (isset($item) && $item->getIsImportant()) ? 'checked' : ''; ?>/>
         </label><br/>
 
 
@@ -29,10 +29,10 @@
         </label><br/>
 
         <?php
-        if (isset($maturite) && !$maturite->isNew()) {
+        if (isset($item) && !$item->isNew()) {
             //$produit->setIdProduit(1);
             ?>
-
+            <input type="hidden" name="lastTitle" value="<?= isset($item) ? $item->getTitle() : '' ?>"/>
             <input type="hidden" name="id" value="<?= isset($item) ? $item->getId() : '' ?>"/>
             <?php
         } else {

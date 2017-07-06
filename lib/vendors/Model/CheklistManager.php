@@ -69,4 +69,10 @@ abstract class CheklistManager extends Manager
      */
     abstract public function GetAll();
 
+    /**
+     * Méthode pour eviter les doublons
+     * @return boolean
+     */
+    abstract public function AlreadyIn(Checklist $item);
+
 }

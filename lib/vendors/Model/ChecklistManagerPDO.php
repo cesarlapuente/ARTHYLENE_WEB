@@ -76,6 +76,24 @@ class ChecklistManagerPDO extends CheklistManager
     }
 
     /**
+     * Méthode pour eviter les doublons
+     * @return boolean
+     */
+    public function AlreadyIn(Checklist $item)
+    {
+        $requette = $this->dao->prepare('SELECT * FROM checklist WHERE titre = :titre ');
+        $requette->execute(array(
+            'titre' => $item->getTitle()
+        ));
+
+        if ($requette->fetch()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Méthode permettant d'ajouter un item.
      * @return void
      */
