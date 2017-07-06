@@ -22,6 +22,7 @@ class ChecklistManagerPDO extends CheklistManager
      */
     public function getUnique($id)
     {
+        echo 'id = ' . $id;
         $requete = $this->dao->prepare('SELECT * FROM checklist WHERE id = :id');
         $requete->execute(array(
             'id' => $id
@@ -83,7 +84,7 @@ class ChecklistManagerPDO extends CheklistManager
     {
         $requette = $this->dao->prepare('SELECT * FROM checklist WHERE titre = :titre ');
         $requette->execute(array(
-            'titre' => $item->getTitle()
+            'titre' => $item->getTitre()
         ));
 
         if ($requette->fetch()) {
@@ -102,9 +103,9 @@ class ChecklistManagerPDO extends CheklistManager
         $requete = $this->dao->prepare('INSERT INTO checklist SET titre = :titre, contenu = :contenu,
         isImportant = :important, idPhoto = :photo');
         $requete->execute(array(
-            'titre' => $item->getTitle(),
-            'contenu' => $item->getContent(),
-            'important' => $item->getisImportant(),
+            'titre' => $item->getTitre(),
+            'contenu' => $item->getContenu(),
+            'important' => $item->getIsImportant(),
             'photo' => $item->getIdPhoto()
         ));
     }
@@ -117,12 +118,13 @@ class ChecklistManagerPDO extends CheklistManager
     protected function modify(Checklist $item, Photo $photo)
     {
         $requete = $this->dao->prepare('UPDATE checklist SET titre = :titre, contenu = :contenu,
-        isImportant = :important, idPhoto = :photo');
+        isImportant = :important, idPhoto = :photo WHERE id = :id');
         $requete->execute(array(
-            'titre' => $item->getTitle(),
-            'contenu' => $item->getContent(),
+            'titre' => $item->getTitre(),
+            'contenu' => $item->getContenu(),
             'important' => $item->getisImportant(),
-            'photo' => $item->getIdPhoto()
+            'photo' => $item->getIdPhoto(),
+            'id' => $item->getId()
         ));
     }
 }

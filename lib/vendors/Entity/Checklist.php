@@ -20,8 +20,8 @@ class Checklist extends Entity
     const CONTENT_INVALIDE = 2;
 
     protected $id;
-    protected $title;
-    protected $content;
+    protected $titre;
+    protected $contenu;
     protected $isImportant;
     protected $idPhoto;
 
@@ -54,48 +54,48 @@ class Checklist extends Entity
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getTitre()
     {
-        return $this->title;
+        return $this->titre;
     }
 
     /**
-     * @param mixed $title
+     * @param mixed $titre
      */
-    public function setTitle($title)
+    public function setTitre($titre)
     {
-        if (empty($title)) {
+        if (empty($titre)) {
             $this->erreurs[] = self::TITLE_EMPTY;
         }
-        if (!is_string($title)) {
+        if (!is_string($titre)) {
             $this->erreurs[] = self::TITLE_INVALIDE;
         }
-        $this->title = $title;
+        $this->titre = $titre;
     }
 
     /**
      * @return mixed
      */
-    public function getContent()
+    public function getContenu()
     {
-        return $this->content;
+        return $this->contenu;
     }
 
     /**
-     * @param mixed $content
+     * @param mixed $contenu
      */
-    public function setContent($content)
+    public function setContenu($contenu)
     {
-        if (!empty($content) && !is_string($content)) {
+        if (!empty($contenu) && !is_string($contenu)) {
             $this->erreurs[] = self::CONTENT_INVALIDE;
         }
-        $this->content = $content;
+        $this->contenu = $contenu;
     }
 
     /**
      * @return mixed
      */
-    public function getisImportant()
+    public function getIsImportant()
     {
         return $this->isImportant;
     }

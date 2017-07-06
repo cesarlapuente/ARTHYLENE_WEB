@@ -20,15 +20,13 @@ class ChecklistController extends BackController
         if ($request->postExists('titre')) {
             $this->processForm($request);
         }
-        $this->page->addVar('title', 'Ajout d\'une etiquette');
-        $this->page->addVar('insert', 1);
     }
 
     public function processForm(HTTPRequest $request)
     {
         $item = new Checklist([
-            'title' => $request->postData('titre'),
-            'content' => $request->postData('contenu'),
+            'titre' => $request->postData('titre'),
+            'contenu' => $request->postData('contenu'),
             'isImportant' => ($request->postData('important')) ? 1 : 0
         ]);
         $photo = new Photo([
@@ -39,7 +37,7 @@ class ChecklistController extends BackController
 
         if ($request->postExists('id')) {
             $item->setId($request->postData('id'));
-            if ($item->getTitle() == $request->postData('lastTitle')) {
+            if ($item->getTitre() == $request->postData('lastTitle')) {
                 $alreadyIn = false;
             }
         }
@@ -52,6 +50,15 @@ class ChecklistController extends BackController
             $this->app->httpResponse()->redirect('/admin/');
         }
         $this->page->addVar('erreurs', $item->erreurs());
+        $this->page->addVar('item', $item);
+    }
+
+    public function executeUpdate(HTTPRequest $request)
+    {
+        if ($request->postExists('titre')) {
+            $this->processForm($request);
+        }
+        $item = $this->managers->getManagerOf('Checklist')->getUnique($request->getData('id'));
         $this->page->addVar('item', $item);
     }
 }

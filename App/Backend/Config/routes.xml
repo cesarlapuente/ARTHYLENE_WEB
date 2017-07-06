@@ -21,4 +21,5 @@
     <route url="/admin/label\.html" module="Etiquette" action="index"/>
     <route url="/admin/signOut\.html" module="Deconnexion" action="index"/>
     <route url="/admin/checklist-insert\.html" module="Checklist" action="insert"/>
+    <route url="/admin/checklist-update-([0-9]+)\.html" module="Checklist" action="update" vars="id"/>
 </routes>

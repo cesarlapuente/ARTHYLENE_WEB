@@ -6,14 +6,14 @@
             </strong></span>
         <label>
             Titre <br/>
-            <input type="text" name="titre" value="<?= isset($item) ? $item->getTitle() : '' ?>"/>
+            <input type="text" name="titre" value="<?= isset($item) ? $item->getTitre() : '' ?>"/>
         </label>
 
         <span style="color: red">
         <?= isset($erreur) && in_array(\Entity\Checklist::CONTENT_INVALIDE, $erreur) ? 'Valeur incorrecte.<br />' : '' ?>
         </span>
         <label>Contenu<br/>
-            <input type="text" name="contenu" value="<?= isset($item) ? $item->getContent() : '' ?>"/>
+            <input type="text" name="contenu" value="<?= isset($item) ? $item->getContenu() : '' ?>"/>
         </label><br/>
 
         <label>
@@ -32,8 +32,9 @@
         if (isset($item) && !$item->isNew()) {
             //$produit->setIdProduit(1);
             ?>
-            <input type="hidden" name="lastTitle" value="<?= isset($item) ? $item->getTitle() : '' ?>"/>
+            <input type="hidden" name="lastTitle" value="<?= isset($item) ? $item->getTitre() : '' ?>"/>
             <input type="hidden" name="id" value="<?= isset($item) ? $item->getId() : '' ?>"/>
+            <input type="submit" value="Modifier" name="modifier"/>
             <?php
         } else {
             ?>
