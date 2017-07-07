@@ -50,6 +50,17 @@ class ChecklistController extends BackController
             'photo' => ''
         ]);
 
+        if ($_FILES['photo']['error'] > 0) {
+            echo "erreur";
+        }
+
+        $res = move_uploaded_file($_FILES['photo']['tmp_name'], '\wamp64\www\Arthylene3\Picture\test.png');
+        if ($res) {
+            echo "réussi";
+        } else {
+            echo "echec";
+        }
+
         $alreadyIn = $this->managers->getManagerOf('Checklist')->alreadyIn($item);
 
         if ($request->postExists('id')) {
@@ -64,7 +75,7 @@ class ChecklistController extends BackController
         } else if ($item->isValid() && !$alreadyIn) {
             $this->managers->getManagerOf('Checklist')->save($item, $photo);
             $this->app->getUser()->setFlash($item->isNew() ? 'L\'item a bien été ajouté !' : 'L\'item a bien été modifié !');
-            $this->app->httpResponse()->redirect('/admin/checklist.html');
+            //$this->app->httpResponse()->redirect('/admin/checklist.html');
         }
         $this->page->addVar('erreurs', $item->erreurs());
         $this->page->addVar('item', $item);

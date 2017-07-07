@@ -1,4 +1,4 @@
-<form action="" method="post" xmlns="http://www.w3.org/1999/html">
+<form enctype="multipart/form-data" action="" method="post" xmlns="http://www.w3.org/1999/html">
     <p>
         <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Checklist::TITLE_EMPTY, $erreurs) ? 'Veuillez remplir le champ.<br />' : '' ?>
@@ -25,6 +25,7 @@
 
         <label>
             Photo de cette etape<br/>
+            <input type="hidden" name="MAX_FILE_SIZE" value="100000">
             <input type="file" name="photo"/>
         </label><br/>
 
