@@ -28,7 +28,10 @@ class ChecklistController extends BackController
     public function executeShow(HTTPRequest $request)
     {
         $item = $this->managers->getManagerOf('Checklist')->getUnique($request->getData('id'));
+        $photo = $this->managers->getManagerOf('Photo')->getUnique($item->getIdPhoto());
         $this->page->addVar('item', $item);
+        echo $photo->getPhoto();
+        $this->page->addVar('photo', $photo);
 
     }
 
@@ -46,15 +49,22 @@ class ChecklistController extends BackController
             'contenu' => $request->postData('contenu'),
             'isImportant' => ($request->postData('important')) ? 1 : 0
         ]);
+        $extUp = strtolower(substr(strrchr($_FILES['photo']['name'], '.'), 1));
+        $name = dirname(getcwd()) . '/Picture/' . uniqid(rand(), true) . '.' . $extUp;
         $photo = new Photo([
-            'photo' => ''
+            'photo' => $name
         ]);
 
         if ($_FILES['photo']['error'] > 0) {
-            echo "erreur";
+            $photo->setErreur(Photo::INVALIDE);
         }
 
-        $res = move_uploaded_file($_FILES['photo']['tmp_name'], '\wamp64\www\Arthylene3\Picture\test.png');
+        if (in_array($extUp, Photo::EXTENSIONS)) {
+            $photo->setErreur(Photo::FORMAT);
+        }
+
+
+        $res = move_uploaded_file($_FILES['photo']['tmp_name'], $name);
         if ($res) {
             echo "réussi";
         } else {
@@ -72,10 +82,10 @@ class ChecklistController extends BackController
 
         if ($alreadyIn) {
             $this->app->getUser()->setFlash('<span style="color: red"><strong>Cet item existe déja !</strong></span>');
-        } else if ($item->isValid() && !$alreadyIn) {
+        } else if ($item->isValid() && !$alreadyIn && $photo->isValid()) {
             $this->managers->getManagerOf('Checklist')->save($item, $photo);
             $this->app->getUser()->setFlash($item->isNew() ? 'L\'item a bien été ajouté !' : 'L\'item a bien été modifié !');
-            //$this->app->httpResponse()->redirect('/admin/checklist.html');
+            $this->app->httpResponse()->redirect('/admin/checklist.html');
         }
         $this->page->addVar('erreurs', $item->erreurs());
         $this->page->addVar('item', $item);
@@ -92,7 +102,13 @@ class ChecklistController extends BackController
 
     public function executeDelete(HTTPRequest $request)
     {
+        $item = $this->managers->getManagerOf('Checklist')->getUnique($request->getData('id'));
+        $photo = $this->managers->getManagerOf('Photo')->getUnique($item->getIdPhoto());
+        echo $photo->getIdPhoto();
         $this->managers->getManagerOf('Checklist')->delete($request->getData('id'));
+        $this->managers->getManagerOf('Photo')->delete($photo->getIdPhoto());
+        unlink($photo->getPhoto());
+
         $this->app->getUser()->setFlash('L\'item a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('/admin/checklist.html');

@@ -23,7 +23,6 @@ class ChecklistManagerPDO extends CheklistManager
      */
     public function getUnique($id)
     {
-        echo 'id = ' . $id;
         $requete = $this->dao->prepare('SELECT * FROM checklist WHERE id = :id');
         $requete->execute(array(
             'id' => $id
@@ -110,13 +109,17 @@ class ChecklistManagerPDO extends CheklistManager
      */
     protected function add(Checklist $item, Photo $photo)
     {
+        $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo');
+        $resPhoto->execute(array(
+            'photo' => $photo->getPhoto()
+        ));
         $requete = $this->dao->prepare('INSERT INTO checklist SET titre = :titre, contenu = :contenu,
         isImportant = :important, idPhoto = :photo');
         $requete->execute(array(
             'titre' => $item->getTitre(),
             'contenu' => $item->getContenu(),
             'important' => $item->getIsImportant(),
-            'photo' => $item->getIdPhoto()
+            'photo' => $this->dao->lastInsertId()
         ));
     }
 

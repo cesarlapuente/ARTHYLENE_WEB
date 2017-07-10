@@ -13,8 +13,19 @@ use ArthyleneFramework\Entity;
 
 class Photo extends Entity
 {
+
+    const EXTENSIONS = array('jpg', 'jpeg', 'png');
+    const INVALIDE = 0;
+    const SIZE = 1;
+    const FORMAT = 2;
+
     protected $idPhoto;
     protected $photo;
+
+    public function isValid()
+    {
+        return (empty($this->erreurs));
+    }
 
     /**
      * @return mixed
@@ -46,6 +57,11 @@ class Photo extends Entity
     public function setPhoto($photo)
     {
         $this->photo = $photo;
+    }
+
+    public function setErreur($erreur)
+    {
+        $this->erreur[] = $erreur;
     }
 
 }

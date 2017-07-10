@@ -20,3 +20,8 @@
     <?= $item->getContenu(); ?>
 </div>
 </p>
+
+<p>
+<h4>Photo</h4>
+<img src="/Picture/Pluto2.png" border="0">
+</p>
