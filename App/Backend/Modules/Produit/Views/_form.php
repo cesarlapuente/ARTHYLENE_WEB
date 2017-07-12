@@ -70,7 +70,8 @@
                 <td NOWRAP>
                     <a href="maturite-show-<?= $prod->getIdMaturite() ?>.html">Afficher</a>
                     <a href="maturite-update-<?= $prod->getIdMaturite() ?>.html">Modifier</a>
-                    <a href="maturite-delete-<?= $prod->getIdMaturite() ?>.html">Supprimer</a>
+                    <a href="maturite-delete-<?= $prod->getIdMaturite() ?>.html"
+                       onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
                 </td>
             </tr>
             <?php
@@ -112,7 +113,8 @@
                     <td NOWRAP>
                         <a href="etat-show-<?= $prod->getIdEtat() ?>.html">Afficher</a>
                         <a href="etat-update-<?= $prod->getIdEtat() ?>.html">Modifier</a>
-                        <a href="etat-delete-<?= $prod->getIdEtat() ?>.html">Supprimer</a>
+                        <a href="etat-delete-<?= $prod->getIdEtat() ?>.html"
+                           onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
                     </td>
                 </tr>
                 <?php
