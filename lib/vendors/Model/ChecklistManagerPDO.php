@@ -109,9 +109,10 @@ class ChecklistManagerPDO extends CheklistManager
      */
     protected function add(Checklist $item, Photo $photo)
     {
-        $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo');
+        $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin');
         $resPhoto->execute(array(
-            'photo' => $photo->getPhoto()
+            'photo' => $photo->getPhoto(),
+            'chemin' => $photo->getChemin()
         ));
         $requete = $this->dao->prepare('INSERT INTO checklist SET titre = :titre, contenu = :contenu,
         isImportant = :important, idPhoto = :photo');

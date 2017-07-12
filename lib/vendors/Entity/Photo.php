@@ -18,9 +18,27 @@ class Photo extends Entity
     const INVALIDE = 0;
     const SIZE = 1;
     const FORMAT = 2;
+    const PICTURE_EMPTY = 3;
 
     protected $idPhoto;
     protected $photo;
+    protected $chemin;
+
+    /**
+     * @return mixed
+     */
+    public function getChemin()
+    {
+        return $this->chemin;
+    }
+
+    /**
+     * @param mixed $chemin
+     */
+    public function setChemin($chemin)
+    {
+        $this->chemin = $chemin;
+    }
 
     public function isValid()
     {

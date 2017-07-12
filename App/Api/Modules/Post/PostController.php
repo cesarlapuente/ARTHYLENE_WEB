@@ -50,4 +50,10 @@ class PostController extends BackController
         $this->page()->addVar('json', json_encode($all));
     }
 
+    public function executePicture(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Photo')->getAll();
+        $this->page()->addVar('json', json_encode($all));
+    }
+
 }

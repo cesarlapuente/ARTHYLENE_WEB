@@ -23,5 +23,5 @@
 
 <p>
 <h4>Photo</h4>
-<img src="/Picture/Pluto2.png" border="0">
+<img src="<?= $photo->getPhoto() ?>" border="0">
 </p>

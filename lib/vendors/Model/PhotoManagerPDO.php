@@ -47,7 +47,7 @@ class PhotoManagerPDO extends PhotoManager
      * Methode for api
      * @return mixed
      */
-    public function GetAll()
+    public function getAll()
     {
         $requete = $this->dao->query('SELECT * FROM photo');
         if ($items = $requete->fetchAll(PDO::FETCH_ASSOC)) {
@@ -76,7 +76,7 @@ class PhotoManagerPDO extends PhotoManager
      */
     protected function modify(Photo $photo)
     {
-        $requete = $this->dao->prepare('UPDATE photo SET iphoto = :photo WHERE idPhoto = =:id');
+        $requete = $this->dao->prepare('UPDATE photo SET photo = :photo WHERE idPhoto = =:id');
         $requete->execute(array(
             'photo' => $photo->getPhoto(),
             'id' => $photo->getIdPhoto()

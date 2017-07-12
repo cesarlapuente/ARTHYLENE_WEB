@@ -6,4 +6,5 @@
     <route url="/api/state" module="Post" action="state"/>
     <route url="/api/label" module="Post" action="label"/>
     <route url="/api/checklist" module="Post" action="checklist"/>
+    <route url="/api/picture" module="Post" action="picture"/>
 </routes>

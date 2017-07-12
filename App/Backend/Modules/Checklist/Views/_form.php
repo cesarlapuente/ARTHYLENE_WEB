@@ -25,8 +25,9 @@
 
         <label>
             Photo de cette etape<br/>
-            <input type="hidden" name="MAX_FILE_SIZE" value="100000">
-            <input type="file" name="photo"/>
+            <?= isset($photo) ? '<img src=' . $photo->getPhoto() . ' border="0"><br/>' : '' ?>
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576">
+            <input type="file" name="photo" value="<?= isset($photo) ? $photo->getPhoto() : '' ?>"/>
         </label><br/>
 
         <?php
@@ -35,6 +36,7 @@
             ?>
             <input type="hidden" name="lastTitle" value="<?= isset($item) ? $item->getTitre() : '' ?>"/>
             <input type="hidden" name="id" value="<?= isset($item) ? $item->getId() : '' ?>"/>
+            <input type="hidden" name="idPhoto" value="<?= isset($photo) ? $photo->getIdPhoto() : '' ?>"/>
             <input type="submit" value="Modifier" name="modifier"/>
             <?php
         } else {
