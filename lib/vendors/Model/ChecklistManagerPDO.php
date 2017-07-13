@@ -109,18 +109,27 @@ class ChecklistManagerPDO extends CheklistManager
      */
     protected function add(Checklist $item, Photo $photo)
     {
-        $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin');
-        $resPhoto->execute(array(
-            'photo' => $photo->getPhoto(),
-            'chemin' => $photo->getChemin()
-        ));
+        $idPhoto = -1;
+        if (!$photo->isEmpty()) {
+            $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin,
+        namePhoto = :namep, typePhoto = :typep, sizePhoto = :sizep');
+            $resPhoto->execute(array(
+                'photo' => $photo->getPhoto(),
+                'chemin' => $photo->getChemin(),
+                'namep' => $photo->getName(),
+                'typep' => $photo->getType(),
+                'sizep' => $photo->getSize()
+            ));
+            $idPhoto = $this->dao->lastInsertId();
+        }
+
         $requete = $this->dao->prepare('INSERT INTO checklist SET titre = :titre, contenu = :contenu,
         isImportant = :important, idPhoto = :photo');
         $requete->execute(array(
             'titre' => $item->getTitre(),
             'contenu' => $item->getContenu(),
             'important' => $item->getIsImportant(),
-            'photo' => $this->dao->lastInsertId()
+            'photo' => $idPhoto
         ));
     }
 
@@ -131,13 +140,44 @@ class ChecklistManagerPDO extends CheklistManager
      */
     protected function modify(Checklist $item, Photo $photo)
     {
+        $idPhoto = $item->getIdPhoto();
+        if (!$photo->isEmpty()) {
+            $requette = $this->dao->prepare('SELECT * FROM photo WHERE idPhoto = :id ');
+            $requette->execute(array(
+                'id' => $photo->getIdPhoto()
+            ));
+
+            if ($requette->fetch()) {
+                $resPhoto = $this->dao->prepare('UPDATE photo SET photo = :photo, chemin = :chemin,
+                namePhoto = :namep, typePhoto = :typep, sizePhoto = :sizep WHERE idPhoto = :id');
+                $resPhoto->execute(array(
+                    'photo' => $photo->getPhoto(),
+                    'chemin' => $photo->getChemin(),
+                    'namep' => $photo->getName(),
+                    'typep' => $photo->getType(),
+                    'sizep' => $photo->getSize(),
+                    'id' => $photo->getIdPhoto()
+                ));
+            } else {
+                $resPhoto = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin,
+                namePhoto = :namep, typePhoto = :typep, sizePhoto = :sizep');
+                $resPhoto->execute(array(
+                    'photo' => $photo->getPhoto(),
+                    'chemin' => $photo->getChemin(),
+                    'namep' => $photo->getName(),
+                    'typep' => $photo->getType(),
+                    'sizep' => $photo->getSize()
+                ));
+                $idPhoto = $this->dao->lastInsertId();
+            }
+        }
         $requete = $this->dao->prepare('UPDATE checklist SET titre = :titre, contenu = :contenu,
         isImportant = :important, idPhoto = :photo WHERE id = :id');
         $requete->execute(array(
             'titre' => $item->getTitre(),
             'contenu' => $item->getContenu(),
             'important' => $item->getisImportant(),
-            'photo' => $item->getIdPhoto(),
+            'photo' => $idPhoto,
             'id' => $item->getId()
         ));
     }

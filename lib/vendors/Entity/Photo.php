@@ -23,6 +23,9 @@ class Photo extends Entity
     protected $idPhoto;
     protected $photo;
     protected $chemin;
+    protected $name;
+    protected $type;
+    protected $size;
 
     /**
      * @return mixed
@@ -59,6 +62,65 @@ class Photo extends Entity
     public function setIdPhoto($idPhoto)
     {
         $this->idPhoto = $idPhoto;
+    }
+
+    public function equals(Photo $photo)
+    {
+        return $photo->getName() == $this->getName() && $photo->getType() == $this->getType()
+            && $photo->getSize() == $this->getSize();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param mixed $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    public function isEmpty()
+    {
+        return empty($this->getPhoto());
     }
 
     /**

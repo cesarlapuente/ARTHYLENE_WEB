@@ -23,5 +23,5 @@
 
 <p>
 <h4>Photo</h4>
-<img src="<?= $photo->getPhoto() ?>" border="0">
+<?= isset($photo) ? '<img src="' . $photo->getPhoto() . '" border="0">' : 'Pas de photo' ?>
 </p>

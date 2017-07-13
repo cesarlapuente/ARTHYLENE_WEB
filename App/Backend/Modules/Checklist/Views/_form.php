@@ -36,7 +36,7 @@
             ?>
             <input type="hidden" name="lastTitle" value="<?= isset($item) ? $item->getTitre() : '' ?>"/>
             <input type="hidden" name="id" value="<?= isset($item) ? $item->getId() : '' ?>"/>
-            <input type="hidden" name="idPhoto" value="<?= isset($photo) ? $photo->getIdPhoto() : '' ?>"/>
+            <input type="hidden" name="idPhoto" value="<?= isset($item) ? $item->getIdPhoto() : '' ?>"/>
             <input type="submit" value="Modifier" name="modifier"/>
             <?php
         } else {
