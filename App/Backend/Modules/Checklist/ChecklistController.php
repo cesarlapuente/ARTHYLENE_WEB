@@ -68,7 +68,7 @@ class ChecklistController extends BackController
         $photo = new Photo();
 
         if (!$empty) {
-            $extUp = strtolower(substr(strrchr($_FILES['photo']['name'], '.'), 1));
+            $extUp = $this->getExtension();
             $name = '/Picture/' . uniqid(rand(), true) . '.' . $extUp;
             $dir = dirname(getcwd()) . "/Web" . $name;
             $photo = new Photo([
@@ -109,7 +109,8 @@ class ChecklistController extends BackController
                 if ($request->postExists('idPhoto') && $request->postData('idPhoto') != -1) {
                     unlink($lastPicture->getChemin());
                 }
-                $photoValide = move_uploaded_file($_FILES['photo']['tmp_name'], $dir);
+                //$photoValide = move_uploaded_file($_FILES['photo']['tmp_name'], $dir);
+                $this->resizePicture($dir, $photo);
             }
             if ($photoValide) {
                 $this->managers->getManagerOf('Checklist')->save($item, $photo);
@@ -119,6 +120,49 @@ class ChecklistController extends BackController
         }
         $this->page->addVar('erreurs', $item->erreurs());
         $this->page->addVar('item', $item);
+    }
+
+    private function getExtension()
+    {
+        $taille = getimagesize($_FILES['photo']['tmp_name']);
+        switch ($taille['mime']) {
+            case 'image/png':
+                return 'png';
+            default:
+                return 'jpg';
+        }
+    }
+
+    private function resizePicture($dir, Photo $photo)
+    {
+
+
+        $taille = getimagesize($_FILES['photo']['tmp_name']);
+        $nouvelleLargeur = 150;
+
+        $reduction = (($nouvelleLargeur * 100) / $taille[0]);
+
+        $nouvelleHauteur = (($taille[1] * $reduction) / 100);
+
+        $nouvelleImage = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur) or die("erreur");
+
+        switch ($taille['mime']) {
+            case 'image/png':
+                $image = imagecreatefrompng($_FILES['photo']['tmp_name']);
+                imagecopyresampled($nouvelleImage, $image, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $taille[0], $taille[1]);
+                imagedestroy($image);
+                imagepng($nouvelleImage, $dir, 0);
+                break;
+            case 'image/jpg':
+                $image = imagecreatefromjpeg($_FILES['photo']['tmp_name']);
+                imagecopyresampled($nouvelleImage, $image, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $taille[0], $taille[1]);
+                imagedestroy($image);
+                imagejpeg($nouvelleImage, $dir, 100);
+                break;
+            default :
+                $photo->setErreur(Photo::INVALIDE);
+                break;
+        }
     }
 
     public function executeUpdate(HTTPRequest $request)
