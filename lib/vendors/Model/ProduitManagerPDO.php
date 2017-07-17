@@ -22,7 +22,7 @@ class ProduitManagerPDO extends ProduitManager
      */
     public function getList()
     {
-        $sql = 'SELECT DISTINCT nomProduit, varieteProduit FROM produit';
+        $sql = 'SELECT DISTINCT nomProduit, varieteProduit FROM produit ORDER BY nomProduit, varieteProduit';
 
         $requete = $this->dao->query($sql);
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');
