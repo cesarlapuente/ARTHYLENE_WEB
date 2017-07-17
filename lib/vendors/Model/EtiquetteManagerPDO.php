@@ -50,7 +50,7 @@ class EtiquetteManagerPDO extends EtiquetteManager
      */
     public function getList()
     {
-        $sql = 'SELECT * FROM etiquette';
+        $sql = 'SELECT * FROM etiquette ORDER BY nomProduit, varieteProduit';
 
         $requete = $this->dao->query($sql);
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\etiquette');
