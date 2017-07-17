@@ -50,7 +50,7 @@ class ChecklistManagerPDO extends CheklistManager
      */
     public function GetAll()
     {
-        $requete = $this->dao->query('SELECT * FROM checklist');
+        $requete = $this->dao->query('SELECT * FROM checklist ORDER BY titre');
         if ($items = $requete->fetchAll(PDO::FETCH_ASSOC)) {
             return $items;
         }
@@ -64,7 +64,7 @@ class ChecklistManagerPDO extends CheklistManager
      */
     public function getList()
     {
-        $sql = 'SELECT * FROM checklist';
+        $sql = 'SELECT * FROM checklist ORDER BY titre';
 
         $requete = $this->dao->query($sql);
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Checklist');
