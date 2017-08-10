@@ -9,7 +9,7 @@ use Entity\Photo;
 
 /**
  * Created by PhpStorm.
- * User: Thibault
+ * User: Thibault Nougues
  * Date: 05/07/2017
  * Time: 16:41
  */
