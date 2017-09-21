@@ -37,8 +37,18 @@ class ProduitController extends BackController
 
         $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
+        $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
+        $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
+        $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
+        $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
+
         $this->page->addVar('title', $produit->getNomProduit());
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        $this->page->addVar('beneficeSante', $beneficeSante);
+        $this->page->addVar('caracteristique', $caracteristique);
+        $this->page->addVar('conseil', $conseil);
+        $this->page->addVar('marketing', $marketing);
     }
 }
