@@ -112,11 +112,11 @@ class BeneficeSanteController extends BackController
         if ($request->postExists('benefice1')) {
             $this->processForm($request);
         }
-        $maturite = $this->managers->getManagerOf('BeneficeSante')->getUnique($request->getData('id'));
+        $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($beneficeSante->getIdProduit());
 
         $this->page->addVar('title', 'Mise à jour d\'une fiche de maturité');
-        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('produit', $produit);
 
         $this->page->addVar('sousTitre', preg_replace('#[_]+#', ' ', $request->getData('produit')) . " " . preg_replace('#[_]+#', ' ', $request->getData('variete')) . ' : Ajout d\'une fiche de bénéfice sur la santé');
@@ -129,11 +129,11 @@ class BeneficeSanteController extends BackController
      */
     public function executeDelete(HTTPRequest $request)
     {
-        $maturite = $this->managers->getManagerOf('BeneficeSante')->getUnique($request->getData('id'));
+        $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($beneficeSante->getIdProduit());
 
-        $this->managers->getManagerOf('BeneficeSante')->delete($request->getData('id'));
-        $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
+        $this->managers->getManagerOf('BeneficeSante')->deleteUnique($request->getData('id'));
+        // $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");

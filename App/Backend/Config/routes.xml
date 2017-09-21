@@ -25,9 +25,13 @@
     <route url="/admin/checklist-update-([0-9]+)\.html" module="Checklist" action="update" vars="id"/>
     <route url="/admin/checklist-delete-([0-9]+)\.html" module="Checklist" action="delete" vars="id"/>
     <route url="/admin/checklist-show-([0-9]+)\.html" module="Checklist" action="show" vars="id"/>
-    <route url="/admin/caracteristique-insert-(.+)-(.+)\.html" module="Caracteristique" action="insert" vars="produit,variete"/>
-    <route url="/admin/conseil-insert-(.+)-(.+)\.html" module="Conseil" action="insert" vars="produit,variete"/>
-    <route url="/admin/beneficeSante-insert-(.+)-(.+)\.html" module="BeneficeSante" action="insert" vars="produit,variete"/>
-    <route url="/admin/marketing-insert-(.+)-(.+)\.html" module="Marketing" action="insert" vars="produit,variete"/>
 
+    <route url="/admin/caracteristique-insert-(.+)-(.+)\.html" module="Caracteristique" action="insert" vars="produit,variete"/>
+    <route url="/admin/caracteristique-delete-([0-9]+)\.html" module="Caracteristique" action="delete" vars="id"/>
+    <route url="/admin/conseil-insert-(.+)-(.+)\.html" module="Conseil" action="insert" vars="produit,variete"/>
+    <route url="/admin/conseil-delete-([0-9]+)\.html" module="Conseil" action="delete" vars="id"/>
+    <route url="/admin/beneficeSante-insert-(.+)-(.+)\.html" module="BeneficeSante" action="insert" vars="produit,variete"/>
+    <route url="/admin/beneficeSante-delete-([0-9]+)\.html" module="BeneficeSante" action="delete" vars="id"/>
+    <route url="/admin/marketing-insert-(.+)-(.+)\.html" module="Marketing" action="insert" vars="produit,variete"/>
+    <route url="/admin/marketing-delete-([0-9]+)\.html" module="Marketing" action="delete" vars="id"/>
 </routes>

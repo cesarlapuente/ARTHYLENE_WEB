@@ -120,11 +120,11 @@ class MarketingController extends BackController
      */
     public function executeDelete(HTTPRequest $request)
     {
-        $maturite = $this->managers->getManagerOf('Marketing')->getUnique($request->getData('id'));
+        $marketing = $this->managers->getManagerOf('Marketing')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($marketing->getIdProduit());
 
-        $this->managers->getManagerOf('Marketing')->delete($request->getData('id'));
-        $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
+        $this->managers->getManagerOf('Marketing')->deleteUnique($request->getData('id'));
+        // $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");

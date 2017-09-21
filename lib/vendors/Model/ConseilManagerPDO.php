@@ -42,6 +42,11 @@ class ConseilManagerPDO extends ConseilManager
         $requete->execute(array(
             'id' => $id
         ));
+
+        $requete = $this->dao->prepare('UPDATE produit SET idConseil = null WHERE idConseil = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
     }
 
     protected function add(Conseil $conseil)

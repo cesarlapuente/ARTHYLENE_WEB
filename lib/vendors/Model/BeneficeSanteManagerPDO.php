@@ -42,6 +42,11 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
         $requete->execute(array(
             'id' => $id
         ));
+
+        $requete = $this->dao->prepare('UPDATE produit SET idBeneficeSante = null WHERE idBeneficeSante = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
     }
 
     protected function add(BeneficeSante $beneficeSante)

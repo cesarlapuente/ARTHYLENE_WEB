@@ -7,7 +7,7 @@ use ArthyleneFramework\Entity;
 
 class BeneficeSante extends Entity
 {
-    protected $idbeneficeSante;
+    protected $idBeneficeSante;
     protected $idProduit;
     protected $benefice1;
     protected $benefice2;
@@ -20,7 +20,7 @@ class BeneficeSante extends Entity
 
     public function isValid()
     {
-        return !(empty($this->idbeneficeSante));
+        return !(empty($this->idBeneficeSante));
     }
 
     public function getIdProduit()
@@ -38,15 +38,15 @@ class BeneficeSante extends Entity
      */
     public function getIdBeneficeSante()
     {
-        return $this->idbeneficeSante;
+        return $this->idBeneficeSante;
     }
 
     /**
-     * @param mixed $idbeneficeSante
+     * @param mixed $idBeneficeSante
      */
-    public function setIdBeneficeSante($idbeneficeSante)
+    public function setIdBeneficeSante($idBeneficeSante)
     {
-        $this->idbeneficeSante = $idbeneficeSante;
+        $this->idBeneficeSante = $idBeneficeSante;
     }
 
     /**

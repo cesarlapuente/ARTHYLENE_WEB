@@ -81,47 +81,46 @@ class ProduitController extends BackController
         ]);
 
         $beneficeSante = new BeneficeSante([
-            'idBeneficeSante' => '',
-            'idProduit' => '',
-            'benefice1' => '',
-            'benefice2' => '',
-            'benefice3' => '',
-            'benefice4' => '',
-            'benefice5' => '',
-            'benefice6' => ''
+            'idBeneficeSante' => intval($request->postData('idBeneficeSante')),
+            'idProduit' => $request->postData('idProduit'),
+            'benefice1' => $request->postData('benefice1'),
+            'benefice2' => $request->postData('benefice2'),
+            'benefice3' => $request->postData('benefice3'),
+            'benefice4' => $request->postData('benefice4'),
+            'benefice5' => $request->postData('benefice5'),
+            'benefice6' => $request->postData('benefice6')
         ]);
 
         $caracteristique = new Caracteristique([
-            'idCaracteristique' => '',
-            'idProduit' => '',
-            'famille' => '',
-            'espece' => '',
-            'origine' => '',
-            'forme' => '',
-            'taillePoids' => '',
-            'couleurTexture' => '',
-            'saveur' => '',
-            'principauxProducteurs' => ''
+            'idCaracteristique' => intval($request->postData('idCaracteristique')),
+            'idProduit' => $request->postData('idProduit'),
+            'famille' => $request->postData('famille'),
+            'espece' => $request->postData('espece'),
+            'origine' => $request->postData('origine'),
+            'forme' => $request->postData('forme'),
+            'taillePoids' => $request->postData('tailleEtPoids'),
+            'couleurTexture' => $request->postData('couleurEtTexture'),
+            'saveur' => $request->postData('saveur'),
+            'principauxProducteurs' => $request->postData('principauxProducteur')
         ]);
 
         $conseil = new Conseil([
-            'idConseil' => '',
-            'idProduit' => '',
-            'conseil1' => '',
-            'conseil2' => '',
-            'conseil3' => '',
-            'conseil4' => '',
-            'conseil5' => '',
-            'conseil6' => ''
+            'idConseil' => intval($request->postData('idConseil')),
+            'idProduit' => $request->postData('idProduit'),
+            'conseil1' =>  $request->postData('conseil1'),
+            'conseil2' => $request->postData('conseil2'),
+            'conseil3' => $request->postData('conseil3'),
+            'conseil4' => $request->postData('conseil4'),
+            'conseil5' => $request->postData('conseil5'),
+            'conseil6' => $request->postData('conseil6')
         ]);
 
         $marketing = new Marketing([
-            'idMarketing' => '',
-            'idProduit' => '',
-            'marketing1' => '',
-            'marketing2' => ''
+            'idMarketing' => intval($request->postData('idMarketing')),
+            'idProduit' => $request->postData('idProduit'),
+            'marketing1' => $request->postData('marketing1'),
+            'marketing2' => $request->postData('marketing2')
         ]);
-
 
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
@@ -156,12 +155,10 @@ class ProduitController extends BackController
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
 
-        //remplir cette variable, voir avec la partie haut-dessus
         $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('caracteristique', $caracteristique);
         $this->page->addVar('conseil', $conseil);
         $this->page->addVar('marketing', $marketing);
-
     }
 
     public function executeUpdate(HTTPRequest $request)
@@ -181,7 +178,6 @@ class ProduitController extends BackController
             $this->page->addVar('produit', $produit);
             $this->page->addVar('presentation', $presentation);
 
-            //ici aussi remplir les variables
             $this->page->addVar('beneficeSante', $beneficeSante);
             $this->page->addVar('caracteristique', $caracteristique);
             $this->page->addVar('conseil', $conseil);

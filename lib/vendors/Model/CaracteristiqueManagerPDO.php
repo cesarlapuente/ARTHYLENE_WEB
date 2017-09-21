@@ -42,6 +42,11 @@ class CaracteristiqueManagerPDO extends CaracteristiqueManager
         $requete->execute(array(
             'id' => $id
         ));
+
+        $requete = $this->dao->prepare('UPDATE produit SET idCaracteristique = null WHERE idCaracteristique = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
     }
 
     protected function add(Caracteristique $caracteristique)

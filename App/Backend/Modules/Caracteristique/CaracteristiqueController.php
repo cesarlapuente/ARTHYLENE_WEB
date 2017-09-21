@@ -132,11 +132,11 @@ class CaracteristiqueController extends BackController
      */
     public function executeDelete(HTTPRequest $request)
     {
-        $maturite = $this->managers->getManagerOf('Caracteristique')->getUnique($request->getData('id'));
+        $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($caracteristique->getIdProduit());
 
-        $this->managers->getManagerOf('Caracteristique')->delete($request->getData('id'));
-        $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
+        $this->managers->getManagerOf('Caracteristique')->deleteUnique($request->getData('id'));
+        // $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");

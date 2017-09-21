@@ -130,12 +130,15 @@
         <label>
             Caractéristiques
         </label>
-        <table>
             <?php
             if(isset($produit) && $produit->getListeCaracteristique() != null)
             {
-                foreach ($produit->getListeCaracteristique() as $caracteristique) {
+                $caracteristique = $produit->getListeCaracteristique();
+                $caracteristique = $caracteristique[0];
+
             ?>
+            <table>
+                <input type="hidden" name="idCaracteristique"value="<?= isset($caracteristique) ? $caracteristique->getIdCaracteristique() : '' ?>"/>
                 <tr>
                     <th>Famille</th>
                     <td><textarea name="famille" cols="30" style="resize: none"><?= isset($caracteristique) ? $caracteristique->getFamille() : '' ?></textarea></td>
@@ -168,9 +171,10 @@
                     <th>Principaux producteurs</th>
                     <td><textarea name="principauxProducteur" cols="30" style="resize: none"><?= isset($caracteristique) ? $caracteristique->getPrincipauxProducteurs() : '' ?></textarea></td>
                 </tr>
+            </table>
 
+                <a href="caracteristique-delete-<?= isset($caracteristique) ? $caracteristique->getIdCaracteristique() : '' ?>.html" onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
             <?php
-            }
         }
         else if(isset($produit))
         {
@@ -179,31 +183,33 @@
         <?php
         }
              ?>
-        </table>
 
         <label>
             Conseil de consommation
         </label>
-        <table>
+                <?php
+                if(isset($produit) && $produit->getListeConseil() != null)
+                {
+                    $conseil = $produit->getListeConseil();
+                    $conseil = $conseil[0];
+                ?>
+            <table>
+                <input type="hidden" name="idConseil"value="<?= isset($conseil) ? $conseil->getIdConseil() : '' ?>"/>
+                    <tr>
+                        <td><textarea name="conseil1" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil1() : '' ?></textarea></td>
+                        <td><textarea name="conseil2" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil2() : '' ?></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><textarea name="conseil3" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil3() : '' ?></textarea></td>
+                        <td><textarea name="conseil4" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil4() : '' ?></textarea></td>
+                    </tr>
+                    <tr>    
+                        <td><textarea name="conseil5" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil5() : '' ?></textarea></td>
+                        <td><textarea name="conseil6" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil6() : '' ?></textarea></td>
+                    </tr>  
+                </table>
+                <a href="conseil-delete-<?= isset($conseil) ? $conseil->getIdConseil() : '' ?>.html" onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
             <?php
-            if(isset($produit) && $produit->getListeConseil() != null)
-            {
-                foreach ($produit->getListeConseil() as $conseil) {
-            ?>
-                <tr>
-                    <td><textarea name="conseil1" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil1() : '' ?></textarea></td>
-                    <td><textarea name="conseil2" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil2() : '' ?></textarea></td>
-                </tr>
-                <tr>
-                    <td><textarea name="conseil3" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil3() : '' ?></textarea></td>
-                    <td><textarea name="conseil4" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil4() : '' ?></textarea></td>
-                </tr>
-                <tr>    
-                    <td><textarea name="conseil5" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil5() : '' ?></textarea></td>
-                    <td><textarea name="conseil6" cols="30" style="resize: none"><?= isset($conseil) ? $conseil->getConseil6() : '' ?></textarea></td>
-                </tr>      
-            <?php
-            }
         }
         else if (isset($produit))
         {
@@ -212,31 +218,34 @@
         <?php
         }
              ?>
-        </table>
+        
 
         <label>
             Bénéfice sur la santé
         </label>
-        <table>
             <?php
             if(isset($produit) && $produit->getListeBeneficeSante() != null)
             {
-                foreach ($produit->getListeBeneficeSante() as $beneficeSante) {
+                $beneficeSante = $produit->getListeBeneficeSante();
+                $beneficeSante = $beneficeSante[0];
             ?>
-                <tr>
-                    <td><textarea name="benefice1" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice1() : '' ?></textarea></td>
-                    <td><textarea name="benefice2" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice2() : '' ?></textarea></td>
-                </tr>
-                <tr>
-                    <td><textarea name="benefice3" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice3() : '' ?></textarea></td>
-                    <td><textarea name="benefice4" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice4() : '' ?></textarea></td>
-                </tr>
-                <tr>    
-                    <td><textarea name="benefice5" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice5() : '' ?></textarea></td>
-                    <td><textarea name="benefice6" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice6() : '' ?></textarea></td>
-                </tr>      
+            <table>
+                <input type="hidden" name="idBeneficeSante"value="<?= isset($beneficeSante) ? $beneficeSante->getIdBeneficeSante() : '' ?>"/>
+                    <tr>
+                        <td><textarea name="benefice1" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice1() : '' ?></textarea></td>
+                        <td><textarea name="benefice2" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice2() : '' ?></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><textarea name="benefice3" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice3() : '' ?></textarea></td>
+                        <td><textarea name="benefice4" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice4() : '' ?></textarea></td>
+                    </tr>
+                    <tr>    
+                        <td><textarea name="benefice5" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice5() : '' ?></textarea></td>
+                        <td><textarea name="benefice6" cols="30" style="resize: none"><?= isset($beneficeSante) ? $beneficeSante->getBenefice6() : '' ?></textarea></td>
+                    </tr>
+                </table>
+                <a href="beneficeSante-delete-<?= isset($beneficeSante) ? $beneficeSante->getIdBeneficeSante() : '' ?>.html" onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
             <?php
-            }
         }
         else if (isset($produit))
         {
@@ -245,23 +254,26 @@
         <?php
         }
              ?>
-        </table>
+        
 
         <label>
             Marketing
         </label>
-        <table>
             <?php
             if(isset($produit) && $produit->getListeMarketing() != null)
             {
-                foreach ($produit->getListeMarketing() as $marketing) {
+                $marketing = $produit->getListeMarketing();
+                $marketing = $marketing[0];
             ?>
+            <table>
+            <input type="hidden" name="idMarketing"value="<?= isset($marketing) ? $marketing->getIdMarketing() : '' ?>"/>
                 <tr>
                     <td><textarea name="marketing1" cols="30" style="resize: none"><?= isset($marketing) ? $marketing->getMarketing1() : '' ?></textarea></td>
                     <td><textarea name="marketing2" cols="30" style="resize: none"><?= isset($marketing) ? $marketing->getMarketing2() : '' ?></textarea></td>
-                </tr>   
+                </tr> 
+            </table>
+            <a href="marketing-delete-<?= isset($marketing) ? $marketing->getIdMarketing() : '' ?>.html" onclick="return confirm('Etes vous sûr de vouloir supprimer ?')">Supprimer</a>
             <?php
-            }
         }
         else if (isset($produit))
         {
@@ -270,7 +282,6 @@
         <?php
         }
              ?>
-        </table>
 
     </p>
 

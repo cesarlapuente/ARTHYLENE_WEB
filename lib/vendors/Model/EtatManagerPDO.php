@@ -92,6 +92,57 @@ class EtatManagerPDO extends EtatManager
             'id' => $this->dao->lastInsertId(),
             'idEtat' => $idEtat
         ));
+
+        //actualise les différentes fiches, peut être renplacé par un trigger
+        $requete = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit =:var');
+        $requete->execute(array(
+            'nom' => urldecode($produit->getNomProduit()),
+            'var' => urldecode($produit->getVarieteProduit())
+        ));
+
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');
+        foreach ($requete->fetchAll() as $produitNew) 
+        {
+            if ($produitNew->getIdCaracteristique() != NULL) 
+            {
+                $reqCaracteristique = $this->dao->prepare('UPDATE produit SET idCaracteristique =:idCaracteristique WHERE nomProduit = :nom AND varieteProduit =:var');
+                $reqCaracteristique->execute(array(
+                    'idCaracteristique' => $produitNew->getIdCaracteristique(),
+                    'nom' => urldecode($produit->getNomProduit()),
+                    'var' => urldecode($produit->getVarieteProduit())
+                ));
+            }
+
+            if ($produitNew->getIdBeneficeSante() != NULL) 
+            {
+                $reqBeneficeSante = $this->dao->prepare('UPDATE produit SET idBeneficeSante =:idBeneficeSante WHERE nomProduit = :nom AND varieteProduit =:var');
+                $reqBeneficeSante->execute(array(
+                    'idBeneficeSante' => $produitNew->getIdBeneficeSante(),
+                    'nom' => urldecode($produit->getNomProduit()),
+                    'var' => urldecode($produit->getVarieteProduit())
+                ));
+            }
+
+            if ($produitNew->getIdConseil() != NULL) 
+            {
+                $reqConseil = $this->dao->prepare('UPDATE produit SET idConseil =:idConseil WHERE nomProduit = :nom AND varieteProduit =:var');
+                $reqConseil->execute(array(
+                    'idConseil' => $produitNew->getIdConseil(),
+                    'nom' => urldecode($produit->getNomProduit()),
+                    'var' => urldecode($produit->getVarieteProduit())
+                ));
+            }
+
+            if ($produitNew->getIdMarketing() != NULL) 
+            {
+                $reqMarketing = $this->dao->prepare('UPDATE produit SET idMarketing =:idMarketing WHERE nomProduit = :nom AND varieteProduit =:var');
+                $reqMarketing->execute(array(
+                    'idMarketing' => $produitNew->getIdMarketing(),
+                    'nom' => urldecode($produit->getNomProduit()),
+                    'var' => urldecode($produit->getVarieteProduit())
+                ));
+            }
+        }
     }
 
     /**

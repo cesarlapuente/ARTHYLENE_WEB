@@ -68,7 +68,7 @@ class ConseilController extends BackController
     {
         if ($request->postExists('id')) 
         {
-                $conseil = new Conseil([
+            $conseil = new Conseil([
                 'idConseil' => intval($request->postData('id')),
                 'idProduit' => $request->postData('idProduit'),
                 'conseil1' =>  $request->postData('conseil1'),
@@ -79,7 +79,8 @@ class ConseilController extends BackController
                 'conseil6' => $request->postData('conseil6')
             ]);
 
-        } else {
+        } else 
+        {
             $conseil = new Conseil([
                 'idProduit' => $request->postData('idProduit'),
                 'conseil1' =>  $request->postData('conseil1'),
@@ -112,11 +113,11 @@ class ConseilController extends BackController
         if ($request->postExists('famille')) {
             $this->processForm($request);
         }
-        $maturite = $this->managers->getManagerOf('Conseil')->getUnique($request->getData('id'));
+        $conseil = $this->managers->getManagerOf('Conseil')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($conseil->getIdProduit());
 
         $this->page->addVar('title', 'Mise à jour d\'une fiche de maturité');
-        $this->page->addVar('maturite', $maturite);
+        $this->page->addVar('conseil', $conseil);
         $this->page->addVar('produit', $produit);
 
         $this->page->addVar('sousTitre', preg_replace('#[_]+#', ' ', $request->getData('produit')) . " " . preg_replace('#[_]+#', ' ', $request->getData('variete')) . ' : Ajout d\'une fiche de conseil');
@@ -129,11 +130,11 @@ class ConseilController extends BackController
      */
     public function executeDelete(HTTPRequest $request)
     {
-        $maturite = $this->managers->getManagerOf('Conseil')->getUnique($request->getData('id'));
+        $conseil = $this->managers->getManagerOf('Conseil')->getUnique($request->getData('id'));
         $produit = $this->managers->getManagerOf('Produit')->getUniqueId($conseil->getIdProduit());
 
-        $this->managers->getManagerOf('Conseil')->delete($request->getData('id'));
-        $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
+        $this->managers->getManagerOf('Conseil')->deleteUnique($request->getData('id'));
+        // $this->managers->getManagerOf('Produit')->deleteUnique($produit->getIdProduit());
         $this->app->getUser()->setFlash('La fiche a bien été supprimée !');
 
         $this->app->httpResponse()->redirect('produit-update-' . $produit->getNomProduit() . "-" . $produit->getVarieteProduit() . ".html");

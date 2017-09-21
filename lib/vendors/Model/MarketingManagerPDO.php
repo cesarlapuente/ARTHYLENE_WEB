@@ -42,6 +42,11 @@ class MarketingManagerPDO extends MarketingManager
         $requete->execute(array(
             'id' => $id
         ));
+
+        $requete = $this->dao->prepare('UPDATE produit SET idMarketing = null WHERE idMarketing = :id');
+        $requete->execute(array(
+            'id' => $id
+        ));
     }
 
     protected function add(Marketing $marketing)
