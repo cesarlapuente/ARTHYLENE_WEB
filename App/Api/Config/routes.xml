@@ -7,4 +7,9 @@
     <route url="/api/label" module="Post" action="label"/>
     <route url="/api/checklist" module="Post" action="checklist"/>
     <route url="/api/picture" module="Post" action="picture"/>
+
+    <route url="/api/caracteristique" module="Post" action="caracteristique"/>
+    <route url="/api/beneficeSante" module="Post" action="beneficeSante"/>
+    <route url="/api/conseil" module="Post" action="conseil"/>
+    <route url="/api/marketing" module="Post" action="marketing"/>
 </routes>

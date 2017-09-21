@@ -133,4 +133,72 @@ class PostController extends BackController
         }
     }
 
+    public function executeCaracteristique(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Caracteristique')->getAll();
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
+    }
+
+    public function executeBeneficeSante(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('BeneficeSante')->getAll();
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
+    }
+
+    public function executeConseil(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Conseil')->getAll();
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
+    }
+
+    public function executeMarketing(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Marketing')->getAll();
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
+    }
+
 }
