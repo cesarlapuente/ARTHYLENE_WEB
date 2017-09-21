@@ -15,6 +15,11 @@ use Entity\Photo;
 use Entity\Presentation;
 use Entity\Produit;
 
+use Entity\BeneficeSante;
+use Entity\Caracteristique;
+use Entity\Conseil;
+use Entity\Marketing;
+
 class ProduitController extends BackController
 {
 
@@ -27,9 +32,19 @@ class ProduitController extends BackController
         }
         $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
+        $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
+        $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
+        $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
+        $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
+
         $this->page->addVar('title', preg_replace('#[_]+#', ' ', $produit->getNomProduit()));
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        $this->page->addVar('beneficeSante', $beneficeSante);
+        $this->page->addVar('caracteristique', $caracteristique);
+        $this->page->addVar('conseil', $conseil);
+        $this->page->addVar('marketing', $marketing);
     }
 
     public function executeIndex(HTTPRequest $request)
@@ -65,6 +80,49 @@ class ProduitController extends BackController
             'photo' => ''
         ]);
 
+        $beneficeSante = new BeneficeSante([
+            'idBeneficeSante' => '',
+            'idProduit' => '',
+            'benefice1' => '',
+            'benefice2' => '',
+            'benefice3' => '',
+            'benefice4' => '',
+            'benefice5' => '',
+            'benefice6' => ''
+        ]);
+
+        $caracteristique = new Caracteristique([
+            'idCaracteristique' => '',
+            'idProduit' => '',
+            'famille' => '',
+            'espece' => '',
+            'origine' => '',
+            'forme' => '',
+            'taillePoids' => '',
+            'couleurTexture' => '',
+            'saveur' => '',
+            'principauxProducteurs' => ''
+        ]);
+
+        $conseil = new Conseil([
+            'idConseil' => '',
+            'idProduit' => '',
+            'conseil1' => '',
+            'conseil2' => '',
+            'conseil3' => '',
+            'conseil4' => '',
+            'conseil5' => '',
+            'conseil6' => ''
+        ]);
+
+        $marketing = new Marketing([
+            'idMarketing' => '',
+            'idProduit' => '',
+            'marketing1' => '',
+            'marketing2' => ''
+        ]);
+
+
         if ($request->postExists('modif')) {
             $produit->setModif($request->postData('modif'));
             $produit->setIdProduit(1);
@@ -86,7 +144,7 @@ class ProduitController extends BackController
             $produit->setNomProduit($request->getData('nom'));
             $produit->setVarieteProduit($request->getData('variete'));
         } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
-            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
+            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
             $this->app->httpResponse()->redirect('/admin/produit.html');
@@ -97,6 +155,13 @@ class ProduitController extends BackController
 
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        //remplir cette variable, voir avec la partie haut-dessus
+        $this->page->addVar('beneficeSante', $beneficeSante);
+        $this->page->addVar('caracteristique', $caracteristique);
+        $this->page->addVar('conseil', $conseil);
+        $this->page->addVar('marketing', $marketing);
+
     }
 
     public function executeUpdate(HTTPRequest $request)
@@ -107,8 +172,20 @@ class ProduitController extends BackController
             $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('nom'), $request->getData('variete'));
             $produit->setIdProduit(1);
             $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
+
+            $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
+            $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
+            $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
+            $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
+
             $this->page->addVar('produit', $produit);
             $this->page->addVar('presentation', $presentation);
+
+            //ici aussi remplir les variables
+            $this->page->addVar('beneficeSante', $beneficeSante);
+            $this->page->addVar('caracteristique', $caracteristique);
+            $this->page->addVar('conseil', $conseil);
+            $this->page->addVar('marketing', $marketing);
         }
 
         $this->page->addVar('title', 'Modification d\'un produit');

@@ -12,6 +12,11 @@ namespace Model;
 use Entity\Photo;
 use Entity\Presentation;
 use Entity\Produit;
+use Entity\BeneficeSante;
+use Entity\Caracteristique;
+use Entity\Conseil;
+use Entity\Marketing;
+
 use PDO;
 
 class ProduitManagerPDO extends ProduitManager
@@ -65,8 +70,8 @@ class ProduitManagerPDO extends ProduitManager
         }
         $requete = $this->dao->prepare('DELETE FROM produit WHERE varieteProduit = :id AND nomProduit = :nom');
         $requete->execute(array(
-            'nom' => $nom,
-            'id' => $variete
+            'nom' => urldecode($nom),
+            'id' => urldecode($variete)
         ));
     }
 
@@ -78,25 +83,32 @@ class ProduitManagerPDO extends ProduitManager
     public function getUnique($nom, $variete)
     {
         $requete = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete ORDER BY niveauMaturite, niveauEtat ');
-        $requete->bindValue(':nom', $nom);
-        $requete->bindValue(':variete', $variete);
+        $requete->bindValue(':nom', urldecode($nom));
+        $requete->bindValue(':variete', urldecode($variete));
         $requete->execute();
 
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Produit');
         $listeMaturite = array();
         $listeEtat = array();
 
+        $listeBeneficeSante = array();
+        $listeCaracteristique = array();
+        $listeConseil = array();
+        $listeMarketing = array();
+
         $liste = $requete->fetchAll();
         foreach ($liste as $p) {
-            if (!empty($p->getIdMaturite())) {
+            if (!empty($p->getIdMaturite())) 
+            {
                 $requeteMaturite = $this->dao->prepare('SELECT * FROM maturite WHERE idMaturite = :maturite');
-                $requeteMaturite->execute(array('maturite' => $p->getIdMaturite()));
+                $requeteMaturite->execute(array('maturite' => urldecode($p->getIdMaturite())));
                 $requeteMaturite->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Maturite');
                 $maturite = $requeteMaturite->fetch();
                 $maturite->setNiveau($p->getNiveauMaturite());
                 array_push($listeMaturite, $maturite);
             }
-            if (!empty($p->getIdPresentation())) {
+            if (!empty($p->getIdPresentation())) 
+            {
                 $requetePresentation = $this->dao->prepare('SELECT * FROM presentation WHERE idPresentation = :presentation');
                 $requetePresentation->execute(array(
                     'presentation' => $p->getIdPresentation()
@@ -105,7 +117,8 @@ class ProduitManagerPDO extends ProduitManager
                 $presentation = $requetePresentation->fetch();
                 $produit = $p;
             }
-            if (!empty($p->getIdEtat())) {
+            if (!empty($p->getIdEtat())) 
+            {
                 $requeteEtat = $this->dao->prepare('SELECT * FROM etat WHERE idEtat = :etat');
                 $requeteEtat->execute(array('etat' => $p->getIdEtat()));
                 $requeteEtat->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Etat');
@@ -113,11 +126,53 @@ class ProduitManagerPDO extends ProduitManager
                 $etat->setNiveau($p->getNiveauEtat());
                 array_push($listeEtat, $etat);
             }
-        }
 
+            //update
+            if (!empty($p->getIdBeneficeSante()))
+            {
+                $requeteBeneficeSate = $this->dao->prepare('SELECT * FROM beneficeSante WHERE idBeneficeSante = :idBeneficeSante');
+                $requeteBeneficeSate->execute(array('idBeneficeSante' => $p->getIdBeneficeSante()));
+                $requeteBeneficeSate->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\BeneficeSante');
+                $beneficeSante = $requeteBeneficeSate->fetch();
+                $beneficeSante->setIdBeneficeSante($p->getIdBeneficeSante());
+                array_push($listeBeneficeSante, $beneficeSante);
+            }
+            if (!empty($p->getIdCaracteristique()))
+            {
+                $requeteCaracteristique = $this->dao->prepare('SELECT * FROM caracteristique WHERE idCaracteristique = :idCaracteristique');
+                $requeteCaracteristique->execute(array('idCaracteristique' => $p->getIdCaracteristique()));
+                $requeteCaracteristique->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Caracteristique');
+                $caracteristique = $requeteCaracteristique->fetch();
+                $caracteristique->setIdCaracteristique($p->getIdCaracteristique());
+                array_push($listeCaracteristique, $caracteristique);
+            }
+            if (!empty($p->getIdConseil()))
+            {
+                $requeteConseil = $this->dao->prepare('SELECT * FROM conseil WHERE idConseil = :idConseil');
+                $requeteConseil->execute(array('idConseil' => $p->getIdConseil()));
+                $requeteConseil->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Conseil');
+                $conseil = $requeteConseil->fetch();
+                $conseil->setIdConseil($p->getIdConseil());
+                array_push($listeConseil, $conseil);
+            }
+            if (!empty($p->getIdMarketing()))
+            {
+                $requeteMarketing = $this->dao->prepare('SELECT * FROM marketing WHERE idMarketing = :idMarketing');
+                $requeteMarketing->execute(array('idMarketing' => $p->getIdMarketing()));
+                $requeteMarketing->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Marketing');
+                $marketing = $requeteMarketing->fetch();
+                $marketing->setIdMarketing($p->getIdMarketing());
+                array_push($listeMarketing, $marketing);
+            }
+        }
 
         $produit->setListeMaturite($listeMaturite);
         $produit->setListeEtat($listeEtat);
+
+        $produit->setListeBeneficeSante($listeBeneficeSante);
+        $produit->setListeCaracteristique($listeCaracteristique);
+        $produit->setListeConseil($listeConseil);
+        $produit->setListeMarketing($listeMarketing);
 
         return $produit;
     }
@@ -148,8 +203,8 @@ class ProduitManagerPDO extends ProduitManager
     {
         $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete');
         $requette->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'variete' => $produit->getVarieteProduit()
+            'nom' => urldecode($produit->getNomProduit()),
+            'variete' => urldecode($produit->getVarieteProduit())
         ));
 
         if ($requette->fetch()) {
@@ -163,9 +218,9 @@ class ProduitManagerPDO extends ProduitManager
     {
         $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete AND niveauMaturite = :niveau');
         $requette->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'variete' => $produit->getVarieteProduit(),
-            'niveau' => $produit->getNiveauMaturite()
+            'nom' => urldecode($produit->getNomProduit()),
+            'variete' => urldecode($produit->getVarieteProduit()),
+            'niveau' => urldecode($produit->getNiveauMaturite())
         ));
 
         if ($requette->fetch()) {
@@ -179,9 +234,9 @@ class ProduitManagerPDO extends ProduitManager
     {
         $requette = $this->dao->prepare('SELECT * FROM produit WHERE nomProduit = :nom AND varieteProduit = :variete AND niveauEtat = :niveau');
         $requette->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'variete' => $produit->getVarieteProduit(),
-            'niveau' => $produit->getNiveauEtat()
+            'nom' => urldecode($produit->getNomProduit()),
+            'variete' => urldecode($produit->getVarieteProduit()),
+            'niveau' => urldecode($produit->getNiveauEtat())
         ));
 
         if ($requette->fetch()) {
@@ -201,12 +256,12 @@ class ProduitManagerPDO extends ProduitManager
         return null;
     }
 
-    protected function add(Produit $produit, Presentation $presentation, Photo $photo)
+    protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $BeneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
     {
         $requete = $this->dao->prepare('INSERT INTO presentation SET idProduit = :id,contenu = :contenu, idPhoto = :idPhoto');
         $requete->execute(array(
             'id' => 0,
-            'contenu' => $presentation->getContenu(),
+            'contenu' => urldecode($presentation->getContenu()),
             'idPhoto' => 1
         ));
 
@@ -214,8 +269,8 @@ class ProduitManagerPDO extends ProduitManager
 
         $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :variete, idPresentation = :idPresentation');
         $requete->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'variete' => $produit->getVarieteProduit(),
+            'nom' => urldecode($produit->getNomProduit()),
+            'variete' => urldecode($produit->getVarieteProduit()),
             'idPresentation' => $idPresentation
         ));
 
@@ -225,6 +280,47 @@ class ProduitManagerPDO extends ProduitManager
             'idPresentation' => $idPresentation
         ));
 
+        // $requete = $this->dao->prepare('INSERT INTO beneficesante SET idBeneficeSante = :idBeneficeSante, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6');
+        // $requete->execute(array(
+        //     'idBeneficeSante' => $BeneficeSante->getIdBeneficeSante(),
+        //     'benefice1' => urldecode($BeneficeSante->getBenefice1()),
+        //     'benefice2' => urldecode($BeneficeSante->getBenefice2()),
+        //     'benefice3' => urldecode($BeneficeSante->getBenefice3()),
+        //     'benefice4' => urldecode($BeneficeSante->getBenefice4()),
+        //     'benefice5' => urldecode($BeneficeSante->getBenefice5()),
+        //     'benefice6' => urldecode($BeneficeSante->getBenefice6())
+        // ));
+
+        // $requete = $this->dao->prepare('INSERT INTO caracteristique SET idCaracteristique = :idCaracteristique, idProduit = :idProduit, famille = :famille, espece = :espece, origine = :origine, forme = :forme, taillePoids = :taillePoids, couleurTexture = :couleurTexture, saveur = :saveur, principauxProducteurs = :principauxProducteurs');
+        // $requete->execute(array(
+        //     'idProduit' => $caracteristique->getIdProduit(),
+        //     'famille' => urldecode($caracteristique->getFamille()),
+        //     'espece' => urldecode($caracteristique->getEspece()),
+        //     'origine' => urldecode($caracteristique->getOrigine()),
+        //     'forme' => urldecode($caracteristique->getForme()),
+        //     'taillePoids' => urldecode($caracteristique->getTaillePoids()),
+        //     'couleurTexture' => urldecode($caracteristique->getCouleurTexture()),
+        //     'saveur' => urldecode($caracteristique->getSaveur()),
+        //     'principauxProducteurs' => urldecode($caracteristique->getPrincipauxProducteurs())
+        // ));
+
+        // $requete = $this->dao->prepare('INSERT INTO conseil SET idConseil = :idConseil, conseil1 = :conseil1, conseil2 = :conseil2, conseil3 = :conseil3, conseil4 = :conseil4 conseil5 = :conseil5, conseil6 = :conseil6');
+        // $requete->execute(array(
+        //     'idConseil' => $conseil->getIdConseil(),
+        //     'conseil1' => urldecode($conseil->getConseil1()),
+        //     'conseil2' => urldecode($conseil->getConseil2()),
+        //     'conseil3' => urldecode($conseil->getConseil3()),
+        //     'conseil4' => urldecode($conseil->getConseil4()),
+        //     'conseil5' => urldecode($conseil->getConseil5()),
+        //     'conseil6' => urldecode($conseil->getConseil6())
+        // ));
+
+        // $requete = $this->dao->prepare('INSERT INTO marketing SET idMarketing = :idMarketing, marketing1 = :marketing1, marketing2 = :marketing2');
+        // $requete->execute(array(
+        //     'idMarketing' => $marketing->getIdMarketing(),
+        //     'marketing1' => urldecode($marketing->getMarketing1()),
+        //     'marketing2' => urldecode($marketing->getMarketing2())
+        // ));
     }
 
     /**
@@ -232,22 +328,63 @@ class ProduitManagerPDO extends ProduitManager
      * @param $produit Produit le produit à modifier
      * @return void
      */
-    protected function modify(Produit $produit, Presentation $presentation, Photo $photo)
+    protected function modify(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $BeneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
     {
         $requete = $this->dao->prepare('UPDATE produit SET nomProduit = :nom, varieteProduit = :variete WHERE varieteProduit = :modif');
 
         $requete->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'variete' => $produit->getVarieteProduit(),
-            'modif' => $produit->getModif()
+            'nom' => urldecode($produit->getNomProduit()),
+            'variete' => urldecode($produit->getVarieteProduit()),
+            'modif' => urldecode($produit->getModif())
         ));
 
         $requete = $this->dao->prepare('UPDATE presentation SET contenu = :contenu, idPhoto = :idPhoto WHERE idPresentation = :idPresentation');
         $requete->execute(array(
-            'contenu' => $presentation->getContenu(),
+            'contenu' => urldecode($presentation->getContenu()),
             'idPhoto' => 1,
             'idPresentation' => $presentation->getIdPresentation()
         ));
 
+                $requete = $this->dao->prepare('UPDATE beneficesante SET idBeneficeSante = :idbeneficeSante, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4 benefice5 = :benefice5, benefice6 = :benefice6 ');
+        $requete->execute(array(
+            'idBeneficeSante' => $BeneficeSante->getIdBeneficeSante(),
+            'benefice1' => urldecode($BeneficeSante->getBenefice1()),
+            'benefice2' => urldecode($BeneficeSante->getBenefice2()),
+            'benefice3' => urldecode($BeneficeSante->getBenefice3()),
+            'benefice4' => urldecode($BeneficeSante->getBenefice4()),
+            'benefice5' => urldecode($BeneficeSante->getBenefice5()),
+            'benefice6' => urldecode($BeneficeSante->getBenefice6())
+        ));
+
+        $requete = $this->dao->prepare('UPDATE caracteristique SET idCaracteristique = :idCaracteristique, famille = :famille, espece = :espece, origine = :origine, forme = :forme taillePoids = :taillePoids, couleurTexture = :couleurTexture, saveur = :saveur, principauxProducteurs = :principauxProducteurs');
+        $requete->execute(array(
+            'idCaracteristique' => $caracteristique->getIdCaracteristique(),
+            'famille' => urldecode($caracteristique->getFamille()),
+            'espece' => urldecode($caracteristique->getEspece()),
+            'origine' => urldecode($caracteristique->getOrigine()),
+            'forme' => urldecode($caracteristique->getForme()),
+            'taillePoids' => urldecode($caracteristique->getTaillePoids()),
+            'couleurTexture' => urldecode($caracteristique->getCouleurTexture()),
+            'saveur' => urldecode($caracteristique->getSaveur()),
+            'principauxProducteurs' => urldecode($caracteristique->getPrincipauxProducteurs())
+        ));
+
+        $requete = $this->dao->prepare('UPDATE conseil SET idConseil = :idConseil, conseil1 = :conseil1, conseil2 = :conseil2, conseil3 = :conseil3, conseil4 = :conseil4 conseil5 = :conseil5, conseil6 = :conseil6');
+        $requete->execute(array(
+            'idConseil' => $conseil->getIdConseil(),
+            'conseil1' => urldecode($conseil->getConseil1()),
+            'conseil2' => urldecode($conseil->getConseil2()),
+            'conseil3' => urldecode($conseil->getConseil3()),
+            'conseil4' => urldecode($conseil->getConseil4()),
+            'conseil5' => urldecode($conseil->getConseil5()),
+            'conseil6' => urldecode($conseil->getConseil6())
+        ));
+
+        $requete = $this->dao->prepare('UPDATE marketing SET idMarketing = :idMarketing, marketing1 = :marketing1, marketing2 = :marketing2');
+        $requete->execute(array(
+            'idMarketing' => $marketing->getIdMarketing(),
+            'marketing1' => urldecode($marketing->getMarketing1()),
+            'marketing2' => urldecode($marketing->getMarketing2())
+        ));
     }
 }

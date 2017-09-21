@@ -65,7 +65,7 @@ class PhotoManagerPDO extends PhotoManager
     {
         $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo');
         $requete->execute(array(
-            'photo' => $photo->getPhoto()
+            'photo' => urldecode($photo->getPhoto())
         ));
     }
 
@@ -78,7 +78,7 @@ class PhotoManagerPDO extends PhotoManager
     {
         $requete = $this->dao->prepare('UPDATE photo SET photo = :photo WHERE idPhoto = =:id');
         $requete->execute(array(
-            'photo' => $photo->getPhoto(),
+            'photo' => urldecode($photo->getPhoto()),
             'id' => $photo->getIdPhoto()
         ));
     }

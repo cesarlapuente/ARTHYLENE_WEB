@@ -71,17 +71,17 @@ class EtatManagerPDO extends EtatManager
     {
         $requete = $this->dao->prepare('INSERT INTO etat SET contenu = :contenu, idPhoto = :photo, textePopup = :popup');
         $requete->execute(array(
-            'contenu' => $etat->getContenu(),
-            'photo' => $etat->getIdPhoto(),
-            'popup' => $etat->getTextePopup()
+            'contenu' => urldecode($etat->getContenu()),
+            'photo' => urldecode($etat->getIdPhoto()),
+            'popup' => urldecode($etat->getTextePopup())
         ));
 
         $idEtat = $this->dao->lastInsertId();
 
         $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :var, niveauEtat = :niveau, idEtat = :id, idPresentation = :presentation');
         $requete->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'var' => $produit->getVarieteProduit(),
+            'nom' => urldecode($produit->getNomProduit()),
+            'var' => urldecode($produit->getVarieteProduit()),
             'niveau' => $produit->getNiveauEtat(),
             'id' => $idEtat,
             'presentation' => $produit->getIdPresentation()
@@ -103,9 +103,9 @@ class EtatManagerPDO extends EtatManager
     {
         $requete = $this->dao->prepare('UPDATE etat SET contenu = :contenu, idPhoto = :photo, textePopup = :popup WHERE idEtat = :id');
         $requete->execute(array(
-            'contenu' => $etat->getContenu(),
+            'contenu' => urldecode($etat->getContenu()),
             'photo' => $photo->getIdPhoto(),
-            'popup' => $etat->getTextePopup(),
+            'popup' => urldecode($etat->getTextePopup()),
             'id' => $etat->getIdEtat()
         ));
 

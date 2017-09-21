@@ -39,6 +39,19 @@ class Produit extends Entity
     protected $presentation;
     protected $modif;
 
+    protected $idBeneficeSante;
+    protected $listeBeneficeSante;
+
+    protected $idCaracteristique;
+    protected $listCaracteristique;
+
+    protected $idConseil;
+    protected $listConseil;
+
+    protected $idMarketing;
+    protected $listMarketing;
+
+
     /* check id to test the product is new */
     public function isNew()
     {
@@ -296,6 +309,147 @@ class Produit extends Entity
     public function setModif($modif)
     {
         $this->modif = $modif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdBeneficeSante()
+    {
+        return $this->idBeneficeSante;
+    }
+
+    /**
+     * @param mixed $idBeneficeSante
+     */
+    public function setIdBeneficeSante($idBeneficeSante)
+    {
+        $this->idBeneficeSante = $idBeneficeSante;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeBeneficeSante()
+    {
+        return $this->listeBeneficeSante;
+    }
+
+    /**
+     * @param mixed $
+     */
+    public function setListeBeneficeSante($listeBeneficeSante)
+    {
+        $this->listeBeneficeSante = $listeBeneficeSante;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdCaracteristique()
+    {
+        return $this->idCaracteristique;
+    }
+
+    /**
+     * @param mixed $idCaracteristique
+     */
+    public function setIdCaracteristique($idCaracteristique)
+    {
+        $this->idCaracteristique = $idCaracteristique;
+    }
+
+    public function getListeCarateristique()
+    {
+        return $this->listeCarateristique;
+    }
+
+    /**
+     * @param mixed $
+     */
+    public function setListeCarateristique($listeCarateristique)
+    {
+        $this->listeCarateristique = $listeCarateristique;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdConseil()
+    {
+        return $this->idConseil;
+    }
+
+    /**
+     * @param mixed $idConseil
+     */
+    public function setIdConseil($idConseil)
+    {
+        $this->idConseil = $idConseil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdMarketing()
+    {
+        return $this->idMarketing;
+    }
+
+    /**
+     * @param mixed $idMarketing
+     */
+    public function setIdMarketing($idMarketing)
+    {
+        $this->idMarketing = $idMarketing;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeConseil()
+    {
+        return $this->listConseil;
+    }
+
+    /**
+     * @param mixed $
+     */
+    public function setListeConseil($listConseil)
+    {
+        $this->listConseil = $listConseil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListeMarketing()
+    {
+        return $this->listMarketing;
+    }
+
+    /**
+     * @param mixed $listMarketing
+     */
+    public function setListeMarketing($listMarketing)
+    {
+        $this->listMarketing = $listMarketing;
+    }
+
+        /**
+     * @return mixed
+     */
+    public function getListeCaracteristique()
+    {
+        return $this->listCaracteristique;
+    }
+
+    /**
+     * @param mixed $listMarketing
+     */
+    public function setListeCaracteristique($listCaracteristique)
+    {
+        $this->listCaracteristique = $listCaracteristique;
     }
 
 }

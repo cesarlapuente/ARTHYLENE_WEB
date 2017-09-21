@@ -24,7 +24,9 @@ class ConnexionController extends BackController
 
             if ($login == $this->app->getConfig()->get("login") && sha1($password) == $this->app->getConfig()->get("pass")) {
                 $this->app->getUser()->setAuthenticated(true);
-                $this->app->httpResponse()->redirect('.');
+                $this->app->httpResponse()->redirect("http://" . $_SERVER['HTTP_HOST'] . "/admin");
+                //$_SERVER['PHP_SELF'];
+
             } else {
                 $this->app->getUser()->setFlash('<span style="color: red"><strong>Le pseudo ou le mot de passe est incorrect.</strong></span>');
             }

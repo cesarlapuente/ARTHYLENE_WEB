@@ -1,3 +1,10 @@
 <?php
-header("Content-type:application/json");
+// header("Content-type:application/json");
 echo $json;
+// echo "Dans le layout de l'API";
+
+// echo '<pre>';
+// print_r($GLOBALS);
+// echo '</pre>';
+
+?>

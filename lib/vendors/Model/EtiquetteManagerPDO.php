@@ -53,7 +53,7 @@ class EtiquetteManagerPDO extends EtiquetteManager
         $sql = 'SELECT * FROM etiquette ORDER BY nomProduit, varieteProduit';
 
         $requete = $this->dao->query($sql);
-        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\etiquette');
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Etiquette');
 
         $listeEtiquette = $requete->fetchAll();
 
@@ -106,16 +106,16 @@ class EtiquetteManagerPDO extends EtiquetteManager
         nombreDeCouche = :couche, maturiteMin = :matmin, maturiteMax = :matmax, emplacementChariot = :chariot');
         $requete->execute(array(
             'code' => $etiquette->getCode(),
-            'nom' => $etiquette->getNomProduit(),
-            'variete' => $etiquette->getVarieteProduit(),
-            'ete' => $etiquette->getOrdreEte(),
-            'automne' => $etiquette->getOrdreAutomne(),
-            'hiver' => $etiquette->getOrdreHiver(),
-            'printemps' => $etiquette->getOrdrePrintemps(),
-            'couche' => $etiquette->getNombreDeCouche(),
-            'matmin' => $etiquette->getMaturiteMin(),
-            'matmax' => $etiquette->getMaturiteMax(),
-            'chariot' => $etiquette->getEmplacementChariot()
+            'nom' => urldecode($etiquette->getNomProduit()),
+            'variete' => urldecode($etiquette->getVarieteProduit()),
+            'ete' => urldecode($etiquette->getOrdreEte()),
+            'automne' => urldecode($etiquette->getOrdreAutomne()),
+            'hiver' => urldecode($etiquette->getOrdreHiver()),
+            'printemps' => urldecode($etiquette->getOrdrePrintemps()),
+            'couche' => urldecode($etiquette->getNombreDeCouche()),
+            'matmin' => urldecode($etiquette->getMaturiteMin()),
+            'matmax' => urldecode($etiquette->getMaturiteMax()),
+            'chariot' => urldecode($etiquette->getEmplacementChariot())
         ));
     }
 
@@ -132,16 +132,16 @@ class EtiquetteManagerPDO extends EtiquetteManager
         idEtiquette = :id');
         $requete->execute(array(
             'code' => $etiquette->getCode(),
-            'nom' => $etiquette->getNomProduit(),
-            'variete' => $etiquette->getVarieteProduit(),
-            'ete' => $etiquette->getOrdreEte(),
-            'automne' => $etiquette->getOrdreAutomne(),
-            'hiver' => $etiquette->getOrdreHiver(),
-            'printemps' => $etiquette->getOrdrePrintemps(),
-            'couche' => $etiquette->getNombreDeCouche(),
-            'matmin' => $etiquette->getMaturiteMin(),
-            'matmax' => $etiquette->getMaturiteMax(),
-            'chariot' => $etiquette->getEmplacementChariot(),
+            'nom' => urldecode($etiquette->getNomProduit()),
+            'variete' => urldecode($etiquette->getVarieteProduit()),
+            'ete' => urldecode($etiquette->getOrdreEte()),
+            'automne' => urldecode($etiquette->getOrdreAutomne()),
+            'hiver' => urldecode($etiquette->getOrdreHiver()),
+            'printemps' => urldecode($etiquette->getOrdrePrintemps()),
+            'couche' => urldecode($etiquette->getNombreDeCouche()),
+            'matmin' => urldecode($etiquette->getMaturiteMin()),
+            'matmax' => urldecode($etiquette->getMaturiteMax()),
+            'chariot' => urldecode($etiquette->getEmplacementChariot()),
             'id' => $etiquette->getIdEtiquette()
         ));
     }

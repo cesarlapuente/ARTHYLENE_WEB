@@ -77,21 +77,21 @@ class MaturiteManagerPDO extends MaturiteManager
     {
         $requete = $this->dao->prepare('INSERT INTO maturite SET contenu = :contenu, idPhoto = :photo, maturiteIdeale = :ideale, textePopup = :popup');
         $requete->execute(array(
-            'contenu' => $maturite->getContenu(),
+            'contenu' => urldecode($maturite->getContenu()),
             'photo' => $maturite->getIdPhoto(),
-            'ideale' => $maturite->getMaturiteIdeale(),
-            'popup' => $maturite->getTextePopup()
+            'ideale' => urldecode($maturite->getMaturiteIdeale()),
+            'popup' => urldecode($maturite->getTextePopup())
         ));
 
         $idMaturite = $this->dao->lastInsertId();
 
         $requete = $this->dao->prepare('INSERT INTO produit SET nomProduit = :nom, varieteProduit = :var, niveauMaturite = :niveau, idMaturite = :id, idPresentation = :presentation');
         $requete->execute(array(
-            'nom' => $produit->getNomProduit(),
-            'var' => $produit->getVarieteProduit(),
-            'niveau' => $produit->getNiveauMaturite(),
+            'nom' => urldecode($produit->getNomProduit()),
+            'var' => urldecode($produit->getVarieteProduit()),
+            'niveau' => urldecode($produit->getNiveauMaturite()),
             'id' => $idMaturite,
-            'presentation' => $produit->getIdPresentation()
+            'presentation' => urldecode($produit->getIdPresentation())
         ));
 
         $requete = $this->dao->prepare('UPDATE maturite SET idProduit = :id WHERE idMaturite = :idMaturite');
@@ -112,16 +112,16 @@ class MaturiteManagerPDO extends MaturiteManager
         $requete = $this->dao->prepare('UPDATE maturite SET contenu = :contenu, idPhoto = :photo,
                                           maturiteIdeale = :ideale, textePopup = :popup WHERE idMaturite = :id');
         $requete->execute(array(
-            'contenu' => $maturite->getContenu(),
+            'contenu' => urldecode($maturite->getContenu()),
             'photo' => $photo->getIdPhoto(),
-            'ideale' => $maturite->getMaturiteIdeale(),
-            'popup' => $maturite->getTextePopup(),
+            'ideale' => urldecode($maturite->getMaturiteIdeale()),
+            'popup' => urldecode($maturite->getTextePopup()),
             'id' => $maturite->getIdMaturite()
         ));
 
         $requete = $this->dao->prepare('UPDATE produit SET niveauMaturite = :niveau WHERE idProduit = :id');
         $requete->execute(array(
-            'niveau' => $produit->getNiveauMaturite(),
+            'niveau' => urldecode($produit->getNiveauMaturite()),
             'id' => $maturite->getIdProduit()
         ));
 

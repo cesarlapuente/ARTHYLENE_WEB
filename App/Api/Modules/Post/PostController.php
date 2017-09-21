@@ -17,43 +17,120 @@ class PostController extends BackController
     public function executeProduct(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Produit')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+        
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executePresentation(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Presentation')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executeMaturity(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Maturite')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executeState(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Etat')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executeLabel(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Etiquette')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executeChecklist(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Checklist')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
     public function executePicture(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Photo')->getAll();
-        $this->page()->addVar('json', json_encode($all));
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
     }
 
 }
