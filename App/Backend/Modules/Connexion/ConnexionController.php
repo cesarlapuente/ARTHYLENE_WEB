@@ -22,11 +22,19 @@ class ConnexionController extends BackController
             $login = $request->postData('login');
             $password = $request->postData('password');
 
+            //Old version connexion bug
+            // if ($login == $this->app->getConfig()->get("login") && sha1($password) == $this->app->getConfig()->get("pass")) {
+            //     $this->app->getUser()->setAuthenticated(true);
+            //     $this->app->httpResponse()->redirect("http://" . $_SERVER['HTTP_HOST'] . "/admin");
+            //     //$_SERVER['PHP_SELF'];
+
+            // }
+
+            //New version, work only in https
             if ($login == $this->app->getConfig()->get("login") && sha1($password) == $this->app->getConfig()->get("pass")) {
                 $this->app->getUser()->setAuthenticated(true);
-                $this->app->httpResponse()->redirect("http://" . $_SERVER['HTTP_HOST'] . "/admin");
-                //$_SERVER['PHP_SELF'];
-
+                //$this->app->httpResponse()->redirect('.');
+                $this->app->httpResponse()->redirect($_SERVER['PHP_SELF']);
             } else {
                 $this->app->getUser()->setFlash('<span style="color: red"><strong>Le pseudo ou le mot de passe est incorrect.</strong></span>');
             }
