@@ -280,47 +280,60 @@ class ProduitManagerPDO extends ProduitManager
             'idPresentation' => $idPresentation
         ));
 
-        $requete = $this->dao->prepare('INSERT INTO beneficesante SET idBeneficeSante = :idBeneficeSante, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6');
-        $requete->execute(array(
-            'idBeneficeSante' => $BeneficeSante->getIdBeneficeSante(),
-            'benefice1' => urldecode($BeneficeSante->getBenefice1()),
-            'benefice2' => urldecode($BeneficeSante->getBenefice2()),
-            'benefice3' => urldecode($BeneficeSante->getBenefice3()),
-            'benefice4' => urldecode($BeneficeSante->getBenefice4()),
-            'benefice5' => urldecode($BeneficeSante->getBenefice5()),
-            'benefice6' => urldecode($BeneficeSante->getBenefice6())
-        ));
+        if($BeneficeSante->isValid())
+        {
+            $requete = $this->dao->prepare('INSERT INTO beneficeSante SET idBeneficeSante = :idBeneficeSante, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6');
+            $requete->execute(array(
+                'idBeneficeSante' => $BeneficeSante->getIdBeneficeSante(),
+                'benefice1' => urldecode($BeneficeSante->getBenefice1()),
+                'benefice2' => urldecode($BeneficeSante->getBenefice2()),
+                'benefice3' => urldecode($BeneficeSante->getBenefice3()),
+                'benefice4' => urldecode($BeneficeSante->getBenefice4()),
+                'benefice5' => urldecode($BeneficeSante->getBenefice5()),
+                'benefice6' => urldecode($BeneficeSante->getBenefice6())
+            ));
+        }
+        
+        if($caracteristique->isvalid())
+        {
+            $requete = $this->dao->prepare('INSERT INTO caracteristique SET idCaracteristique = :idCaracteristique, idProduit = :idProduit, famille = :famille, espece = :espece, origine = :origine, forme = :forme, taillePoids = :taillePoids, couleurTexture = :couleurTexture, saveur = :saveur, principauxProducteurs = :principauxProducteurs');
+            $requete->execute(array(
+                'idProduit' => $caracteristique->getIdProduit(),
+                'famille' => urldecode($caracteristique->getFamille()),
+                'espece' => urldecode($caracteristique->getEspece()),
+                'origine' => urldecode($caracteristique->getOrigine()),
+                'forme' => urldecode($caracteristique->getForme()),
+                'taillePoids' => urldecode($caracteristique->getTaillePoids()),
+                'couleurTexture' => urldecode($caracteristique->getCouleurTexture()),
+                'saveur' => urldecode($caracteristique->getSaveur()),
+                'principauxProducteurs' => urldecode($caracteristique->getPrincipauxProducteurs())
+            ));
+        }
+        
+        if($conseil->isValid())
+        {
+            $requete = $this->dao->prepare('INSERT INTO conseil SET idConseil = :idConseil, conseil1 = :conseil1, conseil2 = :conseil2, conseil3 = :conseil3, conseil4 = :conseil4 conseil5 = :conseil5, conseil6 = :conseil6');
+            $requete->execute(array(
+                'idConseil' => $conseil->getIdConseil(),
+                'conseil1' => urldecode($conseil->getConseil1()),
+                'conseil2' => urldecode($conseil->getConseil2()),
+                'conseil3' => urldecode($conseil->getConseil3()),
+                'conseil4' => urldecode($conseil->getConseil4()),
+                'conseil5' => urldecode($conseil->getConseil5()),
+                'conseil6' => urldecode($conseil->getConseil6())
+            ));
+        }
 
-        $requete = $this->dao->prepare('INSERT INTO caracteristique SET idCaracteristique = :idCaracteristique, idProduit = :idProduit, famille = :famille, espece = :espece, origine = :origine, forme = :forme, taillePoids = :taillePoids, couleurTexture = :couleurTexture, saveur = :saveur, principauxProducteurs = :principauxProducteurs');
-        $requete->execute(array(
-            'idProduit' => $caracteristique->getIdProduit(),
-            'famille' => urldecode($caracteristique->getFamille()),
-            'espece' => urldecode($caracteristique->getEspece()),
-            'origine' => urldecode($caracteristique->getOrigine()),
-            'forme' => urldecode($caracteristique->getForme()),
-            'taillePoids' => urldecode($caracteristique->getTaillePoids()),
-            'couleurTexture' => urldecode($caracteristique->getCouleurTexture()),
-            'saveur' => urldecode($caracteristique->getSaveur()),
-            'principauxProducteurs' => urldecode($caracteristique->getPrincipauxProducteurs())
-        ));
 
-        $requete = $this->dao->prepare('INSERT INTO conseil SET idConseil = :idConseil, conseil1 = :conseil1, conseil2 = :conseil2, conseil3 = :conseil3, conseil4 = :conseil4 conseil5 = :conseil5, conseil6 = :conseil6');
-        $requete->execute(array(
-            'idConseil' => $conseil->getIdConseil(),
-            'conseil1' => urldecode($conseil->getConseil1()),
-            'conseil2' => urldecode($conseil->getConseil2()),
-            'conseil3' => urldecode($conseil->getConseil3()),
-            'conseil4' => urldecode($conseil->getConseil4()),
-            'conseil5' => urldecode($conseil->getConseil5()),
-            'conseil6' => urldecode($conseil->getConseil6())
-        ));
-
-        $requete = $this->dao->prepare('INSERT INTO marketing SET idMarketing = :idMarketing, marketing1 = :marketing1, marketing2 = :marketing2');
-        $requete->execute(array(
-            'idMarketing' => $marketing->getIdMarketing(),
-            'marketing1' => urldecode($marketing->getMarketing1()),
-            'marketing2' => urldecode($marketing->getMarketing2())
-        ));
+        if($marketing->isValid())
+        {
+            $requete = $this->dao->prepare('INSERT INTO marketing SET idMarketing = :idMarketing, marketing1 = :marketing1, marketing2 = :marketing2');
+            $requete->execute(array(
+                'idMarketing' => $marketing->getIdMarketing(),
+                'marketing1' => urldecode($marketing->getMarketing1()),
+                'marketing2' => urldecode($marketing->getMarketing2())
+            ));
+        }
     }
 
     /**
@@ -355,7 +368,7 @@ class ProduitManagerPDO extends ProduitManager
         ));
 
 
-        $requete = $this->dao->prepare('UPDATE beneficesante SET benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6 WHERE idBeneficeSante = :idBeneficeSante');
+        $requete = $this->dao->prepare('UPDATE beneficeSante SET benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6 WHERE idBeneficeSante = :idBeneficeSante');
         $requete->execute(array(
             'idBeneficeSante' => $beneficeSante->getIdBeneficeSante(),
             'benefice1' => urldecode($beneficeSante->getBenefice1()),

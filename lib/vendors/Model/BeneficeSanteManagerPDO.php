@@ -16,7 +16,7 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
      */
     public function getUnique($id)
     {
-        $requete = $this->dao->prepare('SELECT * FROM beneficesante WHERE idBeneficeSante = :id');
+        $requete = $this->dao->prepare('SELECT * FROM beneficeSante WHERE idBeneficeSante = :id');
         $requete->execute(array(
             'id' => $id
         ));
@@ -29,7 +29,7 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
 
     public function GetAll()
     {
-        $requete = $this->dao->query('SELECT * FROM beneficesante');
+        $requete = $this->dao->query('SELECT * FROM beneficeSante');
         if ($beneficeSante = $requete->fetchAll(PDO::FETCH_ASSOC)) {
             return $beneficeSante;
         }
@@ -38,7 +38,7 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
 
     public function deleteUnique($id)
     {
-        $requete = $this->dao->prepare('DELETE FROM beneficesante WHERE idBeneficeSante = :id');
+        $requete = $this->dao->prepare('DELETE FROM beneficeSante WHERE idBeneficeSante = :id');
         $requete->execute(array(
             'id' => $id
         ));
@@ -51,7 +51,7 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
 
     protected function add(BeneficeSante $beneficeSante)
     {
-        $requete = $this->dao->prepare('INSERT INTO beneficesante SET idProduit = :idProduit, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6');
+        $requete = $this->dao->prepare('INSERT INTO beneficeSante SET idProduit = :idProduit, benefice1 = :benefice1, benefice2 = :benefice2, benefice3 = :benefice3, benefice4 = :benefice4, benefice5 = :benefice5, benefice6 = :benefice6');
         $requete->execute(array(
             'idProduit' => $beneficeSante->getIdProduit(),
             'benefice1' => urldecode($beneficeSante->getBenefice1()),
@@ -62,7 +62,7 @@ class BeneficeSanteManagerPDO extends BeneficeSanteManager
             'benefice6' => urldecode($beneficeSante->getBenefice6())
         ));
 
-        $requete = $this->dao->prepare('SELECT idBeneficeSante FROM beneficesante WHERE idProduit = :idProduit');
+        $requete = $this->dao->prepare('SELECT idBeneficeSante FROM beneficeSante WHERE idProduit = :idProduit');
         $requete->execute(array(
             'idProduit' => $beneficeSante->getIdProduit()
         ));
