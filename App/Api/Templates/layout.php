@@ -1,6 +1,9 @@
 <?php
 // header("Content-type:application/json");
-echo $json;
+    if(isset($json))
+    {
+        echo $json;
+    }
 // echo "Dans le layout de l'API";
 
 // echo '<pre>';
