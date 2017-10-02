@@ -76,9 +76,26 @@ class ProduitController extends BackController
             'contenu' => $request->postData('presentation'),
             'idPhoto' => ''
         ]);
-        $photo = new Photo([
-            'photo' => ''
-        ]);
+         if(!empty($_FILES['photo']))
+        {
+            $photo = new Photo([
+                'photo' => $_FILES['photo'],
+                'chemin' => $_FILES['photo']['tmp_name'], //chemin temporaire
+                'name' => $_FILES['photo']['name'],
+                'type' => $_FILES['photo']['type'],
+                'size' => $_FILES['photo']['size']
+            ]); 
+        }
+        else
+        {
+            $photo = new Photo([
+                'photo' => '',
+                'chemin' => '',
+                'name' => '',
+                'type' => '',
+                'size' => ''
+            ]); 
+        }
 
         $beneficeSante = new BeneficeSante([
             'idBeneficeSante' => intval($request->postData('idBeneficeSante')),
@@ -127,6 +144,7 @@ class ProduitController extends BackController
             $produit->setIdProduit(1);
             $produit->setIdPresentation(intval($request->postData('idPres'), 10));
             $presentation->setIdPresentation(intval($request->postData('idPres')));
+            $presentation->setIdPhoto(intval($request->postData('idPhoto')));
         }
 
         if ($request->postExists('modif')
@@ -155,6 +173,8 @@ class ProduitController extends BackController
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
 
+        $this->page->addVar('photo', $photo);
+
         $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('caracteristique', $caracteristique);
         $this->page->addVar('conseil', $conseil);
@@ -170,6 +190,8 @@ class ProduitController extends BackController
             $produit->setIdProduit(1);
             $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
+            $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
+
             $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
             $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
             $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
@@ -177,6 +199,8 @@ class ProduitController extends BackController
 
             $this->page->addVar('produit', $produit);
             $this->page->addVar('presentation', $presentation);
+
+            $this->page->addVar('photo', $photo);
 
             $this->page->addVar('beneficeSante', $beneficeSante);
             $this->page->addVar('caracteristique', $caracteristique);

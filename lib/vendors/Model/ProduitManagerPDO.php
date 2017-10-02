@@ -258,11 +258,45 @@ class ProduitManagerPDO extends ProduitManager
 
     protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $BeneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
     {
+        if(!empty($photo->getName()))
+        {
+            $upload_directory = __DIR__ . '/../../../Web/Pictures/';
+            $targetPath = time().$photo->getName();
+
+            if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
+            {
+                $photo->setChemin($upload_directory.$targetPath);
+
+                $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, namePhoto = :name, type = :type, size = :size');
+                $requete->execute(array(
+                    'photo' => '',
+                    'chemin' => $photo->getChemin(),
+                    'name' => $photo->getName(),
+                    'type' => $photo->getType(),
+                    'size' => $photo->getSize()
+                ));
+            }            
+        }
+        else
+        {
+            $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, name = :name, type = :type, size = :size');
+                $requete->execute(array(
+                    'photo' => '',
+                    'chemin' => '',
+                    'name' => '',
+                    'type' => '',
+                    'size' => '0'
+                ));
+        }
+
+        $idPhoto = $this->dao->lastInsertId();
+        
+
         $requete = $this->dao->prepare('INSERT INTO presentation SET idProduit = :id,contenu = :contenu, idPhoto = :idPhoto');
         $requete->execute(array(
             'id' => 0,
-            'contenu' => urldecode($presentation->getContenu()),
-            'idPhoto' => 1
+            'contenu' => $presentation->getContenu(),
+            'idPhoto' => $idPhoto
         ));
 
         $idPresentation = $this->dao->lastInsertId();
@@ -353,7 +387,7 @@ class ProduitManagerPDO extends ProduitManager
         $requete = $this->dao->prepare('UPDATE presentation SET contenu = :contenu, idPhoto = :idPhoto WHERE idPresentation = :idPresentation');
         $requete->execute(array(
             'contenu' => urldecode($presentation->getContenu()),
-            'idPhoto' => 1,
+            'idPhoto' => $presentation->getIdPhoto(),
             'idPresentation' => $presentation->getIdPresentation()
         ));
 
@@ -410,5 +444,25 @@ class ProduitManagerPDO extends ProduitManager
             'marketing1' => urldecode($marketing->getMarketing1()),
             'marketing2' => urldecode($marketing->getMarketing2())
         ));
+
+        if(!is_null($photo->getName()))
+        {
+            $upload_directory = __DIR__ . '/../../../Web/Pictures/';
+            $targetPath = time().$photo->getName();
+
+            if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
+            {
+                $photo->setChemin($upload_directory.$targetPath);
+
+                $requete = $this->dao->prepare('UPDATE photo SET chemin = :chemin, namePhoto = :name, type = :type, size = :size WHERE idPhoto = :idPhoto');
+                $requete->execute(array(
+                    'chemin' => $photo->getChemin(),
+                    'name' => $photo->getName(),
+                    'type' => $photo->getType(),
+                    'size' => $photo->getSize(),
+                    'idPhoto' => $presentation->getIdPhoto()
+                ));        
+            }            
+        }
     }
 }

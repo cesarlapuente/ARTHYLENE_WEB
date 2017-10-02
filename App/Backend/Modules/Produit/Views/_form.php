@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <p>
         <span style="color: red"><strong>
         <?= isset($erreurs) && in_array(\Entity\Produit::NOM_PRODUIT_INVALIDE, $erreurs) ? 'Le nom du produit est invalide.<br />' : '' ?>
@@ -27,8 +27,15 @@
             <textarea name="presentation" cols="56"
                       style="resize: none"><?= isset($presentation) ? $presentation->getContenu() : '' ?></textarea>
         </label><br/>
-
         <label>
+
+            <?php
+            var_dump($photo);
+            ?>
+
+             <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>
+
+             <br/>
             Photo du produit<br/>
             <input type="file" name="photo"/>
         </label><br/>
@@ -294,6 +301,8 @@
                    value="<?= isset($produit) ? $produit->getNomProduit() : '' ?>"/>
             <input type="hidden" name="idPres"
                    value="<?= isset($produit) ? $produit->getIdPresentation() : '' ?>"/>
+            <input type="hidden" name="idPhoto"
+                   value="<?= isset($presentation) ? $presentation->getIdPhoto() : '' ?>"/>
             <label>
                 <input type="submit" value="Modifier" name="modifier"/>
             </label>
