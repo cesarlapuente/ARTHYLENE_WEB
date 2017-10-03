@@ -133,6 +133,13 @@ class PostController extends BackController
         }
     }
 
+    public function executePictureUnique(HTTPRequest $request)
+    {        
+        $photo = $this->managers->getManagerOf('Photo')->getUnique($request->getData('id'));
+
+        $this->page()->addVar('photo', $photo);
+    }
+
     public function executeCaracteristique(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Caracteristique')->getAll();

@@ -12,6 +12,22 @@
     <?= $presentation->getContenu(); ?>
 </div>
 </p>
+
+<p><h3>Photo du produit</h3>
+    <?php
+    if($photo)
+    {
+        ?>
+        <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>
+        <?php
+    }
+    else
+    {
+        echo "<h4>Aucune photo</h4>";
+    }
+    ?>
+</p>
+
 <p><h3>Fiches des maturités du produit</h3>
 <?php
 if (empty($produit->getListeMaturite())){

@@ -42,9 +42,13 @@ class ProduitController extends BackController
         $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
         $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
 
+        $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
+
         $this->page->addVar('title', $produit->getNomProduit());
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        $this->page->addVar('photo', $photo);
 
         $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('caracteristique', $caracteristique);

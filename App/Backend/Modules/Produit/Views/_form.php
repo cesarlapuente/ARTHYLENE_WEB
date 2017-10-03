@@ -28,17 +28,27 @@
                       style="resize: none"><?= isset($presentation) ? $presentation->getContenu() : '' ?></textarea>
         </label><br/>
         <label>
+            Photo du produit<br/>
 
             <?php
-            var_dump($photo);
-            ?>
+            if($photo)
+            {
+                ?>
 
              <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>
 
              <br/>
-            Photo du produit<br/>
+            <?php
+              }
+            else
+            {
+                echo "<label>Aucune photo</label>";
+            }
+            ?>
+            
             <input type="file" name="photo"/>
         </label><br/>
+</p>
 
         <?php
         if (!isset($insert)){

@@ -265,7 +265,7 @@ class ProduitManagerPDO extends ProduitManager
 
             if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
             {
-                $photo->setChemin($upload_directory.$targetPath);
+                $photo->setChemin('http://localhost/arthylene/Web/Pictures/'.$targetPath);
 
                 $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, namePhoto = :name, type = :type, size = :size');
                 $requete->execute(array(
@@ -452,9 +452,9 @@ class ProduitManagerPDO extends ProduitManager
 
             if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
             {
-                $photo->setChemin($upload_directory.$targetPath);
+                $photo->setChemin('http://localhost/arthylene/Web/Pictures/'.$targetPath);
 
-                $requete = $this->dao->prepare('UPDATE photo SET chemin = :chemin, namePhoto = :name, type = :type, size = :size WHERE idPhoto = :idPhoto');
+                $requete = $this->dao->prepare('UPDATE photo SET chemin = :chemin, name = :name, type = :type, size = :size WHERE idPhoto = :idPhoto');
                 $requete->execute(array(
                     'chemin' => $photo->getChemin(),
                     'name' => $photo->getName(),
