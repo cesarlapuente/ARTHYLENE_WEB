@@ -15,7 +15,7 @@
 
 <p><h3>Photo du produit</h3>
     <?php
-    if($photo)
+    if(isset($photo) && !is_null($photo->getName()))
     {
         ?>
         <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>

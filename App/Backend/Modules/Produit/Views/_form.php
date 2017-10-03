@@ -31,7 +31,7 @@
             Photo du produit<br/>
 
             <?php
-            if($photo)
+            if(isset($photo) && !is_null($photo->getName()))
             {
                 ?>
 
