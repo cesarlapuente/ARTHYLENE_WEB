@@ -5,9 +5,9 @@
         echo $json;
     }
 
-    if(isset($photo))
+    if($photo && isset($photo))
     {
-    	echo "<img src='". $photo->getChemin()."' alt='photo'/>";
+    	echo "<img src='". $photo->getChemin()."' alt=''/>";
     }
 // echo "Dans le layout de l'API";
 
