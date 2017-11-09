@@ -16,6 +16,7 @@ use Entity\BeneficeSante;
 use Entity\Caracteristique;
 use Entity\Conseil;
 use Entity\Marketing;
+use Entity\Audio;
 
 
 abstract class ProduitManager extends Manager
@@ -46,10 +47,10 @@ abstract class ProduitManager extends Manager
      * Méthode permettant d'enregistrer un produit.
      * @return void
      */
-    public function save(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
+    public function save(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing, Audio $audio)
     {
         if ($produit->isValid() && $presentation->isValid()) {
-            $produit->isNew() ? $this->add($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing) : $this->modify($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing);
+            $produit->isNew() ? $this->add($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing, $audio) : $this->modify($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing, $audio);
         } else {
             throw new \RuntimeException('La news doit être validée pour être enregistrée');
         }
@@ -60,14 +61,14 @@ abstract class ProduitManager extends Manager
      * @param
      * @return void
      */
-    abstract protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing);
+    abstract protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing, Audio $audio);
 
     /**
      * Méthode permettant de modifier un produit.
      * @param $produit Produit le produit à modifier
      * @return void
      */
-    abstract protected function modify(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing);
+    abstract protected function modify(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing, Audio $audio);
 
     /**
      * Méthode permettant de supprimer un produit.

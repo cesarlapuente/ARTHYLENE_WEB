@@ -140,6 +140,30 @@ class PostController extends BackController
         $this->page()->addVar('photo', $photo);
     }
 
+    public function executeAudio(HTTPRequest $request)
+    {
+        $all = $this->managers->getManagerOf('Audio')->getAll();
+
+        if(!is_null($all))
+        {
+            $this->page()->addVar('json', json_encode($all));
+        }
+        else
+        {
+            $myObj = new \stdClass();
+            $myObj->message = "Empty";
+            $jsonArray = array($myObj);
+            $this->page()->addVar('json', json_encode($jsonArray));
+        }
+    }
+
+    public function executeAudioUnique(HTTPRequest $request)
+    {        
+        $audio = $this->managers->getManagerOf('Audio')->getUnique($request->getData('id'));
+
+        $this->page()->addVar('audio', $audio);
+    }
+
     public function executeCaracteristique(HTTPRequest $request)
     {
         $all = $this->managers->getManagerOf('Caracteristique')->getAll();

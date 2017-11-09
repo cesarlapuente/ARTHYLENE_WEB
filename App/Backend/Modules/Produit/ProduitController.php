@@ -15,6 +15,8 @@ use Entity\Photo;
 use Entity\Presentation;
 use Entity\Produit;
 
+use Entity\Audio;
+
 use Entity\BeneficeSante;
 use Entity\Caracteristique;
 use Entity\Conseil;
@@ -38,12 +40,14 @@ class ProduitController extends BackController
         $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
 
         $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
-
+        $audio = $this->managers->getManagerOf('Audio')->getUnique($presentation->getIdAudio());
+        
         $this->page->addVar('title', preg_replace('#[_]+#', ' ', $produit->getNomProduit()));
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
 
         $this->page->addVar('photo', $photo);
+        $this->page->addVar('audio', $audio);
 
         $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('caracteristique', $caracteristique);
@@ -78,7 +82,8 @@ class ProduitController extends BackController
         ]);
         $presentation = new Presentation([
             'contenu' => $request->postData('presentation'),
-            'idPhoto' => ''
+            'idPhoto' => '',
+            'idAudio' => ''
         ]);
          if(!empty($_FILES['photo']))
         {
@@ -94,6 +99,29 @@ class ProduitController extends BackController
         {
             $photo = new Photo([
                 'photo' => '',
+                'chemin' => '',
+                'name' => '',
+                'type' => '',
+                'size' => ''
+            ]); 
+        }
+
+        //need to upgrade the size of allow upload files
+        //upload audio file
+        if(!empty($_FILES['audio']))
+        {
+            $audio = new Audio([
+                'audio' => $_FILES['audio'],
+                'chemin' => $_FILES['audio']['tmp_name'], //chemin temporaire
+                'name' => $_FILES['audio']['name'],
+                'type' => $_FILES['audio']['type'],
+                'size' => $_FILES['audio']['size']
+            ]); 
+        }
+        else
+        {
+            $audio = new Audio([
+                'audio' => '',
                 'chemin' => '',
                 'name' => '',
                 'type' => '',
@@ -149,6 +177,7 @@ class ProduitController extends BackController
             $produit->setIdPresentation(intval($request->postData('idPres'), 10));
             $presentation->setIdPresentation(intval($request->postData('idPres')));
             $presentation->setIdPhoto(intval($request->postData('idPhoto')));
+            $presentation->setIdAudio(intval($request->postData('idAudio')));
         }
 
         if ($request->postExists('modif')
@@ -165,7 +194,7 @@ class ProduitController extends BackController
             $produit->setNomProduit($request->getData('nom'));
             $produit->setVarieteProduit($request->getData('variete'));
         } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
-            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing);
+            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing, $audio);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
             $this->app->httpResponse()->redirect('/admin/produit.html');
@@ -178,6 +207,7 @@ class ProduitController extends BackController
         $this->page->addVar('presentation', $presentation);
 
         $this->page->addVar('photo', $photo);
+        $this->page->addVar('audio', $audio);
 
         $this->page->addVar('beneficeSante', $beneficeSante);
         $this->page->addVar('caracteristique', $caracteristique);
@@ -195,6 +225,7 @@ class ProduitController extends BackController
             $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
             $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
+            $audio = $this->managers->getManagerOf('Audio')->getUnique($presentation->getIdAudio());
 
             $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
             $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
@@ -205,6 +236,7 @@ class ProduitController extends BackController
             $this->page->addVar('presentation', $presentation);
 
             $this->page->addVar('photo', $photo);
+            $this->page->addVar('audio', $audio);
 
             $this->page->addVar('beneficeSante', $beneficeSante);
             $this->page->addVar('caracteristique', $caracteristique);

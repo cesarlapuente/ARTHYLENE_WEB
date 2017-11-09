@@ -35,7 +35,7 @@
             {
                 ?>
 
-             <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>
+             <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo" style='max-width: 500px;'/>
 
              <br/>
             <?php
@@ -47,6 +47,30 @@
             ?>
             
             <input type="file" name="photo"/>
+        </label><br/>
+
+        <label>
+            Audio du produit<br/>
+
+            <?php
+            if(isset($audio) && !is_null($audio->getName()))
+            {
+                ?>
+
+                <audio controls>
+                  <source src="<?= isset($audio) ? $audio->getChemin() : '' ?>" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+             <br/>
+            <?php
+              }
+            else
+            {
+                echo "<label>Aucun audio</label>";
+            }
+            ?>
+            
+            <input type="file" name="audio" accept="audio/*"/>
         </label><br/>
 </p>
 
@@ -313,6 +337,8 @@
                    value="<?= isset($produit) ? $produit->getIdPresentation() : '' ?>"/>
             <input type="hidden" name="idPhoto"
                    value="<?= isset($presentation) ? $presentation->getIdPhoto() : '' ?>"/>
+           <input type="hidden" name="idAudio"
+                   value="<?= isset($presentation) ? $presentation->getIdAudio() : '' ?>"/>
             <label>
                 <input type="submit" value="Modifier" name="modifier"/>
             </label>

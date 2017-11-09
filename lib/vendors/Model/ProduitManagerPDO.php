@@ -16,6 +16,7 @@ use Entity\BeneficeSante;
 use Entity\Caracteristique;
 use Entity\Conseil;
 use Entity\Marketing;
+use Entity\Audio;
 
 use PDO;
 
@@ -256,19 +257,22 @@ class ProduitManagerPDO extends ProduitManager
         return null;
     }
 
-    protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $BeneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
+    protected function add(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $BeneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing, Audio $audio)
     {
+        //upload photo
         if(!empty($photo->getName()))
         {
             $upload_directory = __DIR__ . '/../../../Web/Picture/';
             $targetPath = time().$photo->getName();
 
+        
             if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
             {
                 // $photo->setChemin('http://localhost/arthylene/Web/Picture/'.$targetPath);
                 $photo->setChemin('http://vps342611.ovh.net/Picture/'.$targetPath);
 
-                $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, namePhoto = :name, type = :type, size = :size');
+                //$requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, namePhoto = :name, type = :type, size = :size');
+                $requete = $this->dao->prepare('INSERT INTO photo SET photo = :photo, chemin = :chemin, name = :name, type = :type, size = :size');
                 $requete->execute(array(
                     'photo' => '',
                     'chemin' => $photo->getChemin(),
@@ -291,13 +295,48 @@ class ProduitManagerPDO extends ProduitManager
         }
 
         $idPhoto = $this->dao->lastInsertId();
+
+        //upload audio
+        if(!empty($audio->getName()))
+        {
+            $upload_directoryAudio = __DIR__ . '/../../../Web/Audio/';
+            $targetPathAudio = time().$audio->getName();
+        
+            if(move_uploaded_file($audio->getChemin(), $upload_directoryAudio.$targetPathAudio))
+                {
+                    $audio->setChemin('http://vps342611.ovh.net/Audio/'.$targetPathAudio);
+
+                    $requete = $this->dao->prepare('INSERT INTO audio SET audio = :audio, chemin = :chemin, name = :name, type = :type, size = :size');
+                    $requete->execute(array(
+                        'audio' => '',
+                        'chemin' => $audio->getChemin(),
+                        'name' => $audio->getName(),
+                        'type' => $audio->getType(),
+                        'size' => $audio->getSize()
+                    ));
+                }            
+        }
+        else
+        {
+            $requete = $this->dao->prepare('INSERT INTO audio SET audio = :audio, chemin = :chemin, name = :name, type = :type, size = :size');
+                $requete->execute(array(
+                    'audio' => '',
+                    'chemin' => '',
+                    'name' => '',
+                    'type' => '',
+                    'size' => '0'
+                ));
+        }
+
+        $idAudio = $this->dao->lastInsertId();
         
 
-        $requete = $this->dao->prepare('INSERT INTO presentation SET idProduit = :id,contenu = :contenu, idPhoto = :idPhoto');
+        $requete = $this->dao->prepare('INSERT INTO presentation SET idProduit = :id,contenu = :contenu, idPhoto = :idPhoto, idAudio = :idAudio');
         $requete->execute(array(
             'id' => 0,
             'contenu' => $presentation->getContenu(),
-            'idPhoto' => $idPhoto
+            'idPhoto' => $idPhoto,
+            'idAudio' => $idAudio
         ));
 
         $idPresentation = $this->dao->lastInsertId();
@@ -376,7 +415,7 @@ class ProduitManagerPDO extends ProduitManager
      * @param $produit Produit le produit à modifier
      * @return void
      */
-    protected function modify(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing)
+    protected function modify(Produit $produit, Presentation $presentation, Photo $photo, BeneficeSante $beneficeSante, Caracteristique $caracteristique, Conseil $conseil, Marketing $marketing, Audio $audio)
     {
         $requete = $this->dao->prepare('UPDATE produit SET nomProduit = :nom, varieteProduit = :variete WHERE varieteProduit = :modif');
         $requete->execute(array(
@@ -453,8 +492,10 @@ class ProduitManagerPDO extends ProduitManager
 
             if(move_uploaded_file($photo->getChemin(), $upload_directory.$targetPath))
             {
-                $photo->setChemin('http://localhost/arthylene/Web/Picture/'.$targetPath);
-                // $photo->setChemin('http://vps342611.ovh.net/Picture/'.$targetPath);
+                // $photo->setChemin('http://localhost/arthylene/Web/Picture/'.$targetPath);
+                //$photo->setChemin($upload_directory.$targetPath);
+
+                $photo->setChemin('http://vps342611.ovh.net/Picture/'.$targetPath);
 
                 $requete = $this->dao->prepare('UPDATE photo SET chemin = :chemin, name = :name, type = :type, size = :size WHERE idPhoto = :idPhoto');
                 $requete->execute(array(
@@ -465,6 +506,27 @@ class ProduitManagerPDO extends ProduitManager
                     'idPhoto' => $presentation->getIdPhoto()
                 ));        
             }            
+        }
+
+        //upload audio
+        if(!is_null($audio->getName()))
+        {
+            $upload_directoryAudio = __DIR__ . '/../../../Web/Audio/';
+            $targetPathAudio = time().$audio->getName();
+        
+            if(move_uploaded_file($audio->getChemin(), $upload_directoryAudio.$targetPathAudio))
+                {
+                    $audio->setChemin('http://vps342611.ovh.net/Audio/'.$targetPathAudio);
+
+                    $requete = $this->dao->prepare('UPDATE audio SET chemin = :chemin, name = :name, type = :type, size = :size WHERE idAudio = :idAudio');
+                    $requete->execute(array(
+                        'chemin' => $audio->getChemin(),
+                        'name' => $audio->getName(),
+                        'type' => $audio->getType(),
+                        'size' => $audio->getSize(),
+                        'idAudio' => $presentation->getIdAudio()
+                    ));
+                }            
         }
     }
 }

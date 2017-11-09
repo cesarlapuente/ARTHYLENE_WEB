@@ -9,6 +9,9 @@
     <route url="/api/picture" module="Post" action="picture"/>
     <route url="/api/picture-unique-([0-9]+)" module="Post" action="pictureUnique" vars="id"/>
 
+    <route url="/api/audio" module="Post" action="audio"/>
+    <route url="/api/audio-unique-([0-9]+)" module="Post" action="audioUnique" vars="id"/>
+
     <route url="/api/caracteristique" module="Post" action="caracteristique"/>
     <route url="/api/beneficeSante" module="Post" action="beneficeSante"/>
     <route url="/api/conseil" module="Post" action="conseil"/>

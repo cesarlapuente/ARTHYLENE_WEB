@@ -18,12 +18,31 @@
     if(isset($photo) && !is_null($photo->getName()))
     {
         ?>
-        <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo"/>
+        <img src="<?= isset($photo) ? $photo->getChemin() : '' ?>" alt="photo" style='max-width: 500px;'/>
         <?php
     }
     else
     {
         echo "<h4>Aucune photo</h4>";
+    }
+    ?>
+</p>
+
+
+<p><h3>Audio du produit</h3>
+    <?php
+    if(isset($audio) && !is_null($audio->getName()))
+    {
+        ?>
+        <audio controls>
+            <source src="<?= isset($audio) ? $audio->getChemin() : '' ?>" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        <?php
+    }
+    else
+    {
+    echo "<h4>Aucun audio</h4>";
     }
     ?>
 </p>
