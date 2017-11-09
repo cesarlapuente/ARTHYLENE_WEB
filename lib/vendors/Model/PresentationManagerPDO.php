@@ -22,7 +22,7 @@ class PresentationManagerPDO extends PresentationManager
      */
     public function getUnique($id)
     {
-        $requete = $this->dao->prepare('SELECT idPresentation, idProduit, contenu, idPhoto FROM presentation WHERE idPresentation = :id');
+        $requete = $this->dao->prepare('SELECT idPresentation, idProduit, contenu, idPhoto, idAudio FROM presentation WHERE idPresentation = :id');
         $requete->execute(array(
             'id' => $id
         ));

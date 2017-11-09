@@ -18,6 +18,7 @@ class Presentation extends Entity
     protected $idProduit;
     protected $contenu;
     protected $idPhoto;
+    protected $idAudio;
 
     public function isValid()
     {
@@ -89,6 +90,22 @@ class Presentation extends Entity
     public function setIdPhoto($idPhoto)
     {
         $this->idPhoto = $idPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdAudio()
+    {
+        return $this->idAudio;
+    }
+
+    /**
+     * @param mixed $idAudio
+     */
+    public function setIdAudio($idAudio)
+    {
+        $this->idAudio = $idAudio;
     }
 
 }

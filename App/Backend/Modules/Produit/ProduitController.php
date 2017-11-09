@@ -15,6 +15,13 @@ use Entity\Photo;
 use Entity\Presentation;
 use Entity\Produit;
 
+use Entity\Audio;
+
+use Entity\BeneficeSante;
+use Entity\Caracteristique;
+use Entity\Conseil;
+use Entity\Marketing;
+
 class ProduitController extends BackController
 {
 
@@ -27,9 +34,25 @@ class ProduitController extends BackController
         }
         $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
 
+        $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
+        $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
+        $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
+        $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
+
+        $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
+        $audio = $this->managers->getManagerOf('Audio')->getUnique($presentation->getIdAudio());
+        
         $this->page->addVar('title', preg_replace('#[_]+#', ' ', $produit->getNomProduit()));
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        $this->page->addVar('photo', $photo);
+        $this->page->addVar('audio', $audio);
+
+        $this->page->addVar('beneficeSante', $beneficeSante);
+        $this->page->addVar('caracteristique', $caracteristique);
+        $this->page->addVar('conseil', $conseil);
+        $this->page->addVar('marketing', $marketing);
     }
 
     public function executeIndex(HTTPRequest $request)
@@ -59,10 +82,93 @@ class ProduitController extends BackController
         ]);
         $presentation = new Presentation([
             'contenu' => $request->postData('presentation'),
-            'idPhoto' => ''
+            'idPhoto' => '',
+            'idAudio' => ''
         ]);
-        $photo = new Photo([
-            'photo' => ''
+         if(!empty($_FILES['photo']))
+        {
+            $photo = new Photo([
+                'photo' => $_FILES['photo'],
+                'chemin' => $_FILES['photo']['tmp_name'], //chemin temporaire
+                'name' => $_FILES['photo']['name'],
+                'type' => $_FILES['photo']['type'],
+                'size' => $_FILES['photo']['size']
+            ]); 
+        }
+        else
+        {
+            $photo = new Photo([
+                'photo' => '',
+                'chemin' => '',
+                'name' => '',
+                'type' => '',
+                'size' => ''
+            ]); 
+        }
+
+        //need to upgrade the size of allow upload files
+        //upload audio file
+        if(!empty($_FILES['audio']))
+        {
+            $audio = new Audio([
+                'audio' => $_FILES['audio'],
+                'chemin' => $_FILES['audio']['tmp_name'], //chemin temporaire
+                'name' => $_FILES['audio']['name'],
+                'type' => $_FILES['audio']['type'],
+                'size' => $_FILES['audio']['size']
+            ]); 
+        }
+        else
+        {
+            $audio = new Audio([
+                'audio' => '',
+                'chemin' => '',
+                'name' => '',
+                'type' => '',
+                'size' => ''
+            ]); 
+        }
+
+        $beneficeSante = new BeneficeSante([
+            'idBeneficeSante' => intval($request->postData('idBeneficeSante')),
+            'idProduit' => $request->postData('idProduit'),
+            'benefice1' => $request->postData('benefice1'),
+            'benefice2' => $request->postData('benefice2'),
+            'benefice3' => $request->postData('benefice3'),
+            'benefice4' => $request->postData('benefice4'),
+            'benefice5' => $request->postData('benefice5'),
+            'benefice6' => $request->postData('benefice6')
+        ]);
+
+        $caracteristique = new Caracteristique([
+            'idCaracteristique' => intval($request->postData('idCaracteristique')),
+            'idProduit' => $request->postData('idProduit'),
+            'famille' => $request->postData('famille'),
+            'espece' => $request->postData('espece'),
+            'origine' => $request->postData('origine'),
+            'forme' => $request->postData('forme'),
+            'taillePoids' => $request->postData('tailleEtPoids'),
+            'couleurTexture' => $request->postData('couleurEtTexture'),
+            'saveur' => $request->postData('saveur'),
+            'principauxProducteurs' => $request->postData('principauxProducteur')
+        ]);
+
+        $conseil = new Conseil([
+            'idConseil' => intval($request->postData('idConseil')),
+            'idProduit' => $request->postData('idProduit'),
+            'conseil1' =>  $request->postData('conseil1'),
+            'conseil2' => $request->postData('conseil2'),
+            'conseil3' => $request->postData('conseil3'),
+            'conseil4' => $request->postData('conseil4'),
+            'conseil5' => $request->postData('conseil5'),
+            'conseil6' => $request->postData('conseil6')
+        ]);
+
+        $marketing = new Marketing([
+            'idMarketing' => intval($request->postData('idMarketing')),
+            'idProduit' => $request->postData('idProduit'),
+            'marketing1' => $request->postData('marketing1'),
+            'marketing2' => $request->postData('marketing2')
         ]);
 
         if ($request->postExists('modif')) {
@@ -70,6 +176,8 @@ class ProduitController extends BackController
             $produit->setIdProduit(1);
             $produit->setIdPresentation(intval($request->postData('idPres'), 10));
             $presentation->setIdPresentation(intval($request->postData('idPres')));
+            $presentation->setIdPhoto(intval($request->postData('idPhoto')));
+            $presentation->setIdAudio(intval($request->postData('idAudio')));
         }
 
         if ($request->postExists('modif')
@@ -86,7 +194,7 @@ class ProduitController extends BackController
             $produit->setNomProduit($request->getData('nom'));
             $produit->setVarieteProduit($request->getData('variete'));
         } else if ($produit->isValid() && !$alreadyIn && $presentation->isValid()) {
-            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo);
+            $this->managers->getManagerOf('Produit')->save($produit, $presentation, $photo, $beneficeSante, $caracteristique, $conseil, $marketing, $audio);
 
             $this->app->getUser()->setFlash($produit->isNew() ? 'Le produit a bien été ajouté !' : 'Le produit a bien été modifié !');
             $this->app->httpResponse()->redirect('/admin/produit.html');
@@ -97,6 +205,14 @@ class ProduitController extends BackController
 
         $this->page->addVar('produit', $produit);
         $this->page->addVar('presentation', $presentation);
+
+        $this->page->addVar('photo', $photo);
+        $this->page->addVar('audio', $audio);
+
+        $this->page->addVar('beneficeSante', $beneficeSante);
+        $this->page->addVar('caracteristique', $caracteristique);
+        $this->page->addVar('conseil', $conseil);
+        $this->page->addVar('marketing', $marketing);
     }
 
     public function executeUpdate(HTTPRequest $request)
@@ -107,8 +223,25 @@ class ProduitController extends BackController
             $produit = $this->managers->getManagerOf('Produit')->getUnique($request->getData('nom'), $request->getData('variete'));
             $produit->setIdProduit(1);
             $presentation = $this->managers->getManagerOf('Presentation')->getUnique($produit->getIdPresentation());
+
+            $photo = $this->managers->getManagerOf('Photo')->getUnique($presentation->getIdPhoto());
+            $audio = $this->managers->getManagerOf('Audio')->getUnique($presentation->getIdAudio());
+
+            $beneficeSante = $this->managers->getManagerOf('BeneficeSante')->getUnique($produit->getIdBeneficeSante());
+            $caracteristique = $this->managers->getManagerOf('Caracteristique')->getUnique($produit->getIdCaracteristique());
+            $conseil = $this->managers->getManagerOf('Conseil')->getUnique($produit->getIdConseil());
+            $marketing = $this->managers->getManagerOf('Marketing')->getUnique($produit->getIdMarketing());
+
             $this->page->addVar('produit', $produit);
             $this->page->addVar('presentation', $presentation);
+
+            $this->page->addVar('photo', $photo);
+            $this->page->addVar('audio', $audio);
+
+            $this->page->addVar('beneficeSante', $beneficeSante);
+            $this->page->addVar('caracteristique', $caracteristique);
+            $this->page->addVar('conseil', $conseil);
+            $this->page->addVar('marketing', $marketing);
         }
 
         $this->page->addVar('title', 'Modification d\'un produit');

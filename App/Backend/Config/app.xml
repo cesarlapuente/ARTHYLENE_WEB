@@ -2,5 +2,6 @@
 
 <definitions>
     <define var="login" value="admin"/>
-    <define var="pass" value="54f93fa306b2207843d0a59d67865099c0fd3ccd"/>
+    <define var="pass_old" value="54f93fa306b2207843d0a59d67865099c0fd3ccd"/>
+    <define var="pass" value="d033e22ae348aeb5660fc2140aec35850c4da997"/>
 </definitions>

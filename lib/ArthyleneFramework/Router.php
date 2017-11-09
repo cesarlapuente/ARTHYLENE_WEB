@@ -23,6 +23,11 @@ class Router
 
     public function getRoute($url)
     {
+
+        // $url = str_replace("?app=Api", "", $url);
+        // $url = "arthylene".$url;
+        // $url = "http://arthylene/product?app=Api";
+
         foreach ($this->routes as $route) {
             // Si la route correspond à l'URL
             if (($varsValues = $route->match($url)) !== false) {
@@ -43,7 +48,6 @@ class Router
                     // On assigne ce tableau de variables � la route
                     $route->setVars($listVars);
                 }
-
                 return $route;
             }
         }

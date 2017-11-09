@@ -6,6 +6,4 @@ RewriteRule ^admin/ bootstrap.php?app=Backend [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^api/ bootstrap.php?app=Api [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-
 RewriteRule ^(.*)$ bootstrap.php?app=Frontend [QSA,L]
-
